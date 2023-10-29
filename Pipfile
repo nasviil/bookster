@@ -1,0 +1,16 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "==2.3.3"
+flask-login = "*"
+python-dotenv = "*"
+flask-mysql-connector = "*"
+mysql-connector = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"
