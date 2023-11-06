@@ -10,15 +10,6 @@
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-			  
-	<!-- MDB JavaScript -->
-	<script src="https://cdn.jsdelivr.net/npm/mdb-ui-kit@3.6.0/dist/mdb.min.js"></script>
-
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-
-
-
 
 </head>
 <body>
@@ -136,76 +127,93 @@
 	</div>
 	
 
-<!-- Testimonials -->
+<!-- best sellers -->
 <div class="w3-container w3-padding-64" id="additional-container" style="text-align: center; box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2); background-image: url('{{ url_for('static', filename='testimony.png') }}'); background-size: cover; background-repeat: no-repeat;">
     <!-- Content goes here -->
     <br><br>
-    <h2><b>Testimonies</b></h2>
-
-	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-		<div class="carousel-inner">
-		  <div class="carousel-item active">
-			<p class="lead font-italic mx-4 mx-md-5"><br><br>
-				<b>"Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit, error amet
-					numquam iure provident voluptate esse quasi, voluptas nostrum quisquam!"</b>
-			</p>
-			<p class="text-muted mb-0">- Anna Morian</p>
+    <h2><b>Best Seller</b></h2><br>
+	<div class="d-flex justify-content-center">
+		<div class="card shadow mx-2" style="width: 18rem;">
+			<img src="{{ url_for('static', filename='sample1.png') }}" class="card-img-top" alt="...">
+			<div class="card-body">
+				<p class="card-text">Title Here.</p>
+			</div>
 		</div>
-
-		<!-- Single item -->
-		<div class="carousel-item">
-			<a href="#testimonialCarousel" data-slide-to="1" class="carousel-link">
-			<p class="lead font-italic mx-4 mx-md-5">
-				"Neque cupiditate assumenda in maiores repudiandae mollitia adipisci maiores
-				repudiandae mollitia consectetur adipisicing architecto elit sed adipiscing
-				elit."
-			</p>
-			<p class="text-muted mb-0">- Teresa May</p>
+	
+		<div class="card shadow mx-2" style="width: 18rem;">
+			<img src="{{ url_for('static', filename='sample1.png') }}" class="card-img-top" alt="...">
+			<div class="card-body">
+				<p class="card-text">Title Here.</p>
+			</div>
 		</div>
-
-		<!-- Single item -->
-		<div class="carousel-item">
-			<p class="lead font-italic mx-4 mx-md-5">
-				"Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-				dolore eu fugiat nulla pariatur est laborum neque cupiditate assumenda in
-				maiores."
-			</p>
-			<p class="text-muted mb-0">- Kate Allise</p>
+	
+		<div class="card shadow mx-2" style="width: 18rem;">
+			<img src="{{ url_for('static', filename='sample1.png') }}" class="card-img-top" alt="...">
+			<div class="card-body">
+				<p class="card-text">Title Here.</p>
+			</div>
 		</div>
+	
+		<div class="card shadow mx-2" style="width: 18rem;">
+			<img src="{{ url_for('static', filename='sample1.png') }}" class="card-img-top" alt="...">
+			<div class="card-body">
+				<p class="card-text">Title Here.</p>
+			</div>
+		</div>
+	
+		<div class="card shadow mx-2" style="width: 18rem;">
+			<img src="{{ url_for('static', filename='sample1.png') }}" class="card-img-top" alt="...">
+			<div class="card-body">
+				<p class="card-text">Title Here.</p>
+			</div>
+		</div>
+	</div>	
+	
+		<br><br>
 	</div>
-	<!-- Inner -->
+
+<!-- last Container -->
+<div class="w3-container w3-padding-64" id="team" style="text-align: center;">
 	<br><br>
-
-		<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-		  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-		  <span class="sr-only">Previous</span>
-		</a>
-		<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-		  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-		  <span class="sr-only">Next</span>
-		</a>
+	<div style="display: flex; justify-content: left; align-items: center;">
+	
+	  <!-- White Text Box -->
+	  <div style="background-color: white; padding: 20px; border-radius: 10px; text-align: left; font-style: italic; margin-left: 250px;">
+		<p><b>Hey there, Book Lovers!</b> <br><br>
+		
+		Welcome to the ever-expanding community of book enthusiasts! At Bookster, we understand the longing for the aroma of books in a library or the cozy ambiance of a book café.<br>
+		While staying home and staying safe has become the new norm, we're here to bring the world of books to your doorstep.<br><br>
+		
+		Get Your Books Delivered to Your Doorstep<br><br>
+		
+		Explore a vast collection of the best novels, children's books, school textbooks, literature in Hindi, and much more, all available for rent or purchase. With Bookster,<br>
+		you have the flexibility to choose the books you want, and we'll deliver them to your doorstep. As part of our commitment to ensuring the safety of our books, we require an <br>
+		initial refundable amount to protect our valuable collection. Rest assured, this amount will be refunded within 24 hours after you return the book. You can choose to receive <br>
+		the refund in your bank account or various wallets such as Paytm, MobiKwik, etc. If you prefer, you can even get a 2% bonus when you opt to receive the refund in your Bookster <br>
+		wallet, which can be used for future purchases.<br><br>
+		
+		The moment your order is placed, we follow these steps:<br><br>
+		
+		Our support team will get in touch with you via email or WhatsApp to confirm the shipping date. Your book will be shipped on the agreed-upon date, and you'll receive notifications<br>
+		with the expected delivery date and tracking information. You can request a return from the 'My Orders' section within your specified rental period. For non-members, this is typically<br>
+		30 days. Once you request a return, our courier will pick up the book within 48 working hours. Your refund will be initiated within 48 hours after the pickup. Request a Book and Enjoy<br>
+		Uninterrupted Reading!<br><br>
+		
+		If you can't find a specific book or are looking to discover new ones, simply place a request through our online store. Fill in a few details, and we'll notify you as soon as the book becomes <br>
+		available. It won't be long before the book is in your hands, ready for you to dive into.<br><br>
+		
+		Our goal is to expand our book library and make it the ultimate reading destination for every book lover. You can request the latest novels, school textbooks, storybooks for kids Hindi books, and more.<br>
+		
+		So, go ahead and rent or buy your favorite books with Bookster.com!<br><br>
+  
+		<b>Your literary adventure starts here. Rent, buy, or sell books with Bookster. Discover a world of books right at your fingertips!</b><br><br>
 	  </div>
-	  
-
-    <br><br><br><br><br><br>
-
-	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</div>
-
-
-
-	<!-- instruction -->
-	<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-
+	  <!-- End White Text Box -->
+  
 	</div>
-	
-	
-
-
-
-
-
-
+  </div>
+  
+  
 
 </body>
 </html>
