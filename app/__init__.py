@@ -1,5 +1,6 @@
 from flask import Flask
 from os import getenv
+from flask_login import LoginManager
 
 from app.config import Config
 
@@ -17,5 +18,16 @@ def create_app():
 
   app.register_blueprint(home,url_prefix='/')
   app.register_blueprint(auth,url_prefix='/')
+
+  from .models.models import User
+
+  login_manager = LoginManager(app)
+  login_manager.login_view = 'auth.login'
+  login_manager.init_app(app)
+
+
+  @login_manager.user_loader
+  def load_user(username):
+      return User.get(username)
 
   return app
