@@ -10,13 +10,11 @@ db = mysql.connector.connect(
 cursor = db.cursor()
 
 class User(UserMixin):
-    def __init__(self, username=None, email= None, password =None):
-        self.username = username
-        self.email = email
-        self.password = password
+    def __init__(self, id):
+        self.id = id
 
     @classmethod
-    def userData(cls):
+    def userList(cls):
         cursor = db.cursor()
         sql = "SELECT * from users"
         cursor.execute(sql)
@@ -41,11 +39,19 @@ class User(UserMixin):
         db.commit()
         cursor.close()
 
+    @classmethod
+    def userData(self, username):
+        cursor = db.cursor()
+        sql = "SELECT * FROM users WHERE username  = %s"
+        cursor.execute(sql, (username,))
+        result = cursor.fetchall()
+        cursor.close()
+        return result
     
     @classmethod
     def userEmail(self, username):
         cursor = db.cursor()
-        sql = "SELECT * FROM users WHERE username  = %s"
+        sql = "SELECT email FROM users WHERE username  = %s"
         cursor.execute(sql, (username,))
         result = cursor.fetchall()
         cursor.close()
