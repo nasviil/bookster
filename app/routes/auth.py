@@ -6,21 +6,23 @@ from ..models.models import User
 
 auth = Blueprint('auth', __name__)
 
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
   if request.method == 'POST':
     username = request.form['username']
     password = request.form['password']
     
-    user = User.userEmail(username)
+    user = User.userData(username)
     if user:
-      user_id = user[0][0]
+      user_name = user[0][1]
       # if check_password_hash(user['password'], password):
       if password == user[0][3]:
           print(user)
-          # is_active = True
-          # user = User(user_id, is_active)  # Create a User object or equivalent
-          login_user(user_id, remember=True)
+          user = User(username)
+          session['loggedin']= True
+          session['username']= user_name
+          login_user(user)
           flash('Login successful!', 'success')
           return redirect(url_for('home.home_page')) 
       else:
@@ -33,6 +35,8 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    session.pop('loggedin',None)
+    session.pop('username',None)
     logout_user()
     flash('Logged out successfully', 'success')
     return redirect(url_for('auth.login'))
