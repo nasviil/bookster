@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Buten</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href='https://fonts.googleapis.com/css?family=Unica One' rel='stylesheet'>
+    <title>{% block title %}Master Buten{% endblock %}</title>
     <style>
         body {
             background-color: #FFFDF2;
@@ -43,7 +45,7 @@
 
         .logo4 {
             left: 70px;
-            top: 78px;
+            top: 50px;
         }
 
         .logo a {
@@ -54,27 +56,30 @@
 <body>
     <header>
         <div class="logo logo1">
-            <a href="User_Profile.html">
-                <img src="C:\Users\roelb\OneDrive\Documents\Bookster\rent-and-buy-bookster\app\static\img\header\MyAcc.png" alt="Logo 1">
+            <a href="/userprofile">
+                <img src="{{ url_for('static', filename='img/header/MyAcc.png') }}" alt="Logo 1">
             </a>
         </div>
         <div class="logo logo2">
             <a href="your_link_for_logo2.html">
-                <img src="C:\Users\roelb\OneDrive\Documents\Bookster\rent-and-buy-bookster\app\static\img\header\chat.png" alt="Logo 2">
+                <img src="{{ url_for('static', filename='img/header/chat.png') }}" alt="Logo 2">
             </a>
         </div>
         <div class="logo logo3">
             <a href="your_link_for_logo3.html">
-                <img src="C:\Users\roelb\OneDrive\Documents\Bookster\rent-and-buy-bookster\app\static\img\header\SHOPPING_CART.png" alt="Logo 3">
+                <img src="{{ url_for('static', filename='img/header/SHOPPING_CART.png') }}" alt="Logo 3">
             </a>
         </div>
         <div class="logo logo4">
-            <a href="Homepage.html">
-                <img src="C:\Users\roelb\OneDrive\Documents\Bookster\rent-and-buy-bookster\app\static\img\header\Group 136.png" alt="Logo 4">
+            <a href="/">
+                <img src="{{ url_for('static', filename='img/header/Group 136.png') }}" alt="Logo 4">
             </a>
         </div>
     </header>
-    <!-- Goy pacheck ko -->\
-    </footer>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
 </body>
 </html>

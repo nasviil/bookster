@@ -1,0 +1,22 @@
+{% extends 'master_layout.html' %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block content %}
+
+<div style="width: 100%; height: 100%; justify-content: center; align-items: center; margin-left:425px; margin-top: 70px; display: inline-flex; position: relative;">
+    <img style="width: 410.667px; height: 400px; box-shadow: 5px 7px 5px -13px rgba(61, 60, 60, 0.36); border-radius: 10px" src="{{ url_for('static', filename='img/userprofile/COVER_BOOK.png') }}" alt="coverbook" />
+    <div style="width: 100%; color: #3D3C3C; font-size: 36px; font-family: 'Unica One'; font-weight: 400; word-wrap: break-word; margin-left: 80px; margin-top: -350px; z-index: 1;">About me</div>
+    <div style="width: 595.07px; height: 359px; position: absolute; left: 0; top: 30px; z-index: 0;">
+        <div style="width: 581.65px; height: 343.16px; left: 500.42px; top: 40.84px; position: absolute; background: #676767; border-radius: 20px"></div>
+        <div style="width: 581.65px; height: 343.16px; left: 485px; top: 25px; position: absolute; background: white; border-radius: 20px; border: 2px #3D3C3C dotted"></div>
+    </div>
+    <div style="width: 497.78px; height: 342.30px; position: absolute; left:520.25px; top: 70px; color: #676767; font-size: 14px; font-family: 'Syne'; font-weight: 400; word-wrap: break-word">📚 Aspiring author on a journey through the world of words 🌍 <br>
+        📖 Lover of all things literary, from classic novels to fanfiction fantasies <br>
+        🖋️ Writing my own stories, one chapter at a time <br>
+        🌟 Dreaming of becoming the next bestseller ✨ <br>
+        🎧 Music is my muse, and coffee is my companion 
+        <br>☕🎶 🌈 Creating magic in every story I share 📝✨</div>
+</div>
+
+{% endblock %}
