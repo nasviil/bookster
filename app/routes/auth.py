@@ -24,11 +24,14 @@ def login():
           session['username']= user_name
           login_user(user)
           flash('Login successful!', 'success')
-          return redirect(url_for('home.home_page')) 
+          return jsonify({'success': True})
       else:
         flash('Incorrect password', 'error')
+        return jsonify({'success': False, 'message': 'Incorrect password'})
     else:
         flash('User does not exist', 'error')
+        return jsonify({'success': False, 'message': 'User does not exist'})
+
 
   return render_template("login.html", user=current_user)
 
