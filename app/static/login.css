@@ -4,12 +4,13 @@
 
 
 html,body{
-margin-top: 10PX;
+margin-top: 0;
 padding: 0;
 background-image: url('img/login/login-bg.jpg');
 background-size: cover;
 background-repeat: no-repeat;
-background-position: center; /* Center the image horizontally and vertically */
+background-position: center;
+background-position-y: 1px;
 height: 100%;
 font-family: 'Numans', sans-serif;
 }
