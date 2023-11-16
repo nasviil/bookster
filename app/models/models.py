@@ -49,10 +49,10 @@ class User(UserMixin):
         return result
     
     @classmethod
-    def userEmail(self, username):
+    def userEmail(self, email):
         cursor = db.cursor()
-        sql = "SELECT email FROM users WHERE username  = %s"
-        cursor.execute(sql, (username,))
+        sql = "SELECT * FROM users WHERE email  = %s"
+        cursor.execute(sql, (email,))
         result = cursor.fetchall()
         cursor.close()
         return result

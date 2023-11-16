@@ -53,10 +53,11 @@ def signup():
       password= generate_password_hash(password1)
 
       user = User.userData(username)
+      existingEmail = User.userEmail(email)
       if user:
         flash('User already exists.', category='error')
         return jsonify({'success': False, 'message': 'User already exists.'})
-      if user[0][2] == email:
+      elif existingEmail:
         flash('Email already exists.', category='error')
         return jsonify({'success': False, 'message': 'Email already exists.'})
       elif len(username) < 4:
