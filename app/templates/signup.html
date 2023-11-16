@@ -16,9 +16,9 @@
 
 	<!--Custom styles-->
 	<link rel="stylesheet" type="text/css" href="static/auth.css">
+	<link rel="shortcut icon" href="{{ url_for('static', filename='img/login/bookster-logo.png') }}">
 
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<!-- <script type="text/javascript" src="{{ url_for('static', filename='login.js')}}"></script> -->
 	
 </head>
 <body>
@@ -95,12 +95,12 @@
 {% endblock %}
 <script>
 	$(document).ready(function() {
-		$('#login-form').submit(function(event) {
+		$('#signup-form').submit(function(event) {
 			event.preventDefault();
 			$.ajax({
 				type: 'POST',
-				url: '{{ url_for("auth.login") }}',
-				data: $('#login-form').serialize(),
+				url: '{{ url_for("auth.signup") }}',
+				data: $('#signup-form').serialize(),
 				success: function(response) {
 					if (response.success) {
 						window.location.href = '{{ url_for("home.home_page") }}';
