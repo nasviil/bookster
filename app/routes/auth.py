@@ -10,27 +10,33 @@ auth = Blueprint('auth', __name__)
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
-  if request.method == 'POST':
-    username = request.form['username']
-    password = request.form['password']
-    
-    user = User.userData(username)
-    if user:
-      user_name = user[0][1]
-      if password == user[0][3] or check_password_hash(user[0][3], password):
-          print(user)
-          user = User(username)
-          session['loggedin']= True
-          session['username']= user_name
-          login_user(user, remember=True)
-          flash('Login successful!', 'success')
-          return jsonify({'success': True})
+  try:
+    if request.method == 'POST':
+      username = request.form['username']
+      password = request.form['password']
+      
+      user = User.userData(username)
+      if user:
+        user_name = user[0][1]
+        if password == user[0][3] or check_password_hash(user[0][3], password):
+            print(user)
+            user = User(username)
+            session['loggedin']= True
+            session['username']= user_name
+            login_user(user, remember=True)
+            flash('Login successful!', 'success')
+            return jsonify({'success': True})
+        else:
+          flash('Incorrect password', 'error')
+          return jsonify({'success': False, 'message': 'Incorrect password'})
       else:
-        flash('Incorrect password', 'error')
-        return jsonify({'success': False, 'message': 'Incorrect password'})
-    else:
-        flash('User does not exist', 'error')
-        return jsonify({'success': False, 'message': 'User does not exist'})
+          flash('User does not exist', 'error')
+          return jsonify({'success': False, 'message': 'User does not exist'})
+  except Exception as e:
+    print(f"Error during login: {str(e)}")
+    flash('An error occurred during login. Please try again.', category='error')
+    return jsonify({'success': False, 'message': 'An error occurred during login. Please try again.'})
+  
   return render_template("login.html", user=current_user)
 
 @auth.route('/logout')
