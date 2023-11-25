@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="../static/styles.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Product Detail</title>
+	</head>
+	<body>
+		<div>{% include 'partials/navbar.html' %}</div>
+		<ol class="breadcrumb-nav">
+			<li><a href="#">My Books</a></li>
+			<li><a href="#">Science and Fiction</a></li>
+			<li>Book Name</li>
+		</ol>
+		<div class="product-container">
+			<div class="product-image-container">
+				<div class="product-image-container-inner">
+					<img
+						class="product-image"
+						src="https://via.placeholder.com/250x373"
+					/>
+				</div>
+			</div>
+			<div class="product-detail-container">
+				<div class="product-detail-1">
+					Divine Rivals: A Novel (Letters of Enchantment, 1)
+					<div class="author-name">by Rebecca Ross</div>
+				</div>
+				<div class="product-star-rating">
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star checked"></span>
+					<span class="fa fa-star"></span>
+				</div>
+				<div class="product-seller">
+					<div class="product-seller-1">
+						<div style="margin-right: 5px">From</div>
+						<div style="color: rgb(63, 63, 241)">This Shop</div>
+						<div style="padding-left: 80px; display: flex">
+							<div>Seller Rating:</div>
+							<div class="seller-star-rating">
+								<span class="fa fa-star checked"></span>
+								<span class="fa fa-star checked"></span>
+								<span class="fa fa-star checked"></span>
+								<span class="fa fa-star"></span>
+								<span class="fa fa-star"></span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div style="color: rgb(74, 74, 241)">View seller's items</div>
+				<div style="color: grey; margin-top: 30px">Quantity: 1</div>
+			</div>
+			<div class="product-purchase-container">
+				<div style="margin-top: 150px">Buy for:</div>
+				<div class="product-buy-button"></div>
+				<div style="margin-top: 20px">Rent for:</div>
+				<div class="product-rent-button"></div>
+			</div>
+		</div>
+	</body>
+</html>
