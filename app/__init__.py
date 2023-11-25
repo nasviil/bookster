@@ -13,7 +13,9 @@ def create_app():
   app.config['SECRET KEY'] = getenv('SECRET_KEY')
 
   from .routes.home import home
-
+  from .routes.userprofile import userprofile
+  
   app.register_blueprint(home,url_prefix='/')
+  app.register_blueprint(userprofile, url_prefix='/userprofile')
 
   return app
