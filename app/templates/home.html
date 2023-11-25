@@ -16,7 +16,7 @@
 <body class="homepage w3-image background" style="background-color: #FFFDF2;"> 
 		<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: transparent; color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
 			<div class="container-fluid">
-				<a class="navbar-brand" href="/">
+				<a class="navbar-brand">
 					<img src="{{ url_for('static', filename='img/landingpage/logo1.png') }}" alt="Logo" height="30" style="margin-left: 120px;">
 				</a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -78,54 +78,56 @@
         <br><br>
     </div>
 </div>
+<!-- Testimonies -->
+<div class="w3-container w3-padding-64" id="additional-container" style="box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); background-color: #CDF5FE; margin-bottom: 20px;">
+    <br><br>
+    <div class="label text-center"> <!-- Center the label -->
+        <h3>Recommendations</h3><br>
+    </div>
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" style="margin-top: 10px; ">
+        <div class="carousel-inner">
+            <div class="carousel-item active"> <!-- Only the first item should have "active" -->
+                <div class="card shadow mx-auto" style="width: 60rem; height: 20rem;background-color: #FFFDF2;"> <!-- Increase the card width -->
+                    <div class="card-body">
+                        <p class="card-text" style="font-size: 18px; text-align: center; margin-top: 90px;">"This platform is amazing. It exceeded my expectations and I would highly recommend it!"</p>
+                        <p class="card-text" style="font-size: 16px; text-align: center;"><strong>- Anna Manalastas</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="card shadow mx-auto" style="width: 60rem; height: 20rem;background-color: #FFFDF2;"> <!-- Increase the card width -->
+                    <div class="card-body">
+                        <p class="card-text" style="font-size: 18px; text-align: center; margin-top: 90px;">"Slay so much"</p>
+                        <p class="card-text" style="font-size: 16px; text-align: center;"><strong>- Kim Jung Un</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="card shadow mx-auto" style="width: 60rem; height: 20rem;background-color: #FFFDF2;"> <!-- Increase the card width -->
+                    <div class="card-body">
+                        <p class="card-text" style="font-size: 18px; text-align: center; margin-top: 90px;">"Great interface and it's very easy to order."</p>
+                        <p class="card-text" style="font-size: 16px; text-align: center;"><strong>- Strong Ford</strong></p>
+                    </div>
+                </div>
+            </div>
+            <!-- (Repeat for other testimonials) -->
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev" style="border: none; background-color: transparent; margin-top: -100px; left: 100px;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next" style="border: none; background-color: transparent; margin-top: -100px; right: 100px;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"></span>
+        </button>
+    <br><br> <br> <br>
+</div>
+
+<!-- Add this script after including Bootstrap's JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
-		<!-- best sellers -->
-		<div class="w3-container w3-padding-64" id="additional-container" style="box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); background-color: #ffffff;">
-			<br><br>
-			<div class="label" style="margin-left: 200px;">
-			<h2>Best Seller</h2><br>
-			</div>
-			<div class="d-flex justify-content-center">
-				<div class="card shadow mx-2" style="width: 18rem;">
-					<img src="{{ url_for('static', filename='img/landingpage/sample1.png') }}" class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="card-text">Title Here.</p>
-					</div>
-				</div>
-			
-				<div class="card shadow mx-2" style="width: 18rem;">
-					<img src="{{ url_for('static', filename='img/landingpage/sample1.png') }}" class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="card-text">Title Here.</p>
-					</div>
-				</div>
-			
-				<div class="card shadow mx-2" style="width: 18rem;">
-					<img src="{{ url_for('static', filename='img/landingpage/sample1.png') }}" class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="card-text">Title Here.</p>
-					</div>
-				</div>
-			
-				<div class="card shadow mx-2" style="width: 18rem;">
-					<img src="{{ url_for('static', filename='img/landingpage/sample1.png') }}" class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="card-text">Title Here.</p>
-					</div>
-				</div>
-			
-				<div class="card shadow mx-2" style="width: 18rem;">
-					<img src="{{ url_for('static', filename='img/landingpage/sample1.png') }}" class="card-img-top" alt="...">
-					<div class="card-body">
-						<p class="card-text">Title Here.</p>
-					</div>
-				</div>
-			</div>	
-			
-				<br><br>
-			</div>
-	
+
 
 	<!--Feature Container -->
 	<div class="w3-container w3-padding-64" id="team" style="text-align: center;background-color: #FFFDF2;">
@@ -170,10 +172,11 @@
 			  </p>
 			</div>
 			<img src="{{ url_for('static', filename='img/landingpage/review.png') }}" alt="Image Description" style="max-width: 500px;margin-left: 350px;">
-			<br><br><br>
+			<br><br><br>	
 		</div>
+		<br><br><br><br><br>	
 	</div>
-	<br><br><br>
+
 <!-- Footer -->
 <footer class="footer mt-auto py-3 text-center">
     <div class="container">
