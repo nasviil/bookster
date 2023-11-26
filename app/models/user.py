@@ -1,5 +1,3 @@
-# app/models/user.py
-
 from app import mysql
 
 class Book:

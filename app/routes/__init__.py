@@ -1,1 +1,1 @@
-from . import home
+from . import home, auth
