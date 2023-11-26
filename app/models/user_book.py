@@ -1,16 +1,5 @@
 from app import mysql
 
-class Book:
-    __tablename__ = 'books'
-
-    @classmethod
-    def get_book_details(cls, book_id):
-        SELECT_SQL = f"SELECT * FROM {cls.__tablename__} WHERE book_id = %s"
-        cur = mysql.connection.cursor(dictionary=True)
-        cur.execute(SELECT_SQL, (book_id,))
-        book_detail = cur.fetchone()
-        return book_detail
-
 class UserBook:
     __tablename__ = 'user_book_instances'
 
