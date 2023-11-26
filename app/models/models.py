@@ -2,10 +2,10 @@ import mysql.connector
 from flask_login import UserMixin
 
 db = mysql.connector.connect(
-    host = 'localhost',
-    user = 'root',
-    password = '',
-    database = 'book_app'
+    host = 'sql12.freesqldatabase.com',
+    user = 'sql12663651',
+    password = 'xJ7bV16PAQ',
+    database = 'sql12663651'
 )
 cursor = db.cursor()
 
@@ -65,4 +65,44 @@ class User(UserMixin):
         result = cursor.fetchone()
         cursor.close()
         return result
+    
+class User_Verification_Data(UserMixin):
+    def __init__(self, id):
+        self.id = id
+
+    @classmethod
+    def addVerify_Data(self, user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num):
+        cursor = db.cursor()
+        sql = """
+            INSERT INTO users_verification_data
+                (user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        values = (user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num)
+        cursor.execute(sql, values)
+        db.commit()
+        cursor.close()
+
+    @classmethod
+    def updateVerify_Data(cls, user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num):
+        cursor = db.cursor()
+        sql = """
+            UPDATE users_verification_data
+            SET firstname = %s, lastname = %s, gender = %s, birthday = %s, address = %s,
+                mailAddress = %s, contactnum = %s, id_upload = %s, id_type = %s, id_num = %s
+            WHERE user_id = %s
+        """
+        values = (firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num, user_id)
+        cursor.execute(sql, values)
+        db.commit()
+        cursor.close()
+
+    @classmethod
+    def updateVerifyCode(cls, user_id):
+        cursor = db.cursor()
+        sql = f"UPDATE users SET verify_code = TRUE WHERE id = {user_id}"
+        cursor.execute(sql)
+        db.commit()
+        cursor.close()
+
 
