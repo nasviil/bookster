@@ -20,7 +20,7 @@
                 <p>Fill all form field to go to next step</p>
                 <div class="row">
                     <div class="col-md-12 mx-0">
-                        <form id="msform">
+                        <form id="msform" method="post" action="{{ url_for('auth.verify_request') }}" enctype="multipart/form-data">
                             <!-- progressbar -->
                             <ul id="progressbar">
                                 <li class="active" id="account"><strong>Personal Information</strong></li>
@@ -68,9 +68,9 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                    </div>
-                                                                        
+                                    </div>                                                                        
                                 </div> 
+                                <a class="previous action-button-previous" href='{{ url_for("home.home_page") }}' >Verify Later</a>
                                 <input type="button" name="next" class="next action-button" value="Next Step" />
                             </fieldset>
                             <fieldset>
@@ -106,7 +106,8 @@
                                         </div>
                                     </div>                                    
                                 </div>                                
-                                <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> <input type="button" name="make_payment" class="next action-button" value="Confirm" />
+                                <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
+                                <input type="submit" name="make_payment" class="next action-button" value="Confirm" />
                             </fieldset>
                             <fieldset>
                                 <div class="form-card">
@@ -117,6 +118,7 @@
                                     <div class="row justify-content-center">
                                         <div class="col-7 text-center">
                                             <h5>We are currently verifying your account, thank you!</h5>
+                                            <a class="next action-button" href='{{ url_for("home.home_page") }}' class="btn btn-primary">Go to home</a>
                                         </div>
                                     </div>
                                 </div>
