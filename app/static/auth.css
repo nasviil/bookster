@@ -28,12 +28,22 @@ height: 100%;
 align-content: center;
 }
 
+
+
 .card{
 height: 370px;
 margin-top: auto;
 margin-bottom: auto;
 width: 400px;
 background-color: #3AB8EB !important;
+}
+
+#signup-card{
+    height: 460px !important;
+    margin-top: auto;
+    margin-bottom: auto;
+    width: 400px;
+    background-color: #3AB8EB !important;
 }
 
 .social_icon span{
@@ -103,6 +113,11 @@ margin-left: 4px;
 
 .card-footer{
     background-color: #FF964A;
+}
+
+#signup-footer{
+    background-color: #FF964A;
+    margin-top: 20px;
 }
 
 .flash-messages {
