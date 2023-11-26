@@ -15,12 +15,16 @@ def create_app():
   app = Flask(__name__)
   app.config.from_object(Config)
   app.config['SECRET KEY'] = getenv('SECRET_KEY')
+
+  cloudinary.config['CLOUD_NAME'] = getenv('CLOUD_NAME')
+  cloudinary.config['API_KEY'] = getenv('API_KEY')
+  cloudinary.config['API_SECRET'] = getenv('API_SECRET')
   
-  cloudinary.config(
-        CLOUD_NAME=CLOUD_NAME,
-        API_KEY=API_KEY,
-        API_SECRET=API_SECRET
-    )
+  # cloudinary.config(
+  #       CLOUD_NAME=CLOUD_NAME,
+  #       API_KEY=API_KEY,
+  #       API_SECRET=API_SECRET
+  #   )
 
   from .routes.home import home
   from .routes.auth import auth
