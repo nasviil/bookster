@@ -1,6 +1,9 @@
 from flask import Flask
 from os import getenv
 from flask_login import LoginManager
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 from app.config import Config
 
@@ -12,6 +15,12 @@ def create_app():
   app = Flask(__name__)
   app.config.from_object(Config)
   app.config['SECRET KEY'] = getenv('SECRET_KEY')
+  
+  cloudinary.config(
+        CLOUD_NAME=CLOUD_NAME,
+        API_KEY=API_KEY,
+        API_SECRET=API_SECRET
+    )
 
   from .routes.home import home
   from .routes.auth import auth
