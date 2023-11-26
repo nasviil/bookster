@@ -15,7 +15,7 @@ def create_app():
   app = Flask(__name__)
   app.config.from_object(Config)
   mysql.init_app(app)
-  app.config['SECRET KEY'] = getenv('SECRET_KEY')
+  app.config['SECRET_KEY'] = getenv('SECRET_KEY')
 
   from .routes.home import home
   from .routes.auth import auth

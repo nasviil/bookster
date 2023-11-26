@@ -4,7 +4,7 @@ from flask_login import UserMixin
 db = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
-    password = '',
+    password = 'root',
     database = 'book_app'
 )
 cursor = db.cursor()
