@@ -23,7 +23,7 @@ def login():
         user_name = user[0][1]
         user_id = user[0][0]
         if password == user[0][3] or check_password_hash(user[0][3], password):
-            user = User(user_id,username)
+            user = User(user_id)
             session['loggedin']= True
             session['username']= user_name
             session['user_id']= user_id
@@ -86,7 +86,7 @@ def signup():
         return jsonify({'success': False, 'message': 'Password must be at least 7 characters.'})
       else:
           User.addUser(username, email, password)
-          user = User(user_id,user_name)
+          user = User(user_id)
           session['loggedin']= True
           session['username']= username
           session['user_id']= user_id
@@ -110,7 +110,10 @@ def verify_request():
       firstname = request.form.get('firstname')
       lastname = request.form.get('lastname')
       gender = request.form.get('gender')
-      birthday = request.form.get('birthday')
+      day = request.form.get('birthday')
+      month = request.form.get('birthmonth')
+      year = request.form.get('birthyear')
+      birthday = f"{year}-{month}-{day}"
       address = request.form.get('address')
       mailAddress = request.form.get('mailAddress')
       contactnum = request.form.get('contactnum')
@@ -138,12 +141,22 @@ def verify_request():
             else:
                 flash('Failed to retrieve image URL from ImgBB API response.', 'danger')
                 return redirect(request.url)
-            
-            User_Verification_Data.addVerify_Data(user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, result_url, id_type, id_number)
 
-            flash('Information successfully saved to the database!', 'success')
+            user = User.userData1(user_id)
+            if user:
+              User_Verification_Data.updateVerify_Data(user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, result_url, id_type, id_number)              
+            else:            
+              User_Verification_Data.addVerify_Data(user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, result_url, id_type, id_number)
+            user_name = user[0][1]
+            user_id = user[0][0]
+            user = User(user_id)
+            session['loggedin']= True
+            session['username']= user_name
+            session['user_id']= user_id
+            login_user(user, remember=True)
+            flash('We are currently verifying your account!', 'success')
+            #return jsonify({'success': True, 'message': 'We are currently verifying your account!'})
             return redirect(url_for('home.home_page')) 
-
           else:
               flash('Invalid file format. Allowed formats are png, jpg, jpeg', 'danger')
               return redirect(request.url)
