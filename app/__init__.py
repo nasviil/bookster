@@ -36,7 +36,7 @@ def create_app():
   login_manager.init_app(app)
 
   @login_manager.user_loader
-  def load_user(username):
-      return User(username)
+  def load_user(user_id):
+      return User(user_id)
 
   return app

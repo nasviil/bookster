@@ -21,10 +21,12 @@ def login():
       user = User.userData(username)
       if user:
         user_name = user[0][1]
+        user_id = user[0][0]
         if password == user[0][3] or check_password_hash(user[0][3], password):
-            user = User(username)
+            user = User(user_id,username)
             session['loggedin']= True
             session['username']= user_name
+            session['user_id']= user_id
             login_user(user, remember=True)
             flash('Login successful!', 'success')
             return jsonify({'success': True})
@@ -61,6 +63,8 @@ def signup():
       password= generate_password_hash(password1)
 
       user = User.userData(username)
+      user_id =user[0][0]
+      user_name = user[0][1]
       existingEmail = User.userEmail(email)
       if user:
         flash('User already exists.', category='error')
@@ -82,9 +86,10 @@ def signup():
         return jsonify({'success': False, 'message': 'Password must be at least 7 characters.'})
       else:
           User.addUser(username, email, password)
-          user = User(username)
+          user = User(user_id,user_name)
           session['loggedin']= True
           session['username']= username
+          session['user_id']= user_id
           login_user(user, remember=True)
           flash('Account created!', category='success')        
           return jsonify({'success': True})
