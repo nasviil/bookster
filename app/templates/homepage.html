@@ -122,11 +122,12 @@
 
     </style>
 </head>
+
 <header>
 	<div>{% include 'partials/navbar.html' %}</div>
 </header>
+
 <body>
-	
     <div class="hp">
         <div class="left">
             <h1 class="heading">
@@ -134,68 +135,43 @@
                 Specific <br /> 
                 Books?
             </h1>
-
-			<img 
+            <img 
 				class="blue-book" 
 				src="..\static\img\homepage\book-gif.png" 
 				alt="Bookpng">
-
             <p class="sub-heading">
                 Explore different genres to find your next read.
             </p>	
-			<div class="box">
-				<img 
-					class="search-bar"
-					src="..\static\img\homepage\SEARCH.png" 
-					alt="">
-				<i 
-					class="search-bar" 
-					aria-hidden="true">
-				</i>
-				<input 
-					type="text" 
-					id="search-input" 
-					name="search" 
-					placeholder="Type the name or author of a book...">
-			</div>
-            <div class="explore">
-                <img
-					src="../static/img/homepage/RECT_BUTTON.png" alt="ExploreBTN" />
-            </div>      
-			<div class="line">
-				<svg 
-				width="399" 
-				height="2" 
-				viewBox="0 0 399 2" 
-				fill="none" 
-				xmlns="http://www.w3.org/2000/svg"
-			>
-			<line 
-				y1="1" 
-				x2="399" 
-				y2="1" 
-				stroke="#676767" 
-				stroke-width="2" 
-				stroke-dasharray="4 4" 
-			/>
-			</svg>
-			</div>
-        </div>
-		
-        <div class="image-container">
-			<img 
-				class="banner-image"
-				src="../static/img/homepage/Banner.png" 
-				alt="Banner"
-			/>
-			<img
-				class="library-image"
-				src="../static/img/homepage/library.jpg" 
-				alt="Insider Banner" 
-			/>
+            <form id="search-form" action="{{ url_for('search_books') }}" method="GET">
+                <div class="box">
+                    <img class="search-bar" src="../static/img/homepage/SEARCH.png" alt="">
+                    <input type="text" id="search-input" name="search" placeholder="Type the name or author of a book..." />
+                    <!--
+                        <button type="submit">Search</button>
+                    -->
+                </div>
+            </form>
             
-			
-		</div>
+            <div class="explore">
+                <img src="../static/img/homepage/RECT_BUTTON.png" alt="ExploreBTN" />
+            </div>      
+            <div class="line">
+                <svg width="399" height="2" viewBox="0 0 399 2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line y1="1" x2="399" y2="1" stroke="#676767" stroke-width="2" stroke-dasharray="4 4" />
+                </svg>
+            </div>
+        </div>
+        <div class="image-container">
+            <img class="banner-image" src="../static/img/homepage/Banner.png" alt="Banner" />
+            <img class="library-image" src="../static/img/homepage/library.jpg" alt="Insider Banner" />
+        </div>
     </div>
+    <script>
+        document.getElementById("search-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+            const searchInput = document.getElementById("search-input").value;
+            window.location.href = `allbooks.html?search=${encodeURIComponent(searchInput)}`;
+        });
+    </script>
 </body>
 </html>
