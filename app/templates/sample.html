@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: #FFFDF2;
+        }
+        .box1 {
+            width: 1305px;
+            height: 538px;
+            left: 65px;
+            top: 155px;
+            position: absolute;
+        }
+        .box2 {
+            width: 526px;
+            height: 538px;
+            left: 779px;
+            top: 0px;
+            position: absolute;
+        }
+        .blue-box1, .blue-box2 {
+            width: 483px;
+            height: 503px;
+            position: absolute;
+            background: #3AB8EB;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+        }
+        .blue-box2 {
+            left: 42.01px;
+            top: 34.77px;
+        }
+        .heading {
+            width: 470px;
+            left: 5px;
+            top: 26px;
+            position: absolute;
+            color: #3D3C3C;
+            font-size: 64px;
+            font-family: Syne;
+            font-weight: 500;
+            word-wrap: break-word;
+        }
+        .sub-heading {
+            left: 5px;
+            top: 269px;
+            position: absolute;
+            color: #676767;
+            font-size: 16px;
+            font-family: Syne;
+            font-weight: 500;
+            word-wrap: break-word;
+        }
+        .input-container {
+            width: 586px;
+            height: 57px;
+            left: 0px;
+            top: 315px;
+            position: absolute;
+        }
+        .input-bg {
+            width: 586px;
+            height: 57px;
+            left: 0px;
+            top: 0px;
+            position: absolute;
+            background: #FDBF0F;
+            border-radius: 20px;
+        }
+        .input-box {
+            left: 20px;
+            top: 13px;
+            position: absolute;
+            color: #3D3C3C;
+            font-size: 14px;
+            font-family: Syne;
+            font-weight: 400;
+            word-wrap: break-word;
+        }
+        .search-icon {
+            width: 18px;
+            height: 18px;
+            left: 540px;
+            top: 12px;
+            position: absolute;
+        }
+        .search-icon div {
+            width: 15.75px;
+            height: 15.75px;
+            left: 0px;
+            top: 0px;
+            position: absolute;
+            border: 2px #3D3C3C solid;
+        }
+        .search-icon div:nth-child(2) {
+            width: 4.56px;
+            height: 4.56px;
+            left: 13.44px;
+            top: 13.44px;
+        }
+        .explore-button {
+            width: 153px;
+            height: 51px;
+            left: 5px;
+            top: 394px;
+            position: absolute;
+        }
+        .explore-button-bg {
+            width: 153px;
+            height: 51px;
+            left: 0px;
+            top: 0px;
+            position: absolute;
+            background: #FDBF0F;
+            border-radius: 10px;
+            border: 2px #3D3C3C solid;
+        }
+        .explore-text {
+            height: 19px;
+            left: 27px;
+            top: 16px;
+            position: absolute;
+            color: #3D3C3C;
+            font-size: 16px;
+            font-family: Syne;
+            font-weight: 400;
+            word-wrap: break-word;
+        }
+        .explore-icon {
+            width: 24px;
+            height: 18.46px;
+            left: 74px;
+            top: 0px;
+            position: absolute;
+        }
+        .explore-icon div {
+            width: 5.54px;
+            height: 0px;
+            left: 9.23px;
+            top: 5.07px;
+            position: absolute;
+            border: 1.50px #3D3C3C solid;
+        }
+        .explore-icon div:nth-child(2) {
+            width: 8.95px;
+            height: 13.84px;
+            left: 14.77px;
+            top: -0px;
+        }
+        .explore-icon div:nth-child(3) {
+            width: 8.95px;
+            height: 13.84px;
+            left: 0.28px;
+            top: -0px;
+        }
+        .explore-icon div:nth-child(4) {
+            width: 9.23px;
+            height: 9.23px;
+            left: 0px;
+            top: 9.23px;
+        }
+        .explore-icon div:nth-child(5) {
+            width: 9.23px;
+            height: 9.23px;
+            left: 14.77px;
+            top: 9.23px;
+        }
+        .divider {
+            width: 399px;
+            height: 0px;
+            left: 182px;
+            top: 415px;
+            position: absolute;
+            border: 2px #676767 dotted;
+        }
+        .circle {
+            width: 43px;
+            height: 43px;
+            left: 1180px;
+            top: 49px;
+            position: absolute;
+        }
+        .circle div {
+            width: 34.39px;
+            height: 34.40px;
+            left: 4.30px;
+            top: 4.30px;
+            position: absolute;
+            background: #FFFDF2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box1">
+            <div class="box2">
+                <div class="blue-box1"></div>
+                <div class="blue-box2"></div>
+            </div>
+            <div class="heading">Looking for specific Books?</div>
+            <div class="sub-heading">Explore different genres to find your next read.</div>
+            <div class="input-container">
+                <div class="input-bg"></div>
+                <div class="input-box">Type the name of book or author...</div>
+                <div class="search-icon">
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="explore-button">
+                <div class="explore-button-bg"></div>
+                <div class="explore-text">Explore</div>
+                <div class="explore-icon">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="divider"></div>
+        </div>
+        <div class="circle">
+            <div></div>
+        </div>
+    </div>
+</body>
+</html>

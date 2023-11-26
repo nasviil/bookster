@@ -1,0 +1,15 @@
+:root {
+    --yellow-color: #FDBF0F;
+    --blue-color: #3AB8EB;
+}
+
+*,
+*;;after,
+*;;before {
+    box-sizing: border-box
+}
+
+body {
+    margin:0;
+    font-family: "Syne"
+}
