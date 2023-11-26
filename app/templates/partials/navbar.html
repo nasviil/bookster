@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<script
+			src="{{ url_for('static', filename='script.js') }}"
+			defer
+		></script>
 		<link
 			rel="stylesheet"
 			type="text/css"
@@ -45,11 +49,26 @@
 							/></svg
 					></a>
 				</li>
-				<li class="nav-item">
-					<a href="#">Cart</a>
-				</li>
-				<li class="nav-item">
-					<a href="#">Message</a>
+				<li
+					class="nav-item"
+					id="notificationDropdown"
+				>
+					<a
+						href="#"
+						onclick="toggleDropdown()"
+					>
+						Notifications
+						<span id="notificationCount">0</span>
+					</a>
+					<div
+						class="dropdown-content"
+						id="notificationContent"
+					>
+						<!-- Notification items go here -->
+						<div class="notification-item">New notification 1</div>
+						<div class="notification-item">New notification 2</div>
+						<!-- Add more items as needed -->
+					</div>
 				</li>
 				<li class="nav-item">
 					<button class="btn-primary">My Account</button>
