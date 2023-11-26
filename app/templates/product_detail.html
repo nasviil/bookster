@@ -4,7 +4,7 @@
 		<link
 			rel="stylesheet"
 			type="text/css"
-			href="../static/styles.css"
+			href="{{ url_for('static', filename='styles.css') }}"
 		/>
 		<link
 			rel="stylesheet"
@@ -20,9 +20,11 @@
 	<body>
 		<div>{% include 'partials/navbar.html' %}</div>
 		<ol class="breadcrumb-nav">
-			<li><a href="#">My Books</a></li>
-			<li><a href="#">Science and Fiction</a></li>
-			<li>Book Name</li>
+			<li>
+				<a href="{{ url_for('home.user_books', user_id=user_id) }}">My Books</a>
+			</li>
+
+			<li>{{ book_detail['book_title'] }}</li>
 		</ol>
 		<div class="product-container">
 			<div class="product-image-container">
@@ -35,8 +37,8 @@
 			</div>
 			<div class="product-detail-container">
 				<div class="product-detail-1">
-					Divine Rivals: A Novel (Letters of Enchantment, 1)
-					<div class="author-name">by Rebecca Ross</div>
+					{{ book_detail['book_title'] }}
+					<div class="author-name">by {{ book_detail['book_author'] }}</div>
 				</div>
 				<div class="product-star-rating">
 					<span class="fa fa-star checked"></span>

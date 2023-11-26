@@ -1,7 +1,15 @@
 from app import mysql
 
 class Book:
-  __tablename__ = 'books'
+    __tablename__ = 'books'
+
+    @classmethod
+    def get_book_details(cls, book_id):
+        SELECT_SQL = f"SELECT * FROM {cls.__tablename__} WHERE book_id = %s"
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(SELECT_SQL, (book_id,))
+        book_detail = cur.fetchone()
+        return book_detail
 
 class UserBook:
     __tablename__ = 'user_book_instances'
@@ -18,3 +26,11 @@ class UserBook:
         cur.execute(SELECT_SQL, (user_id,))
         books = cur.fetchall()
         return books
+    
+    @classmethod
+    def get_book_details(cls, book_id):
+        SELECT_SQL = f"SELECT * FROM {cls.__tablename__} JOIN books ON {cls.__tablename__}.book_id = books.book_id WHERE {cls.__tablename__}.book_id = %s"
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(SELECT_SQL, (book_id,))
+        book_detail = cur.fetchone()
+        return book_detail

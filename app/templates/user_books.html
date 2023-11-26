@@ -37,7 +37,10 @@
 						src="https://via.placeholder.com/250x373"
 					/>
 					<div class="ulibrary-book-title">
-						<a href="#">{{ book['book_title'] }}</a>
+						<a
+							href="{{ url_for('home.book_detail', user_id=user_id, book_id=book['book_id']) }}"
+							>{{ book['book_title'] }}</a
+						>
 					</div>
 				</li>
 				{% endfor %}
