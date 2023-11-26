@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template
-from flask_login import login_required
+from flask import Blueprint, render_template, request, redirect, url_for
+from flask_login import login_required, current_user
 from ..models.user_book import UserBook
 
 
@@ -22,3 +22,18 @@ def user_books(user_id):
 def book_detail(user_id, book_id):
     book_detail = UserBook.get_book_details(book_id)
     return render_template('product_detail.html', book_detail=book_detail, user_id=user_id)
+
+@home.route('/<int:user_id>/books/add_book', methods=['GET', 'POST'])
+@login_required
+def add_book(user_id):
+    if request.method == 'POST':
+        book_title = request.form['book_title']
+        book_isbn = request.form['book_isbn']
+        book_author = request.form['book_author']
+        book_genre = request.form['book_genre']
+
+        UserBook.add_book(user_id, book_title, book_isbn, book_author, book_genre)
+
+        return redirect(url_for('home.user_books', user_id=user_id))
+
+    return render_template('add_book.html', user_id=user_id)
