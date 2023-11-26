@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Master Buten</title>
+    <title>Homepage</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -103,6 +103,23 @@
             top: 0;
             left: 0;
 		}
+
+        .box > input {
+			position: relative;
+			left: -465px;
+			top: 312px;
+			flex: 1;
+			height: 15px;
+			width: 500px; /* Adjust this value as needed */
+			border: none;
+			outline: none;
+			font-size: 18px;
+			padding-left: 10px;
+			white-space: nowrap; /* Prevent text from wrapping */
+			overflow: hidden;   /* Hide overflowed text */
+		}
+
+
     </style>
 </head>
 <header>
@@ -125,12 +142,22 @@
 
             <p class="sub-heading">
                 Explore different genres to find your next read.
-            </p>
-
-			<div class="search-bar">
-				<img src="..\static\img\homepage\SEARCH.png" alt="">
+            </p>	
+			<div class="box">
+				<img 
+					class="search-bar"
+					src="..\static\img\homepage\SEARCH.png" 
+					alt="">
+				<i 
+					class="search-bar" 
+					aria-hidden="true">
+				</i>
+				<input 
+					type="text" 
+					id="search-input" 
+					name="search" 
+					placeholder="Type the name or author of a book...">
 			</div>
-
             <div class="explore">
                 <img
 					src="../static/img/homepage/RECT_BUTTON.png" alt="ExploreBTN" />
