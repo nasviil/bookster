@@ -6,7 +6,7 @@
 html,body{
 margin-top: 0;
 padding: 0;
-background-image: url('img/login/login-bg.jpg');
+background-image: url('../img/login/login-bg.jpg');
 background-size: cover;
 background-repeat: no-repeat;
 background-position: center;
@@ -182,5 +182,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #FFFDF2; /* Darker blue on hover */
 }
+
+

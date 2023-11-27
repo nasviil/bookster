@@ -1,0 +1,234 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css"/>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="static/css/verify.css">
+<link rel="shortcut icon" href="{{ url_for('static', filename='img/login/bookster-logo.png') }}">
+
+
+<div class="container-fluid" id="grad1">
+    <div class="row justify-content-center mt-0">
+        <div class="col-11 col-sm-9 col-md-7 col-lg-6 text-center p-0 mt-3 mb-2">
+            <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+                <h2><strong>Verify User Account</strong></h2>
+                <p>Fill all form field to go to next step</p>
+                <div class="row">
+                    <div class="col-md-12 mx-0">
+                        <form id="msform" method="post" action="{{ url_for('auth.verify_request') }}" enctype="multipart/form-data">
+                            <!-- progressbar -->
+                            <ul id="progressbar">
+                                <li class="active" id="account"><strong>Personal Information</strong></li>
+                                <li id="personal"><strong>Additional Information</strong></li>
+                                <li id="payment"><strong>Valid ID</strong></li>
+                                <li id="confirm"><strong>Finish</strong></li>
+                            </ul> <!-- fieldsets -->
+                            <fieldset>
+                                <div class="form-card">
+                                    <h2 class="fs-title">Personal Information</h2> 
+                                    <input type="text" name="firstname" placeholder="First Name" required/> 
+                                    <input type="text" required="required" name="lastname" placeholder="Last Name" /> 
+                                    <label class="id">Gender*</label>
+                                    <select name="gender" required>
+                                        <option value="" disabled selected>Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <label class="text">Birth Date*</label>
+                                        </div>
+                                        <div class="col-3">
+                                            <select class="list-dt" id="day" name="birthday" required>
+                                                <option value="" disabled selected>Day</option>
+                                                {% for day in range(1, 32) %}
+                                                    <option>{{ day }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-3">
+                                            <select class="list-dt" id="month" name="birthmonth" required>
+                                                <option value="" disabled selected>Month</option>
+                                                {% for month in ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"] %}
+                                                    <option>{{ month }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-3">
+                                            <select class="list-dt" id="year" name="birthyear" required>
+                                                <option value="" disabled selected>Year</option>
+                                                {% for year in range(1900, 2023) %}  {# Adjust the range as needed #}
+                                                    <option>{{ year }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>                                                                        
+                                </div> 
+                                <a class="previous action-button-previous" href='{{ url_for("home.home_page") }}' >Verify Later</a>
+                                <input type="button" name="next" class="next action-button" value="Next Step" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-card">
+                                    <h2 class="fs-title">Additional Information</h2> 
+                                    <input type="text" name="address" placeholder="Home Address" required /> 
+                                    <input type="text" name="mailAddress" placeholder="Mailing Address" required/> 
+                                    <input type="text" name="contactnum" placeholder="Contact Number" required/> 
+                                    <input type="text" name="contactnum" placeholder="Alternate Contact Number" /> 
+                                </div> 
+                                <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
+                                <input type="button" name="next" class="next action-button" value="Next Step" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-card">
+                                    <h2 class="fs-title">Valid Identification</h2>
+                                    <div class="radio-group">
+                                        <p>Please upload a valid identification document:</p>
+                                        <input type="file" name="id_upload" accept="image/*" />
+                                    </div>
+                                    <label class="id">Type of ID*</label>
+                                    <select class="list-dt" name="id_type">
+                                        <option selected>Select ID Type</option>
+                                        <option>Driver's License</option>
+                                        <option>Passport</option>
+                                        <option>SSS ID</option>
+                                        <option>Other</option>
+                                    </select>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <label class="id">ID Number*</label>
+                                            <input type="text" name="id_number" placeholder="" />
+                                        </div>
+                                    </div>                                    
+                                </div>                                
+                                <input type="button" name="previous" class="previous action-button-previous" value="Previous" /> 
+                                <input type="submit" name="make_payment" class="next action-button" value="Confirm" />
+                            </fieldset>
+                            <fieldset>
+                                <div class="form-card">
+                                    <h2 class="fs-title text-center">Success !</h2> <br><br>
+                                    <div class="row justify-content-center">
+                                        <div class="col-3"> <img src="https://img.icons8.com/color/96/000000/ok--v2.png" class="fit-image"> </div>
+                                    </div> <br><br>
+                                    <div class="row justify-content-center">
+                                        <div class="col-7 text-center">
+                                            <h5>We are currently verifying your account, thank you!</h5>
+                                            <a class="next action-button" href='{{ url_for("home.home_page") }}' class="btn btn-primary">Go to home</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function(){
+
+var current_fs, next_fs, previous_fs; //fieldsets
+var opacity;
+
+$(".next").click(function(){
+
+    current_fs = $(this).parent();
+    next_fs = $(this).parent().next();
+
+    var arr = [];
+    
+
+      $('.form-card :input', current_fs).each(function() {
+        
+        
+          if(!$(this).val()){
+              $(this).removeClass( " border-success" ).addClass(" border-danger");
+              farr(0);
+              return true;
+              
+          } else if($(this).val()) {
+              $(this).removeClass( " border-danger" ).addClass(" border-success");
+              varr(1);
+              return true;
+          }
+          
+          
+      });
+     
+  if($.inArray(0, arr) == -1){
+          //Add Class Active
+    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+    
+    //show the next fieldset
+    next_fs.show();
+    //hide the current fieldset with style
+        current_fs.animate({opacity: 0}, {
+            step: function(now) {
+            // for making fielset appear animation
+            opacity = 1 - now;
+            
+                current_fs.css({
+                'display': 'none',
+                'position': 'relative'
+                });
+            next_fs.css({'opacity': opacity});
+            },
+        duration: 600
+        });
+  }else{
+      //alert( '0 is found');
+  }
+    function farr(i){
+        arr.push(i);
+    }
+    function varr(i){
+        arr.push(i);
+        
+    } 
+});
+
+$(".previous").click(function(){
+
+current_fs = $(this).parent();
+previous_fs = $(this).parent().prev();
+
+//Remove class active
+$("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
+
+//show the previous fieldset
+previous_fs.show();
+
+//hide the current fieldset with style
+current_fs.animate({opacity: 0}, {
+step: function(now) {
+// for making fielset appear animation
+opacity = 1 - now;
+
+current_fs.css({
+'display': 'none',
+'position': 'relative'
+});
+previous_fs.css({'opacity': opacity});
+},
+duration: 600
+});
+});
+
+$('.radio-group .radio').click(function(){
+$(this).parent().find('.radio').removeClass('selected');
+$(this).addClass('selected');
+});
+
+$(".submit").click(function(){
+return false;
+})
+
+});
+</script>
