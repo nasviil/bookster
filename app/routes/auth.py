@@ -63,10 +63,12 @@ def signup():
       password= generate_password_hash(password1)
 
       user = User.userData(username)
-      user_id =user[0][0]
-      user_name = user[0][1]
+
+
       existingEmail = User.userEmail(email)
       if user:
+        user_id =user[0][0]
+        user_name =user[0][1]        
         flash('User already exists.', category='error')
         return jsonify({'success': False, 'message': 'User already exists.'})
       elif existingEmail:
@@ -89,7 +91,7 @@ def signup():
           user = User(user_id)
           session['loggedin']= True
           session['username']= username
-          session['user_id']= user_id
+          #session['user_id']= User.get_id()
           login_user(user, remember=True)
           flash('Account created!', category='success')        
           return jsonify({'success': True})

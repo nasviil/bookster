@@ -6,9 +6,13 @@ from ..models.user_book import UserBook
 home = Blueprint('home', __name__)
 
 @home.route('/')
+def landing_page():
+    return render_template("home.html")
+
+@home.route('/home')
 @login_required
 def home_page():
-    return render_template("home.html")
+    return render_template("homepage.html")
 
 @home.route('/<int:user_id>/books')
 @login_required

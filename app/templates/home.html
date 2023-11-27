@@ -26,7 +26,7 @@
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav ml-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="#" style="color: black; margin-right: 10px;">Register</a>
+							<a class="nav-link" href="{{ url_for('auth.login') }}" style="color: black; margin-right: 10px;">Login</a>
 						</li>
 					</ul>
 				</div>
@@ -37,7 +37,7 @@
 	<div class="w3-display-container w3-animate-opacity">
 		<img src="{{ url_for('static', filename='img/landingpage/header2.png') }}" style="max-width: 100%; max-height: 50%;">
 		<div class="w3-display-left" style="position: absolute; top: 55%; left: 140px; transform: translateY(-50%);">
-			<a href="your-target-url">
+			<a href="{{ url_for('home.home_page') }}">
 				<img src="{{ url_for('static', filename='img/landingpage/startbtn.png') }}" alt="Get Started" style="width: 200px; height: auto;">
 			</a>
 		</div>
