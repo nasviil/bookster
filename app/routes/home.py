@@ -8,9 +8,6 @@ home = Blueprint('home', __name__)
 @home.route('/')
 @login_required
 def home_page():
-<<<<<<< HEAD
-    return render_template("homepage.html")
-=======
     return render_template("homepage.html")
 
 @home.route('/<int:user_id>/books')
@@ -25,4 +22,3 @@ def user_books(user_id):
 def book_detail(user_id, book_id):
     book_detail = UserBook.get_book_details(book_id)
     return render_template('product_detail.html', book_detail=book_detail, user_id=user_id)
->>>>>>> 0ecc9f53c1edd7050e8745eee6b256d5d45ea095
