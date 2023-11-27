@@ -1,177 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Homepage</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500&display=swap" rel="stylesheet">
-    <link 
-		rel="stylesheet" 
-		type="text/css"
-		href="styles.css" />
-    <style>
-        body {
-            background-color: #FFFDF2;
-            margin: 0 auto;
-            padding: 0;
-            width: 100%;
-			max-width: 1920px;
-			height: 100vh;
-            font-family: 'Syne', sans-serif;
-			position: relative;
-        }
+		<link
+			rel="preconnect"
+			href="https://fonts.googleapis.com"
+		/>
+		<link
+			rel="preconnect"
+			href="https://fonts.gstatic.com"
+			crossorigin
+		/>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="styles.css"
+		/>
+		<style>
+			body {
+				background-color: #fffdf2;
+				margin: 0 auto;
+				padding: 0;
+				width: 100%;
+				max-width: 1920px;
+				height: 100vh;
+				font-family: "Syne", sans-serif;
+				position: relative;
+			}
 
-        .hp {
-            display: flex;
-            justify-content: space-between;
-        }
+			.hp {
+				display: flex;
+				justify-content: space-between;
+			}
 
-        .left {
-            flex: 1;
-            padding: 30px;
-		}
+			.left {
+				flex: 1;
+				padding: 30px;
+			}
 
-		.right {
-			flex: 1;
-			padding: 1px;
-		}
-		
-        .heading {
-            left: 150px;
-            top: 200px;
-            position: absolute;
-            color: #3D3C3C;
-            font-size: 64px;
-            font-family: 'Syne';
-            font-weight: 500;
-            word-wrap: break-word;
-		}
+			.right {
+				flex: 1;
+				padding: 1px;
+			}
 
-		.blue-book {
-			position: relative;
-			left: 370px; 
-			top: 268px;
-		}
-		.sub-heading {
-            left: 150px;
-            top: 460px;
-            position: absolute;
-            color: #676767;
-            font-size: 16px;
-            font-family: 'Syne';
-            font-weight: 500;
-            word-wrap: break-word;
-		}
+			.heading {
+				left: 150px;
+				top: 200px;
+				position: absolute;
+				color: #3d3c3c;
+				font-size: 64px;
+				font-family: "Syne";
+				font-weight: 500;
+				word-wrap: break-word;
+			}
 
-		.search-bar {
-    		position: relative;
-			left: 115px; 
-    		top: 340px; 
-		}
+			.blue-book {
+				position: relative;
+				left: 370px;
+				top: 268px;
+			}
+			.sub-heading {
+				left: 150px;
+				top: 460px;
+				position: absolute;
+				color: #676767;
+				font-size: 16px;
+				font-family: "Syne";
+				font-weight: 500;
+				word-wrap: break-word;
+			}
 
-		.explore {
-			position: relative;
-			left: 115px;
-			top: 370px;
-		}
-		
-		.line {
-			position: relative;
-			left: 300px; 
-    		top: 325px; 
-		}
+			.search-bar {
+				position: relative;
+				left: 115px;
+				top: 340px;
+			}
 
-		.image-container {
-			position: relative;
-			top: 175px;
-			right: 650px;
-		}
+			.explore {
+				position: relative;
+				left: 115px;
+				top: 370px;
+			}
 
-		.library-image {
-            position: absolute;
-            top: 34px;
-            left: 42px;
-			width: 485px;
-			height: 505px;
-        }
+			.line {
+				position: relative;
+				left: 300px;
+				top: 325px;
+			}
 
-        .banner-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-		}
+			.image-container {
+				position: relative;
+				top: 175px;
+				right: 650px;
+			}
 
-        .box > input {
-			position: relative;
-			left: -465px;
-			top: 312px;
-			flex: 1;
-			height: 15px;
-			width: 500px;
-			border: none;
-			outline: none;
-			font-size: 18px;
-			padding-left: 10px;
-			white-space: nowrap; 
-			overflow: hidden;   
-		}
+			.library-image {
+				position: absolute;
+				top: 34px;
+				left: 42px;
+				width: 485px;
+				height: 505px;
+			}
 
+			.banner-image {
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
 
-    </style>
-</head>
+			.box > input {
+				position: relative;
+				left: -465px;
+				top: 312px;
+				flex: 1;
+				height: 15px;
+				width: 500px;
+				border: none;
+				outline: none;
+				font-size: 18px;
+				padding-left: 10px;
+				white-space: nowrap;
+				overflow: hidden;
+			}
+		</style>
+	</head>
 
-<header>
-	<div>{% include 'partials/navbar.html' %}</div>
-</header>
+	<header>
+		<div>{% include 'partials/navbar.html' %}</div>
+	</header>
 
-<body>
-    <div class="hp">
-        <div class="left">
-            <h1 class="heading">
-                Looking for <br /> 
-                Specific <br /> 
-                Books?
-            </h1>
-            <img 
-				class="blue-book" 
-				src="..\static\img\homepage\book-gif.png" 
-				alt="Bookpng">
-            <p class="sub-heading">
-                Explore different genres to find your next read.
-            </p>	
-            <form id="search-form" action="{{ url_for('search_books') }}" method="GET">
-                <div class="box">
-                    <img class="search-bar" src="../static/img/homepage/SEARCH.png" alt="">
-                    <input type="text" id="search-input" name="search" placeholder="Type the name or author of a book..." />
-                    <!--
+	<body>
+		<div class="hp">
+			<div class="left">
+				<h1 class="heading">
+					Looking for <br />
+					Specific <br />
+					Books?
+				</h1>
+				<img
+					class="blue-book"
+					src="..\static\img\homepage\book-gif.png"
+					alt="Bookpng"
+				/>
+				<p class="sub-heading">
+					Explore different genres to find your next read.
+				</p>
+					<div class="box">
+						<img
+							class="search-bar"
+							src="../static/img/homepage/SEARCH.png"
+							alt=""
+						/>
+						<input
+							type="text"
+							id="search-input"
+							name="search"
+							placeholder="Type the name or author of a book..."
+						/>
+						<!--
                         <button type="submit">Search</button>
                     -->
-                </div>
-            </form>
-            
-            <div class="explore">
-                <img src="../static/img/homepage/RECT_BUTTON.png" alt="ExploreBTN" />
-            </div>      
-            <div class="line">
-                <svg width="399" height="2" viewBox="0 0 399 2" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <line y1="1" x2="399" y2="1" stroke="#676767" stroke-width="2" stroke-dasharray="4 4" />
-                </svg>
-            </div>
-        </div>
-        <div class="image-container">
-            <img class="banner-image" src="../static/img/homepage/Banner.png" alt="Banner" />
-            <img class="library-image" src="../static/img/homepage/library.jpg" alt="Insider Banner" />
-        </div>
-    </div>
-    <script>
-        document.getElementById("search-form").addEventListener("submit", function (event) {
-            event.preventDefault();
-            const searchInput = document.getElementById("search-input").value;
-            window.location.href = `allbooks.html?search=${encodeURIComponent(searchInput)}`;
-        });
-    </script>
-</body>
+					</div>
+				</form>
+
+				<div class="explore">
+					<img
+						src="../static/img/homepage/RECT_BUTTON.png"
+						alt="ExploreBTN"
+					/>
+				</div>
+				<div class="line">
+					<svg
+						width="399"
+						height="2"
+						viewBox="0 0 399 2"
+						fill="none"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<line
+							y1="1"
+							x2="399"
+							y2="1"
+							stroke="#676767"
+							stroke-width="2"
+							stroke-dasharray="4 4"
+						/>
+					</svg>
+				</div>
+			</div>
+			<div class="image-container">
+				<img
+					class="banner-image"
+					src="../static/img/homepage/Banner.png"
+					alt="Banner"
+				/>
+				<img
+					class="library-image"
+					src="../static/img/homepage/library.jpg"
+					alt="Insider Banner"
+				/>
+			</div>
+		</div>
+		<script>
+			document
+				.getElementById("search-form")
+				.addEventListener("submit", function (event) {
+					event.preventDefault();
+					const searchInput = document.getElementById("search-input").value;
+					window.location.href = `allbooks.html?search=${encodeURIComponent(
+						searchInput
+					)}`;
+				});
+		</script>
+	</body>
 </html>

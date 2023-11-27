@@ -7,5 +7,3 @@ class Notification():
     self.notification_id = notification_id
     self.sender_id = sender_id
     self.receiver_id = receiver_id
-
-  def add_notification
