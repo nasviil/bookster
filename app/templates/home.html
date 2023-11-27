@@ -1,12 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
-		<title>Document</title>
-	</head>
-	<body></body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookster</title>
+	<!-- Include Bootstrap CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+<body class="homepage w3-image background" style="background-color: #FFFDF2;"> 
+		<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: transparent; color: white; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);">
+			<div class="container-fluid">
+				<a class="navbar-brand">
+					<img src="{{ url_for('static', filename='img/landingpage/logo1.png') }}" alt="Logo" height="30" style="margin-left: 120px;">
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+					aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item">
+							<a class="nav-link" href="#" style="color: black; margin-right: 10px;">Register</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+	<!-- Image Header -->
+	<div class="w3-display-container w3-animate-opacity">
+		<img src="{{ url_for('static', filename='img/landingpage/header2.png') }}" style="max-width: 100%; max-height: 50%;">
+		<div class="w3-display-left" style="position: absolute; top: 55%; left: 140px; transform: translateY(-50%);">
+			<a href="your-target-url">
+				<img src="{{ url_for('static', filename='img/landingpage/startbtn.png') }}" alt="Get Started" style="width: 200px; height: auto;">
+			</a>
+		</div>
+				
+	</div>
+
+	<!-- About Bookster Container -->
+<div class="w3-container w3-padding-64" id="team" style="text-align: center; margin-bottom: 0px;">
+    <br><br>
+    <h2><b>Welcome to Bookster: Your Ultimate Destination for Renting and Buying Books</b></h2><br>
+    <p style="text-align: center; font-style: italic;">
+        Are you an avid reader, always on the lookout for your next literary adventure? 
+        Or perhaps you're a student searching for affordable textbooks? Look no further!<br>
+        Bookster is here to revolutionize the way you discover, rent, and buy books. 
+        Whether you're a bookworm, a student, or just someone who appreciates a good read, 
+        we have something special for you.<br>
+    </p>        
+
+    <div style="display: flex; justify-content: center;">
+        <div style="text-align: center;">
+            <img src="{{ url_for('static', filename='img/landingpage/rent.png') }}" alt="Image Description" style="max-width: 500px;">
+            <p><b>RENT</b></p>
+        </div>
+
+        <div style="text-align: center;">
+            <img src="{{ url_for('static', filename='img/landingpage/buy.png') }}" alt="Image Description" style="max-width: 500px; margin-left: 5px;">
+            <p><b>BUY</b></p>
+        </div>
+
+        <div style="text-align: center;">
+            <img src="{{ url_for('static', filename='img/landingpage/sell.png') }}" alt="Image Description" style="max-width: 500px; margin-left: 5px;">
+            <p><b>SELL</b></p>
+        </div>
+    </div>
+
+    <div class="w3-third w3-center">
+        <i class="w3-container w3-padding-64 text-center"></i>
+        <br><br>
+    </div>
+</div>
+<!-- Testimonies -->
+<div class="w3-container w3-padding-64" id="additional-container" style="box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1); background-color: #CDF5FE; margin-bottom: 20px;">
+    <br><br>
+    <div class="label text-center"> <!-- Center the label -->
+        <h3>Recommendations</h3><br>
+    </div>
+    <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel" style="margin-top: 10px; ">
+        <div class="carousel-inner">
+            <div class="carousel-item active"> <!-- Only the first item should have "active" -->
+                <div class="card shadow mx-auto" style="width: 60rem; height: 20rem;background-color: #FFFDF2;"> <!-- Increase the card width -->
+                    <div class="card-body">
+                        <p class="card-text" style="font-size: 18px; text-align: center; margin-top: 90px;">"This platform is amazing. It exceeded my expectations and I would highly recommend it!"</p>
+                        <p class="card-text" style="font-size: 16px; text-align: center;"><strong>- Anna Manalastas</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="card shadow mx-auto" style="width: 60rem; height: 20rem;background-color: #FFFDF2;"> <!-- Increase the card width -->
+                    <div class="card-body">
+                        <p class="card-text" style="font-size: 18px; text-align: center; margin-top: 90px;">"Slay so much"</p>
+                        <p class="card-text" style="font-size: 16px; text-align: center;"><strong>- Kim Jung Un</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="card shadow mx-auto" style="width: 60rem; height: 20rem;background-color: #FFFDF2;"> <!-- Increase the card width -->
+                    <div class="card-body">
+                        <p class="card-text" style="font-size: 18px; text-align: center; margin-top: 90px;">"Great interface and it's very easy to order."</p>
+                        <p class="card-text" style="font-size: 16px; text-align: center;"><strong>- Strong Ford</strong></p>
+                    </div>
+                </div>
+            </div>
+            <!-- (Repeat for other testimonials) -->
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev" style="border: none; background-color: transparent; margin-top: -100px; left: 100px;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next" style="border: none; background-color: transparent; margin-top: -100px; right: 100px;">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden"></span>
+        </button>
+    <br><br> <br> <br>
+</div>
+
+<!-- Add this script after including Bootstrap's JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+	<!--Feature Container -->
+	<div class="w3-container w3-padding-64" id="team" style="text-align: center;background-color: #FFFDF2;">
+
+		<br><br>
+		<h2><b>Why Bookster?</b></h2><br>
+		<div style="display: flex; justify-content: left; align-items: center;">
+			<img src="{{ url_for('static', filename='img/landingpage/Collection.png') }}" alt="Image Description" style="max-width: 500px; margin-left: 150px;">
+			<div style="text-align: left; font-style: italic; margin-left:200px;">
+				<p><b>Discover a vast collection of books.</b> <br>
+				Browse through an extensive library of books spanning various genres, from <br>
+				classic literature to the latest bestsellers, academic textbooks, and more.<br>
+				</p>
+			</div>
+		</div>
+
+		<div style="display: flex; align-items: center;">
+			<div style="text-align: left; font-style: italic; margin-left: 300px; margin-right: 10px">
+			  <p><b>Find affordable options to buy or rent books</b> <br>
+				Why buy when you can rent? Save money by renting books for the duration you need,<br>
+				and return them when you're done. No more cluttered bookshelves.<br>
+			  </p>
+			</div>
+			<img src="{{ url_for('static', filename='img/landingpage/affordable.png') }}" alt="Image Description" style="max-width: 500px;margin-left: 300px;">
+		</div>
+
+		<div style="display: flex; justify-content: left; align-items: center;">
+			<img src="{{ url_for('static', filename='img/landingpage/transaction.png') }}" alt="Image Description" style="max-width: 500px; margin-left: 150px;">
+			<div style="text-align: left; font-style: italic; margin-left:200px;">
+				<p><b>Enjoy secure and easy transactions</b> <br>
+					Your online safety is our top priority. Our secure payment system  <br>
+					ensures your personal and financial information is protected.<br>
+				</p>
+			</div>
+		</div>
+
+		<div style="display: flex; align-items: center;">
+			<div style="text-align: left; font-style: italic; margin-left: 300px; margin-right: 10px">
+			  <p><b>Community Reviews</b> <br>
+				Read reviews and recommendations from fellow book lovers. <br>
+				Discover hidden gems and share your thoughts with the Bookster community.<br>
+			  </p>
+			</div>
+			<img src="{{ url_for('static', filename='img/landingpage/review.png') }}" alt="Image Description" style="max-width: 500px;margin-left: 350px;">
+			<br><br><br>	
+		</div>
+		<br><br><br><br><br>	
+	</div>
+
+<!-- Footer -->
+<footer class="footer mt-auto py-3 text-center">
+    <div class="container">
+        <span class="text-muted">© 2023 Bookster. All rights reserved.</span>
+    </div>
+</footer>
+
+
+
+</body>
 </html>
