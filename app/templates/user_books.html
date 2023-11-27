@@ -26,7 +26,11 @@
 		<div style="padding-left: 50px; padding-right: 50px">
 			<div class="user-banner"></div>
 			<div class="book-control">
-				<button class="btn-primary-library">Add Book</button>
+				<a
+					href="{{ url_for('home.add_book', user_id=user_id) }}"
+					class="btn-primary-library"
+					>Add Book</a
+				>
 			</div>
 			<div class="search-filter"></div>
 			<ul class="book-ulibrary">
