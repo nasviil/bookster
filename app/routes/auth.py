@@ -63,10 +63,10 @@ def signup():
       password= generate_password_hash(password1)
 
       user = User.userData(username)
-      user_id =user[0][0]
-      user_name = user[0][1]
       existingEmail = User.userEmail(email)
       if user:
+        user_id =user[0][0]
+        user_name = user[0][1]             
         flash('User already exists.', category='error')
         return jsonify({'success': False, 'message': 'User already exists.'})
       elif existingEmail:
@@ -86,10 +86,11 @@ def signup():
         return jsonify({'success': False, 'message': 'Password must be at least 7 characters.'})
       else:
           User.addUser(username, email, password)
-          user = User(user_id)
+          userdata = User.userData(username)
+          user = User(username)
           session['loggedin']= True
           session['username']= username
-          session['user_id']= user_id
+          session['user_id']= userdata[0][0]
           login_user(user, remember=True)
           flash('Account created!', category='success')        
           return jsonify({'success': True})
@@ -147,13 +148,13 @@ def verify_request():
               User_Verification_Data.updateVerify_Data(user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, result_url, id_type, id_number)              
             else:            
               User_Verification_Data.addVerify_Data(user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, result_url, id_type, id_number)
-            user_name = user[0][1]
-            user_id = user[0][0]
-            user = User(user_id)
-            session['loggedin']= True
-            session['username']= user_name
-            session['user_id']= user_id
-            login_user(user, remember=True)
+            # user_name = user[0][1]
+            # user_id = user[0][0]
+            # user = User(user_id)
+            # session['loggedin']= True
+            # session['username']= user_name
+            # session['user_id']= user_id
+            # login_user(user, remember=True)
             flash('We are currently verifying your account!', 'success')
             #return jsonify({'success': True, 'message': 'We are currently verifying your account!'})
             return redirect(url_for('home.home_page')) 
