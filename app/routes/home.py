@@ -20,6 +20,12 @@ def user_books(user_id):
     user_books = UserBook.get_books_for_user(user_id)
     return render_template('user_books.html', user_books=user_books, user_id=user_id)
 
+@home.route('/<string:username>/books')
+@login_required
+def username_user_books(username):
+    user_books = UserBook.get_books_for_user(username)
+    return render_template('user_books.html', user_books=user_books, user_id=username)
+
 
 @home.route('/<int:user_id>/books/<int:book_id>')
 @login_required

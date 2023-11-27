@@ -63,8 +63,6 @@ def signup():
       password= generate_password_hash(password1)
 
       user = User.userData(username)
-
-
       existingEmail = User.userEmail(email)
       if user:
         user_id =user[0][0]
@@ -88,10 +86,12 @@ def signup():
         return jsonify({'success': False, 'message': 'Password must be at least 7 characters.'})
       else:
           User.addUser(username, email, password)
-          user = User(user_id)
+          userdata = User.userData(username)
+          userID = userdata[0][0]
+          user = User(userID)
           session['loggedin']= True
-          session['username']= username
-          #session['user_id']= User.get_id()
+          session['username']= userdata[0][0]
+          session['user_id']= userdata[0][0]
           login_user(user, remember=True)
           flash('Account created!', category='success')        
           return jsonify({'success': True})
@@ -149,13 +149,13 @@ def verify_request():
               User_Verification_Data.updateVerify_Data(user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, result_url, id_type, id_number)              
             else:            
               User_Verification_Data.addVerify_Data(user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, result_url, id_type, id_number)
-            user_name = user[0][1]
-            user_id = user[0][0]
-            user = User(user_id)
-            session['loggedin']= True
-            session['username']= user_name
-            session['user_id']= user_id
-            login_user(user, remember=True)
+            # user_name = user[0][1]
+            # user_id = user[0][0]
+            # user = User(user_id)
+            # session['loggedin']= True
+            # session['username']= user_name
+            # session['user_id']= user_id
+            # login_user(user, remember=True)
             flash('We are currently verifying your account!', 'success')
             #return jsonify({'success': True, 'message': 'We are currently verifying your account!'})
             return redirect(url_for('home.home_page')) 
