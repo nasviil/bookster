@@ -2,9 +2,9 @@ import mysql.connector
 from flask_login import UserMixin
 
 db = mysql.connector.connect(
-    host = 'sql12.freesqldatabase.com',
-    user = 'sql12663651',
-    password = 'xJ7bV16PAQ',
+    host = 'localhost',
+    user = 'root',
+    password = 'root',
     database = 'sql12663651'
 )
 cursor = db.cursor()
