@@ -66,7 +66,11 @@ def signup():
       existingEmail = User.userEmail(email)
       if user:
         user_id =user[0][0]
+<<<<<<< HEAD
         user_name =user[0][1]        
+=======
+        user_name = user[0][1]             
+>>>>>>> b0f9a0db8699b4cd7244bdb223aafc0cba8a0d72
         flash('User already exists.', category='error')
         return jsonify({'success': False, 'message': 'User already exists.'})
       elif existingEmail:
@@ -87,10 +91,16 @@ def signup():
       else:
           User.addUser(username, email, password)
           userdata = User.userData(username)
+<<<<<<< HEAD
           userID = userdata[0][0]
           user = User(userID)
           session['loggedin']= True
           session['username']= userdata[0][0]
+=======
+          user = User(username)
+          session['loggedin']= True
+          session['username']= username
+>>>>>>> b0f9a0db8699b4cd7244bdb223aafc0cba8a0d72
           session['user_id']= userdata[0][0]
           login_user(user, remember=True)
           flash('Account created!', category='success')        

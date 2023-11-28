@@ -80,28 +80,28 @@ class User_Verification_Data(UserMixin):
         self.id = id
 
     @classmethod
-    def addVerify_Data(self, user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num):
+    def addVerify_Data(self, username, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num):
         cursor = db.cursor()
         sql = """
             INSERT INTO users_verification_data
-                (user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num)
+                (username, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        values = (user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num)
+        values = (username, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num)
         cursor.execute(sql, values)
         db.commit()
         cursor.close()
 
     @classmethod
-    def updateVerify_Data(cls, user_id, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num):
+    def updateVerify_Data(cls, username, firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num):
         cursor = db.cursor()
         sql = """
             UPDATE users_verification_data
             SET firstname = %s, lastname = %s, gender = %s, birthday = %s, address = %s,
                 mailAddress = %s, contactnum = %s, id_upload = %s, id_type = %s, id_num = %s
-            WHERE user_id = %s
+            WHERE username = %s
         """
-        values = (firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num, user_id)
+        values = (firstname, lastname, gender, birthday, address, mailAddress, contactnum, id_upload, id_type, id_num, username)
         cursor.execute(sql, values)
         db.commit()
         cursor.close()
