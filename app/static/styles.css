@@ -3,7 +3,7 @@
 * {
 	font-family: Unica One;
 	font-size: 1rem;
-	background-color: #FFFDF2;
+	background-color: #fffdf2;
 }
 
 .product-container {
@@ -63,7 +63,6 @@
 }
 
 .product-image-container {
-	/*	border: 1px solid black; */
 	padding: 5px;
 	width: 25%;
 }
@@ -251,15 +250,15 @@
 }
 
 .book-ulibrary-image {
-	width: 139px;
-	height: 207px;
+	width: 209px;
+	height: 311px;
 	box-shadow: 10px 12px 10px -6px rgba(61, 60, 60, 0.36);
 	border-radius: 10px;
 	max-width: 100%;
 }
 
 .ulibrary-book-title {
-	width: 139px;
+	width: 209px;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

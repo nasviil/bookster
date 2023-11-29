@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from ..models.user_book import UserBook
+from werkzeug.exceptions import abort
 
 
 home = Blueprint('home', __name__)
@@ -36,6 +37,13 @@ def book_detail(user_id, book_id):
 @home.route('/<int:user_id>/books/add_book', methods=['GET', 'POST'])
 @login_required
 def add_book(user_id):
+    
+    print(f"current_user.id: {current_user.id}")
+    print(f"user_id from URL: {user_id}")
+
+    if current_user.id != user_id:
+        abort(403)  # Forbidden
+
     if request.method == 'POST':
         book_title = request.form['book_title']
         book_isbn = request.form['book_isbn']
