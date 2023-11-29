@@ -25,6 +25,7 @@
 		</ol>
 		<div style="padding-left: 50px; padding-right: 50px">
 			<div class="user-banner"></div>
+			{% if user_id == current_user.id %}
 			<div class="book-control">
 				<a
 					href="{{ url_for('home.add_book', user_id=user_id) }}"
@@ -32,6 +33,7 @@
 					>Add Book</a
 				>
 			</div>
+			{% endif %}
 			<div class="search-filter"></div>
 			<ul class="book-ulibrary">
 				{% for book in user_books %}
