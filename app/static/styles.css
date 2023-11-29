@@ -236,6 +236,41 @@
 	background-color: #3ab8eb;
 }
 
+.btn-library {
+	padding: 8px 20px;
+	gap: 8px;
+	border-radius: 48px;
+	border: 1px solid rgba(0, 0, 0, 0.5);
+	background: #fff;
+	backdrop-filter: blur(18px);
+	cursor: pointer;
+	transition: all 0.2s ease 0s;
+	text-decoration: none;
+	color: #222;
+}
+
+.btn-library:hover {
+	background-color: rgba(0, 0, 0, 0.3);
+}
+
+.book-control {
+	display: flex;
+	justify-content: flex-end;
+	padding: 12px;
+	gap: 1em;
+	align-items: center;
+}
+
+.search-input {
+	padding: 8px;
+	border-radius: 48px;
+}
+
+.filter-dropdown {
+	padding: 8px;
+	border-radius: 48px;
+}
+
 .book-ulibrary {
 	display: flex;
 	margin-top: 20px;
@@ -274,33 +309,6 @@
 .ulibrary-book-title:hover {
 	text-decoration: underline;
 	cursor: pointer;
-}
-
-.book-control {
-	display: flex;
-	justify-content: space-between;
-	padding-left: 12px;
-	padding-right: 12px;
-}
-
-.btn-primary-library {
-	display: inline-flex;
-	padding: 8px 20px;
-	align-items: flex-start;
-	gap: 8px;
-	border-radius: 48px;
-	border: 1px solid rgba(0, 0, 0, 0.5);
-	background: #fff;
-	backdrop-filter: blur(18px);
-	cursor: pointer;
-	transition: all 0.2s ease 0s;
-	margin-top: 20px;
-	text-decoration: none;
-	color: #222;
-}
-
-.btn-primary-library:hover {
-	background-color: rgba(0, 0, 0, 0.3);
 }
 
 .product-image-add {

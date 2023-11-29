@@ -25,16 +25,32 @@
 		</ol>
 		<div style="padding-left: 50px; padding-right: 50px">
 			<div class="user-banner"></div>
-			{% if user_id == current_user.id %}
 			<div class="book-control">
+				{% if user_id == current_user.id %}
 				<a
 					href="{{ url_for('home.add_book', user_id=user_id) }}"
-					class="btn-primary-library"
+					class="btn-library"
+					style="margin-right: auto"
 					>Add Book</a
 				>
+				{% endif %}
+				<input
+					type="text"
+					class="search-input"
+					placeholder="Search..."
+				/>
+				<select class="filter-dropdown">
+					<option value="all">All</option>
+					<option value="category1">Category 1</option>
+					<option value="category2">Category 2</option>
+				</select>
+				<button
+					class="btn-library"
+					onclick="searchAndFilter()"
+				>
+					Search
+				</button>
 			</div>
-			{% endif %}
-			<div class="search-filter"></div>
 			<ul class="book-ulibrary">
 				{% for book in user_books %}
 				<li class="book-display">
@@ -52,5 +68,18 @@
 				{% endfor %}
 			</ul>
 		</div>
+		<script>
+			function searchAndFilter() {
+				// You can implement your search and filter logic here
+				// For example, you can use JavaScript to get the values of the search input and the selected option from the dropdown.
+				var searchInputValue = document.querySelector(".search-input").value;
+				var filterDropdownValue =
+					document.querySelector(".filter-dropdown").value;
+
+				// Implement your logic to use these values for searching and filtering
+				console.log("Search:", searchInputValue);
+				console.log("Filter:", filterDropdownValue);
+			}
+		</script>
 	</body>
 </html>
