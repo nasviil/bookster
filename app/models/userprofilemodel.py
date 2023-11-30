@@ -15,8 +15,26 @@ class UserProfile:
     
     @classmethod
     def get_user_profile(cls, user_id):
-        SELECT_SQL = f"SELECT u.username, up.* FROM users u INNER JOIN {cls.__tablename__} up ON u.user_id = up.user_id WHERE u.user_id = %s"
-        cur = mysql.new_cursor(dictionary=True)
-        cur.execute(SELECT_SQL, (user_id,))
-        user_profile_data = cur.fetchone()
-        return user_profile_data
+        select_sql = """
+            SELECT u.username, up.* 
+            FROM users u 
+            INNER JOIN {} up ON u.user_id = up.user_id 
+            WHERE u.user_id = %s
+        """.format(cls.__tablename__)
+
+        connection = None  # Initialize the variable
+
+        try:
+            connection = mysql.connect()
+            with connection.cursor(dictionary=True) as cursor:
+                cursor.execute(select_sql, (user_id,))
+                user_profile_data = cursor.fetchone()
+                return user_profile_data
+        except Exception as e:
+            # Handle the exception (print/log the error, raise it, etc.)
+            print(f"Error: {e}")
+            # Optionally re-raise the exception if you want to propagate it
+            # raise
+        finally:
+            if connection:
+                connection.close()

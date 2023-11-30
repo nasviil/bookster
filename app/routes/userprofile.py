@@ -12,9 +12,9 @@ def get_user_profile_route(user_id):
     user_profile_data = UserProfile.get_user_profile(user_id)
 
     if user_profile_data:
-        return render_template('profile.html', user_profile_data=user_profile_data)
+        return render_template('userprofile.html', user_profile_data=user_profile_data)
     else:
-        return render_template('profile.html', message='User profile not found'), 404
+        return render_template('userprofile.html', message='User profile not found'), 404
     
 @userprofile.route('/edituserprofile')
 def edit_user_profile():

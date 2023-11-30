@@ -20,7 +20,6 @@ def login():
       if password == user[0][3] or check_password_hash(user[0][3], password):
           print(user)
           user = User(username)
-          session['loggedin']= True
           session['username']= user_name
           login_user(user, remember=True)
           flash('Login successful!', 'success')
@@ -32,6 +31,11 @@ def login():
         flash('User does not exist', 'error')
         return jsonify({'success': False, 'message': 'User does not exist'})
   return render_template("login.html", user=current_user)
+
+@auth.route('/homepage')
+@login_required
+def homepage():
+    return render_template('userprofile.html', user=current_user)
 
 @auth.route('/logout')
 @login_required
