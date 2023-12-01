@@ -17,10 +17,12 @@ def login():
     user = User.userData(username)
     if user:
       user_name = user[0][1]
+      user_id = user[0][0]
       if password == user[0][3] or check_password_hash(user[0][3], password):
           print(user)
           user = User(username)
           session['username']= user_name
+          session['user_id'] = user_id
           login_user(user, remember=True)
           flash('Login successful!', 'success')
           return jsonify({'success': True})
