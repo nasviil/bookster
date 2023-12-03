@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="../static/styles.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>User Books</title>
+	</head>
+
+	<body>
+		<div>{% include 'partials/navbar.html' %}</div>
+		<ol class="breadcrumb-nav">
+			<li>My Books</li>
+		</ol>
+		<div style="padding-left: 50px; padding-right: 50px">
+			<div class="user-banner"></div>
+			<div class="book-control">
+				<a
+					href="{{ url_for('home.add_book', user_id=user_id) }}"
+					class="btn-primary-library"
+					>Add Book</a
+				>
+			</div>
+			<div class="search-filter"></div>
+			<ul class="book-ulibrary">
+				{% for book in user_books %}
+				<li class="book-display">
+					<img
+						class="book-ulibrary-image"
+						src="https://via.placeholder.com/250x373"
+					/>
+					<div class="ulibrary-book-title">
+						<a
+							href="{{ url_for('home.book_detail', user_id=user_id, book_id=book['book_id']) }}"
+							>{{ book['book_title'] }}</a
+						>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</body>
+</html>

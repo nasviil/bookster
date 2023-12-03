@@ -15,6 +15,4 @@ def configure_cloudinary():
     )
 
 if __name__ == '__main__':
-    configure_cloudinary()
-    app.run(debug=True)
-    
+  app.run(debug=True)
