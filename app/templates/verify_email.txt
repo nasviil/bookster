@@ -1,0 +1,10 @@
+Hello {{ user.username }},
+
+Thank you for signing up! To verify your account, please click the link below:
+
+{{ url_for('auth.verify_account', verification_token=verification_token, _external=True) }}
+
+If you didn't sign up for our service, please ignore this email.
+
+Best regards,
+Bookster Devs
