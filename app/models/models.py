@@ -5,7 +5,7 @@ db = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
     password = '',
-    database = 'book_app'
+    database = 'sql12663651'
 )
 cursor = db.cursor()
 
@@ -74,7 +74,15 @@ class User(UserMixin):
         result = cursor.fetchone()
         cursor.close()
         return result
-    
+
+    @classmethod
+    def verify_email(cls, user_id):
+        cursor = db.cursor()
+        sql = "UPDATE users SET email_verified = TRUE WHERE id = %s"
+        cursor.execute(sql, (user_id,))
+        db.commit()
+        cursor.close()
+
 class User_Verification_Data(UserMixin):
     def __init__(self, id):
         self.id = id
