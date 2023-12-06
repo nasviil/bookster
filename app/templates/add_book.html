@@ -25,65 +25,107 @@
 			</li>
 			<li>Add Book</li>
 		</ol>
-		<div class="product-container-add">
-			<form
-				action="{{ url_for('home.add_book', user_id=user_id) }}"
-				method="post"
-				class="product-container-add"
-			>
-				<div class="product-image-container-inner">
+		<form
+			action="{{ url_for('home.add_book', user_id=user_id) }}"
+			method="post"
+			class="product-container-add"
+		>
+			<div class="product-image-container-add">
+				<div class="product-image-container-inner-add">
 					<img
 						class="product-image-add"
 						src="https://via.placeholder.com/250x373"
 					/>
+					<div>Add photo</div>
 				</div>
-				<div style="padding-left: 50px; padding-right: 50px">
-					<form
-						method="post"
-						action="{{ url_for('home.add_book', user_id=user_id) }}"
-					>
-						<h2>Add Book</h2>
-						<label for="book_title">Title:</label>
-						<input
-							type="text"
-							id="book_title"
-							name="book_title"
-							required
-						/>
-						<br />
-						<label for="book_isbn">ISBN:</label>
+			</div>
+			<div class="product-detail-add">
+				<h2 class="product-add-heading">Add Book</h2>
+				<label for="book_title">Title:</label>
+				<input
+					type="text"
+					id="book_title"
+					name="book_title"
+					class="book-add-entry"
+					placeholder="Type Here..."
+					required
+				/><br />
+				<div class="book-detail-side-by-side">
+					<div class="book-detail-side-by-side-inner">
+						<label for="book_isbn">ISBN Number:</label>
 						<input
 							type="text"
 							id="book_isbn"
 							name="book_isbn"
+							class="book-add-entry"
+							placeholder="Type Here..."
 							required
-						/>
-						<br />
+						/><br />
+					</div>
+					<div class="book-detail-side-by-side-inner">
 						<label for="book_author">Author:</label>
 						<input
 							type="text"
 							id="book_author"
 							name="book_author"
+							class="book-add-entry"
+							placeholder="Type Here..."
 							required
-						/>
-						<br />
-						<label for="book_genre">Genre:</label>
-						<input
-							type="text"
+						/><br />
+					</div>
+				</div>
+				<div class="book-detail-side-by-side">
+					<div class="book-detail-side-by-side-inner">
+						<label for="collegeCourse">Genre:</label>
+						<select
+							class="book-add-entry"
 							id="book_genre"
 							name="book_genre"
-							required
-						/>
-						<br />
-						<button
-							type="submit"
-							class="btn-primary-library"
 						>
-							Add Book
-						</button>
-					</form>
+							<option
+								value=""
+								disabled
+								selected
+							>
+								--Select Genre--
+							</option>
+							{% for genre in genres %}
+							<option value="{{ genre.genre_id }}">
+								{{ genre.genre_name }}
+							</option>
+							{% endfor %}
+						</select>
+					</div>
+					<div class="book-detail-side-by-side-inner">
+						<label for="book_sell_price">Sell Price:</label>
+						<input
+							type="text"
+							id="book_sell_price"
+							name="book_sell_price"
+							class="book-add-entry"
+							placeholder="Type Here..."
+							required
+						/><br />
+					</div>
+					<div class="book-detail-side-by-side-inner">
+						<label for="book_rent_price">Rent Price:</label>
+						<input
+							type="text"
+							id="book_rent_price"
+							name="book_rent_price"
+							class="book-add-entry"
+							placeholder="Type Here..."
+							required
+						/><br />
+					</div>
 				</div>
-			</form>
-		</div>
+				<button
+					type="submit"
+					class="btn-primary-library"
+				>
+					Add Book
+				</button>
+			</div>
+		</form>
 	</body>
 </html>

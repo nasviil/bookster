@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<script
-			src="{{ url_for('static', filename='script.js') }}"
-			defer
-		></script>
 		<link
 			rel="stylesheet"
 			type="text/css"
@@ -18,7 +14,7 @@
 		<title>Document</title>
 	</head>
 	<body>
-		<nav>
+		<nav style="background-color: #fffdf2">
 			<ul class="nav-list">
 				<li class="nav-item">
 					<a href="{{ url_for('home.home_page')}}"
@@ -49,39 +45,44 @@
 							/></svg
 					></a>
 				</li>
-				<li
-					class="nav-item"
-					id="notificationDropdown"
-				>
-					<a
-						href="#"
-						onclick="toggleDropdown()"
-					>
-						Notifications
-						<span id="notificationCount">0</span>
-					</a>
-					<div
-						class="dropdown-content"
-						id="notificationContent"
-					>
-						<!-- Notification items go here -->
-						<div class="notification-item">New notification 1</div>
-						<div class="notification-item">New notification 2</div>
-						<!-- Add more items as needed -->
-					</div>
-				</li>
+				<li class="nav-item">Notifications</li>
 				<li class="nav-item">
-					<button
-						class="btn-primary"
-						onclick="window.location.href='{{ url_for('home.user_books', user_id=current_user.id) }}'"
-					>
-						My Account
-					</button>
+					<div class="dropdown">
+						<button
+							class="btn-primary-account"
+							onclick="toggleDropdown()"
+						>
+							Account
+						</button>
+						<div
+							class="dropdown-content"
+							id="myDropdown"
+						>
+							<div class="dropdown-item">
+								<a
+									href="{{ url_for('home.user_books', user_id=current_user.id) }}"
+									>My Account</a
+								>
+							</div>
+							<div class="dropdown-item">
+								<a href="{{ url_for('auth.logout') }}">Logout</a>
+							</div>
+						</div>
+					</div>
 				</li>
 			</ul>
 		</nav>
 		<div class="container">
 			<div>{% block content %}{% endblock %}</div>
 		</div>
+
+		<script>
+			function toggleDropdown() {
+				var dropdown = document.getElementById("myDropdown");
+				var button = document.querySelector(".btn-primary-account");
+				dropdown.classList.toggle("active");
+				button.classList.toggle("active");
+			}
+		</script>
 	</body>
 </html>
