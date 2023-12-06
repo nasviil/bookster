@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from flask_login import login_required, current_user
 from ..models.user_book import UserBook
+from ..models.user_book import Genre
 from werkzeug.exceptions import abort
 
 
@@ -49,9 +50,13 @@ def add_book(user_id):
         book_isbn = request.form['book_isbn']
         book_author = request.form['book_author']
         book_genre = request.form['book_genre']
+        book_sell_price = request.form['book_sell_price']
+        book_rent_price = request.form['book_rent_price']
 
-        UserBook.add_book(user_id, book_title, book_isbn, book_author, book_genre)
+        UserBook.add_book(user_id, book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price)
 
         return redirect(url_for('home.user_books', user_id=user_id))
 
-    return render_template('add_book.html', user_id=user_id)
+    genres = Genre.get_genres()
+
+    return render_template('add_book.html', user_id=user_id, genres=genres)
