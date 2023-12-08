@@ -5,8 +5,7 @@
 
 
 <div style="background-color: #ffffff; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 20px; align-items: center; margin: 0 auto; margin-top: 50px; max-width: 500px;">
-
-    <form method="POST" action="{{ url_for('userprofile.user_profile') }}" enctype="multipart/form-data" class="container-lg mt-4">
+    <form method="POST" action="{{ url_for('userprofile.edit_user_profile') }}" enctype="multipart/form-data" class="container-lg mt-4">
         <!-- Profile Picture -->
         <div class="mb-3">
             <label for="profile_picture" class="form-label">Profile Picture:</label>
@@ -26,44 +25,44 @@
             <!-- Cloudinary widget integration -->
             <div id="cloudinary-upload-widget" class="mt-2"></div>
     
-            <!-- Name -->
-            <div class="mb-3">
-                <label for="name" class="form-label">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" value="">
-            </div>
-    
-            <!-- Bio -->
-            <div class="mb-3">
-                <label for="bio" class="form-label">Bio:</label>
-                <textarea class="form-control" id="bio" name="bio"></textarea>
-            </div>
-    
-            <!-- Facebook Link -->
-            <div class="mb-3">
-                <label for="facebook_link" class="form-label">Facebook Link:</label>
-                <input type="text" class="form-control" id="facebook_link" name="facebook_link" value="">
-            </div>
-    
-            <!-- Instagram Link -->
-            <div class="mb-3">
-                <label for="instagram_link" class="form-label">Instagram Link:</label>
-                <input type="text" class="form-control" id="instagram_link" name="instagram_link" value="">
-            </div>
-    
-            <!-- Twitter Link -->
-            <div class="mb-3">
-                <label for="twitter_link" class="form-label">Twitter Link:</label>
-                <input type="text" class="form-control" id="twitter_link" name="twitter_link" value="">
-            </div>
-    
-            <!-- Save and Cancel Buttons -->
-            <div class="mb-3 d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a href="{{ url_for('userprofile.user_profile') }}" class="btn btn-secondary">Cancel</a>
-            </div>
-        </form>
+        <!-- Name -->
+        <div class="mb-3">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ user_profile_data.name }}">
+        </div>
 
-</div>
+        <!-- Bio -->
+        <div class="mb-3">
+            <label for="bio" class="form-label">Bio:</label>
+            <textarea class="form-control" id="bio" name="bio">{{ user_profile_data.bio }}</textarea>
+        </div>
+
+        <!-- Instagram Link -->
+        <div class="mb-3">
+            <label for="instagram" class="form-label">Instagram Link:</label>
+            <input type="text" class="form-control" id="instagram" name="instagram" value="{{ user_profile_data.instagram }}">
+        </div>
+
+        <!-- Twitter Link -->
+        <div class="mb-3">
+            <label for="twitter" class="form-label">Twitter Link:</label>
+            <input type="text" class="form-control" id="twitter" name="twitter" value="{{ user_profile_data.twitter }}">
+        </div>
+
+        <!-- Facebook Link -->
+        <div class="mb-3">
+            <label for="facebook" class="form-label">Facebook Link:</label>
+            <input type="text" class="form-control" id="facebook" name="facebook" value="{{ user_profile_data.facebook }}">
+        </div>
+
+
+        <!-- Save and Cancel Buttons -->
+        <div class="mb-3 d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="{{ url_for('userprofile.user_profile') }}" class="btn btn-secondary">Cancel</a>
+        </div>
+        </form>
+        </div>
 
 <!-- Include Cloudinary widget script -->
 <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>

@@ -45,14 +45,47 @@ class UserProfile:
                 if user_profile_data is not None:
                     columns = [column[0] for column in cursor.description]
                     user_profile_data = dict(zip(columns, user_profile_data))
-                    return user_profile_data
+
+                    # Create an instance of UserProfile using the dictionary
+                    return cls(
+                        user_id=user_profile_data['user_id'],
+                        name=user_profile_data['name'],
+                        image_url=user_profile_data['image_url'],
+                        bio=user_profile_data['bio'],
+                        instagram=user_profile_data['instagram'],
+                        twitter=user_profile_data['twitter'],
+                        facebook=user_profile_data['facebook']
+                    )
                 else:
                     return None
+        except Exception as e:
+            # Handle the exception (log the error, raise a custom exception, etc.)
+            print(f"MySQL Error: {e}")
+
+        # If an exception occurred or user_profile_data is None, return None
+        return None
+
+    
+    @classmethod
+    def update_user_profile(cls, user_id, name, bio, facebook, instagram, twitter):
+        update_sql = """
+            UPDATE userprofile
+            SET name = %s, bio = %s, facebook = %s, instagram = %s, twitter = %s
+            WHERE user_id = %s
+        """.format(cls.__tablename__)
+
+        try:
+            # Use get_db() to get a cursor and connection
+            with current_app.app_context():
+                connection = mysql.connect()
+                cursor = connection.cursor()
+                cursor.execute(update_sql, (name, bio, facebook, instagram, twitter, user_id))
+                connection.commit()
         except Exception as e:
             # Handle the exception (log the error, raise a custom exception, etc.)
             print(f"MySQL Error: {e}")
             # Optionally raise a custom exception if you want to propagate it
             # raise CustomException(f"MySQL Error: {e}")
 
-        # If an exception occurred, return None or raise an exception as appropriate
-        return None
+
+

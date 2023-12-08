@@ -87,6 +87,8 @@ def signup():
         return jsonify({'success': False, 'message': 'Password must be at least 7 characters.'})
       else:
           User.addUser(username, email, password)
+          id = User.userID1(username)
+          User.addUserProfile(id)
 
           user = User(username)
           session['loggedin']= True
