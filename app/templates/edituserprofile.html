@@ -6,16 +6,17 @@
 
 <div style="background-color: #ffffff; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); border-radius: 10px; padding: 20px; align-items: center; margin: 0 auto; margin-top: 50px; max-width: 500px;">
     <form method="POST" action="{{ url_for('userprofile.edit_user_profile') }}" enctype="multipart/form-data" class="container-lg mt-4">
+
         <!-- Profile Picture -->
         <div class="mb-3">
             <label for="profile_picture" class="form-label">Profile Picture:</label>
             <div class="input-group">
                 <!-- Disabled text input -->
-                <input type="text" class="form-control" id="profile_picture_text" value="No file chosen" readonly style="background-color: white;">
+                <input type="text" class="form-control" id="profile_picture_text" value="{{ user_profile_data.image_url }}" readonly style="background-color: white;">
                 <!-- Upload button -->
-                <label class="input-group-text" for="profile_picture" style="cursor: pointer;">
+                <label class="input-group-text" for="profile_picture" id="profile_picture_label" style="cursor: pointer;">
                     <i class="fas fa-upload"></i> Upload
-                </label>
+                </label>                
                 <!-- Hidden file input -->
                 <input type="file" class="visually-hidden" id="profile_picture" name="profile_picture" accept="image/*" onchange="previewImage()" style="position: absolute; clip: rect(0, 0, 0, 0);">
             </div>
@@ -69,16 +70,17 @@
 <!-- Initialize Cloudinary widget -->
 <script type="text/javascript">
     var myWidget = cloudinary.createUploadWidget({
-        cloudName: 'YOUR_CLOUDINARY_CLOUD_NAME',
-        uploadPreset: 'YOUR_UPLOAD_PRESET',
+        cloudName: 'dclxaugvd',
+        uploadPreset: 'pkordywj', // Add your Cloudinary upload preset here
         sources: ['local', 'url', 'camera', 'facebook', 'instagram', 'google_drive']
     },
     (error, result) => {
+        console.log('Cloudinary Upload Result:', result);
         if (!error && result && result.event === "success") {
             console.log('Done! Here is the image info: ', result.info);
         }
     });
-
+    
     // Function to preview the selected image
     function previewImage() {
         var input = document.getElementById('profile_picture');
@@ -96,11 +98,11 @@
             reader.readAsDataURL(input.files[0]);
         }
 
-        // Open Cloudinary widget when the image is clicked
-        preview.onclick = function () {
+        // Open Cloudinary widget when the "Upload" label is clicked
+        document.getElementById('profile_picture_label').onclick = function () {
             myWidget.open();
         };
-    }
+}
 
     document.getElementById('profile_picture').addEventListener('change', function () {
         // Get the file name

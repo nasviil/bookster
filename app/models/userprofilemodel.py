@@ -67,10 +67,10 @@ class UserProfile:
 
     
     @classmethod
-    def update_user_profile(cls, user_id, name, bio, facebook, instagram, twitter):
+    def update_user_profile(cls, user_id, name, image_url, bio, facebook, instagram, twitter):
         update_sql = """
             UPDATE userprofile
-            SET name = %s, bio = %s, facebook = %s, instagram = %s, twitter = %s
+            SET name = %s, image_url = %s, bio = %s, facebook = %s, instagram = %s, twitter = %s
             WHERE user_id = %s
         """.format(cls.__tablename__)
 
@@ -79,7 +79,7 @@ class UserProfile:
             with current_app.app_context():
                 connection = mysql.connect()
                 cursor = connection.cursor()
-                cursor.execute(update_sql, (name, bio, facebook, instagram, twitter, user_id))
+                cursor.execute(update_sql, (name, image_url, bio, facebook, instagram, twitter, user_id))
                 connection.commit()
         except Exception as e:
             # Handle the exception (log the error, raise a custom exception, etc.)

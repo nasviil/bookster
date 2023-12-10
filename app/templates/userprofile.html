@@ -5,10 +5,11 @@
 {% block content %}
 <div style="max-width: 100%; justify-content: center; align-items: center; margin-left: 425px; margin-top: 70px; display: inline-flex; position: relative;">
 
-    <img style="width: 410.667px; height: 400px; box-shadow: 5px 7px 5px -13px rgba(61, 60, 60, 0.36); border-radius: 10px;" src="{{ url_for('static', filename='img/userprofile/COVER_BOOK.png') }}" alt="coverbook" />
+    <img style="width: 410.667px; height: 400px; box-shadow: 20px 20px 25px -13px rgba(61, 60, 60, 0.36); border-radius: 15px; margin-left: -10px" src="{{ user_profile_data['image_url'] or 'https://res.cloudinary.com/dclxaugvd/image/upload/v1702023561/bookster/deafult_knp2po.png' }}" alt="{{ user_id }}" />
+
 
     <!-- About me text -->
-    <div style="width: 100%; color: #3D3C3C; font-size: 36px; font-family: 'Unica One'; font-weight: 400; word-wrap: break-word; margin-left: 80px; margin-top: -350px; z-index: 1;">
+    <div style="width: 100%; color: #3D3C3C; font-size: 36px; font-family: 'Unica One'; font-weight: 400; word-wrap: break-word; margin-left: 100px; margin-top: -350px; z-index: 1;">
         About me
     </div>
 
@@ -73,102 +74,14 @@
 
     <!-- Text "my purchase history" -->
     <div style="width: 640px; left: 95px; top: 50px; position: absolute; color: #3D3C3C; font-size: 36px; font-family: Unica One; font-weight: 400; word-wrap: break-word;">my purchase history</div>
-    <img style="width: 26px; height: 21.12px; left: 65px; top: 70px; position: absolute;" src="{{ url_for('static', filename='img/userprofile/Path.png') }}" alt="Icon">
+    <img style="width: 26px; height: 21.12px; left: 65px; top: 70px; position: absolute;" src="{{ url_for('static', filename='img/userprofile/Path.png') }}" alt="Icon"> 
+    <br><br><br>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light" style="margin-top: 130px; background-color: #ffffff; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);">
-        <div class="container-fluid">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mx-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: #0F0F0D; font-size: 18px; font-family: 'Unica One'; margin-left: 100px;" href="#all">All</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: #0F0F0D; font-size: 18px; font-family: 'Unica One';  margin-left: 160px;" href="#to-pay">To Pay</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: #0F0F0D; font-size: 18px; font-family: 'Unica One';  margin-left: 160px;" href="#to-ship">To Ship</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: #0F0F0D; font-size: 18px; font-family: 'Unica One';  margin-left: 160px;" href="#to-receive">To Receive</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: #0F0F0D; font-size: 18px; font-family: 'Unica One';  margin-left: 160px;" href="#completed">Completed</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" style="color: #0F0F0D; font-size: 18px; font-family: 'Unica One';  margin-left: 160px;  margin-right: 100px;" href="#cancelled">Cancelled</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    
 
-  <div class="main-container" style="max-width: 100%; position: relative; flex-direction: column; align-items: center; background-color: #ffffff; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); margin-top: 20px;">
+    
 
-    <div id="all" class="content-container">
-        <img src="{{ url_for('static', filename='img/userprofile/order.png') }}" alt="Image Description" style="width: 100%; max-width: 300px; margin-top: 1Z0px;">
-        <p style="font-size:20px; text-align: center;">No orders yet</p>
-    </div>
 
-    <div id="to-pay" class="content-container">
-        <img src="{{ url_for('static', filename='img/userprofile/order.png') }}" alt="Image Description" style="width: 100%; max-width: 300px; margin-top: 1Z0px;">
-        <p style="font-size:20px; text-align: center;">No dcorders yet ashahahahha</p>
-    </div>
-
-    <div id="to-ship" class="content-container">
-        <img src="{{ url_for('static', filename='img/userprofile/order.png') }}" alt="Image Description" style="width: 100%; max-width: 300px; margin-top: 1Z0px;">
-        <p style="font-size:20px; text-align: center;">No fforders yet ashahahahha</p>
-    </div>
-
-    <div id="to-receive" class="content-container">
-        <img src="{{ url_for('static', filename='img/userprofile/order.png') }}" alt="Image Description" style="width: 100%; max-width: 300px; margin-top: 1Z0px;">
-        <p style="font-size:20px; text-align: center;">No ddorders yet ashahahahha</p>
-    </div>
-
-    <div id="completed" class="content-container">
-        <img src="{{ url_for('static', filename='img/userprofile/order.png') }}" alt="Image Description" style="width: 100%; max-width: 300px; margin-top: 1Z0px;">
-        <p style="font-size:20px; text-align: center;">No ddrders yet ashahahahha</p>
-    </div>
-
-    <div id="cancelled" class="content-container">
-        <img src="{{ url_for('static', filename='img/userprofile/order.png') }}" alt="Image Description" style="width: 100%; max-width: 300px; margin-top: 1Z0px;">
-        <p style="font-size:20px; text-align: center;">No ddorders yet ashahahahha</p>
-    </div>
-
-</div>
-
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script>
-    function handleNavLinkClick(event) {
-        // Prevent the default behavior of the link (preventing the screen from moving)
-        event.preventDefault();
-
-        // Hide all content containers
-        $(".content-container").hide();
-
-        // Toggle the visibility of the content container corresponding to the clicked link
-        var target = $(this).attr("href");
-        $(target).toggle();
-
-        // Set the default padding for the "all" content container
-        $("#all").css("padding", "10vw 64vh");
-
-        // Set the padding for all visible content containers
-        $(".content-container:visible").css("padding", "10vw 64vh");
-    }
-
-    // Trigger a click on the "all" link when the page loads
-    $(document).ready(function () {
-        $(".nav-link[href='#all']").click();
-    });
-
-    $(".nav-link").on("click", handleNavLinkClick);
-</script>
 
 <br><br><br><br><br><br>
 
