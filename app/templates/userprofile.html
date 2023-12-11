@@ -7,14 +7,13 @@
 
     <img style="width: 410.667px; height: 400px; box-shadow: 20px 20px 25px -13px rgba(61, 60, 60, 0.36); border-radius: 15px; margin-left: -10px" src="{{ user_profile_data['image_url'] or 'https://res.cloudinary.com/dclxaugvd/image/upload/v1702023561/bookster/deafult_knp2po.png' }}" alt="{{ user_id }}" />
 
-
     <!-- About me text -->
-    <div style="width: 100%; color: #3D3C3C; font-size: 36px; font-family: 'Unica One'; font-weight: 400; word-wrap: break-word; margin-left: 100px; margin-top: -350px; z-index: 1;">
+    <div style="width: 100%; color: #3D3C3C; font-size: 36px; font-family: 'Unica One'; font-weight: 400; word-wrap: break-word; margin-left: 1000px; margin-top: -350px; z-index: 1; position: absolute;">
         About me
     </div>
 
     <!-- Icon -->
-    <div style="position: absolute; margin-left: 690px; margin-top: -345px; z-index: 2;">
+    <div style="position: absolute; margin-left: 930px; margin-top: -345px; z-index: 2;">
         <a href="{{ url_for('userprofile.edit_user_profile') }}">
             <img style="width: 27.75px; height: 28px;" src="{{ url_for('static', filename='img/userprofile/edit.png') }}" alt="icon" />
         </a>
@@ -25,13 +24,12 @@
         <div style="width: 581.65px; height: 343.16px; left: 485px; top: 25px; position: absolute; background: white; border-radius: 20px; border: 2px #3D3C3C dotted;"></div>
     </div>
     <div style="width: 497.78px; height: 342.30px; position: absolute; left: 520.25px; top: 70px; color: #676767; font-size: 14px; font-family: 'Syne'; font-weight: 400; word-wrap: break-word;">
-       <br> <br><br><br><br>            
-            {% if user_profile_data and user_profile_data.bio %}
-                {{ user_profile_data.bio }}
-            {% else %}
+        <br> <br><br><br><br>
+        {% if user_profile_data and user_profile_data.bio %}
+            {{ user_profile_data.bio }}
+        {% else %}
             <p style="text-align: center; margin-top: 30px; opacity: 0.7;">--No Bio yet--</p>
-
-            {% endif %}
+        {% endif %}
     </div>
 </div>
 
@@ -43,14 +41,13 @@
         <div style="width: 414.44px; height: 63.09px; position: absolute; left: -550px; top: 0px; background: white; border-radius: 20px; border: 2px #3D3C3C dotted;"></div>
         <div style="width: 338.56px; left: -520px; top: 23px; position: absolute; color: #676767; font-size: 16px; font-family: 'Syne', sans-serif; font-weight: 500; word-wrap: break-word;">
             {% if user_profile_data and user_profile_data.name %}
-            {{ user_profile_data.name }}
-        {% else %}
-            {{ username }} <!-- Display username if no user profile data or name is None/empty -->
-        {% endif %}
-        
+                {{ user_profile_data.name }}
+            {% else %}
+                {{ username }} <!-- Display username if no user profile data or name is None/empty -->
+            {% endif %}
         </div>
-        
     </div>
+
     <!-- Instagram icon -->
     <a href="{{ user_profile_data.instagram }}" style="z-index: 2;">
         <img style="width: 48px; height: 48px; position: absolute; left: 950px; top: 25px;" src="{{ url_for('static', filename='img/userprofile/ig.png') }}" alt="instagram">
@@ -70,20 +67,26 @@
 
 </div>
 <br><br><br><br><br><br>
+
 <div style="max-width: 100%; position: relative; display: flex; flex-direction: column; align-items: center; background-color: #F0E7DA; box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);">
 
     <!-- Text "my purchase history" -->
     <div style="width: 640px; left: 95px; top: 50px; position: absolute; color: #3D3C3C; font-size: 36px; font-family: Unica One; font-weight: 400; word-wrap: break-word;">my purchase history</div>
     <img style="width: 26px; height: 21.12px; left: 65px; top: 70px; position: absolute;" src="{{ url_for('static', filename='img/userprofile/Path.png') }}" alt="Icon"> 
+    <br><br><br><br><br><br><br><br>
+
+    <!-- Image below the overlay -->
+    <img style="width: 50%; max-width: 300px; height: auto;" src="https://res.cloudinary.com/dclxaugvd/image/upload/v1702285343/bookster/order_ipjyer.png" alt="{{ user_id }}" >
+
+    <p style="text-align: center; font-size: 16px; color: #3D3C3C; font-family: 'Syne', sans-serif; font-weight: 550;">
+        No orders yet
+    </p>
+
+    
     <br><br><br>
 
-    
+</div>
 
-    
-
-
-
-<br><br><br><br><br><br>
 
 </div>   
 
