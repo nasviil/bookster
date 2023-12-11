@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = '1234'
 app.config['MYSQL_DATABASE_DB'] = 'sql12663651'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost'
+app.config['MYSQL_DATABASE_HOST'] = 'localhost' 
 
 mysql = MySQL(app)
 
@@ -87,5 +87,4 @@ class UserProfile:
             # Optionally raise a custom exception if you want to propagate it
             # raise CustomException(f"MySQL Error: {e}")
 
-
-
+        
