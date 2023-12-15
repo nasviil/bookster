@@ -1,0 +1,180 @@
+{% extends 'master_layout.html' %}
+{% block title %}Bookster{% endblock %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="static/css/buyreq.css">
+
+
+<div class="order-container" style="margin-top: -100px;">
+    <div class="delivery-box">
+        <div class="title">Delivery Address</div>
+        <!-- Make "Add New Address" clickable -->
+        <div id="addAddressButton" data-toggle="modal" data-target="#addAddressModal" style="cursor: pointer;">
+            <div class="add-address">
+                <div class="add-address-icon">
+                    <img src="https://res.cloudinary.com/dclxaugvd/image/upload/v1702577474/bookster/icon-park-outline_add_1_vgeyck.png" alt="Add Address Icon">
+                </div>
+                <div class="add-address-text">Add New Address</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="order-box">
+        <table class="order-details-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Item</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Item Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Add your order details rows here -->
+
+                <tr>
+                    <td><img src="https://res.cloudinary.com/dclxaugvd/image/upload/v1702621916/bookster/COVER_BOOK_1_zdzcec.png" alt="Product Image" width="50"></td>
+                    <td>Book Title</td>
+                    <td>$19.99</td>
+                    <td>2</td>
+                    <td>$39.98</td>
+                </tr>
+                
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>order total(1 item)</td>
+                    <td>$39.98</td>
+                </tr>
+ 
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+
+    <div class="payment-box">
+        <div class="payment-method">
+            <div class="paymenttitle">Payment Method</div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="paymentMethod" id="cashOnDelivery" value="cashOnDelivery">
+                <div class="label-container">
+                    <label class="form-check-label" style="font-size:20px;"for="cashOnDelivery">Cash on Delivery</label>
+                </div>
+            </div>
+        </div>
+    
+        <div class="order-totals">
+            <div class="order-total-item">
+                <span>Item Subtotal:</span>
+                <span>$39.98</span>
+            </div>
+            <div class="order-total-item">
+                <span style="margin-top: 9px;">Total Payment:</span>
+                <span style="font-size: 30px; font-weight:20px;">P413</span> <!-- Add the total payment dynamically -->
+            </div>
+        </div>
+    
+        <button class="btn btn-primary place-order-btn" style="text-align: center;">Place Order</button>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addAddressModalLabel">Add New Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" class="form-control" id="fullname" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="phonenumber">Phone Number</label>
+                        <input type="text" class="form-control" id="phonenumber" placeholder="">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="region">Region</label>
+                            <select class="form-control" id="region" name="region">
+                                <option value=""></option>
+                                <option value="Metro Manila">Metro Manila</option>
+                                <option value="Mindanao">Mindanao</option>
+                                <option value="South Luzon">South Luzon</option>
+                                <option value="North Luzon">North Luzon</option>
+                                <option value="Visayas">Visayas</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="province">Province</label>
+                            <input type="text" class="form-control" id="province" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" id="city" placeholder="">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="barangay">Barangay</label>
+                            <input type="text" class="form-control" id="barangay" placeholder="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="postalCode">Postal Code</label>
+                        <input type="text" class="form-control" id="postalCode" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="street">Street, Building, House no.</label>
+                        <input type="text" class="form-control" id="street" placeholder="">
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Notes</label>
+                        <textarea class="form-control" id="notes" rows="3" placeholder="Any additional notes"></textarea>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- script -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the radio button element
+        var cashOnDeliveryRadioButton = document.getElementById('cashOnDelivery');
+
+        // Initialize a variable to track the state of the radio button
+        var isChecked = false;
+
+        // Add a click event listener to toggle the "Cash on Delivery" option
+        cashOnDeliveryRadioButton.addEventListener('click', function () {
+            if (isChecked) {
+                // If it was checked, uncheck it and disable
+                cashOnDeliveryRadioButton.checked = false;
+                isChecked = false;
+            } else {
+                // If it was unchecked, check it and enable
+                cashOnDeliveryRadioButton.checked = true;
+                isChecked = true;
+            }
+        });
+    });
+</script>
+
+{% endblock %}

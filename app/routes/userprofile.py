@@ -4,17 +4,24 @@ import cloudinary.uploader
 from app.models.userprofilemodel import UserProfile
 from flask import current_app
 import cloudinary
+from dotenv import load_dotenv
+from os import getenv
 
 
 userprofile = Blueprint('userprofile', __name__)
 
 # Add your Cloudinary configuration here
-cloudinary.config(
-    cloud_name='dclxaugvd',
-    api_key='412149475729753',
-    api_secret='VJNHyUvJEUXrrH2uAmfQDhIUIRk'
-)
+def cloudinary_configuration(app):
+    cloud_name = getenv('CLOUDINARY_CLOUD_NAME')
+    api_key = getenv('CLOUDINARY_API_KEY')
+    api_secret = getenv('CLOUDINARY_API_SECRET')
 
+    cloudinary.config(
+        cloud_name=cloud_name,
+        api_key=api_key,
+        api_secret=api_secret
+    )
+    
 def get_current_user_id():
     if current_user.is_authenticated:
         return current_user.id

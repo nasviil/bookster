@@ -1,14 +1,16 @@
 from flask import Flask, current_app
 from flaskext.mysql import MySQL
+from os import getenv
+from dotenv import load_dotenv  
+
+load_dotenv()
 
 app = Flask(__name__)
 
-# Configure MySQL
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = '1234'
-app.config['MYSQL_DATABASE_DB'] = 'sql12663651'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost' 
-
+app.config['MYSQL_DATABASE_USER'] = getenv('MYSQL_USERNAME')
+app.config['MYSQL_DATABASE_PASSWORD'] = getenv('MYSQL_PASSWORD')
+app.config['MYSQL_DATABASE_DB'] = getenv('MYSQL_NAME')
+app.config['MYSQL_DATABASE_HOST'] = getenv('MYSQL_HOST')
 mysql = MySQL(app)
 
 class UserProfile:

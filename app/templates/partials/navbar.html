@@ -71,9 +71,12 @@
 					</div>
 				</li>
 				<li class="nav-item">
-					<a href="/userprofile" class="btn btn-primary">My Account</a>
+					<button class="btn-primary">
+						<a href="{{ url_for('home.user_books', user_id=current_user.id) }}"
+							>My Account</a
+						>
+					</button>
 				</li>
-				
 			</ul>
 		</nav>
 		<div class="container">

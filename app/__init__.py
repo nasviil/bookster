@@ -31,7 +31,7 @@ def create_app():
         api_secret=app.config['CLOUDINARY_API_SECRET']
         
     )
-
+    
     # Register Blueprints
     app.register_blueprint(home, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')

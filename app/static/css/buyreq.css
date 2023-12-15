@@ -1,0 +1,134 @@
+.order-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 150px; /* Adjust as needed */
+}
+
+.delivery-box {
+    width: 58%;
+    max-width: 1204px;
+    background: #FAF1D7;
+    margin-bottom: 20px;
+}
+
+.title {
+    color: #3D3C3C;
+    font-size: 30px;
+    font-family: 'Unica One', sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+    margin-top: 15px;
+    margin-left: 15px;
+
+}
+
+.add-address {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-address-icon {
+    width: 60%;
+    height: 60%;
+    margin-bottom: 5px;
+    margin-left: 600px;
+}
+
+.add-address-text {
+    color: #ADA4A4;
+    font-size: 14px;
+    font-family: 'Unica One', sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+    margin-bottom: 30px;
+   
+}
+
+.order-box {
+    width: 100%;
+    max-width: 1109px;
+    min-height: 50px;
+    background: #ffffff;
+    overflow: auto;
+}
+
+.order-details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-details-table th,
+.order-details-table td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: .5px solid #ddd;
+}
+
+.order-details-table th {
+    background-color: #f2f2f2;
+}
+
+.payment-box {
+    width: 58%;
+    max-width: 1204px;
+    background: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.payment-method {
+    margin-bottom: 15px;
+}
+.paymenttitle {
+    color: #3D3C3C;
+    font-size: 30px;
+    font-family: 'Unica One', sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.form-check-input{
+    margin-top:20px;
+}
+.label-container {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    padding: 10px; 
+    border-radius: 5px; 
+    width: 20%;
+    max-width: 1204px;
+    margin-top: 30px;
+    text-align: center; /* Center text horizontally */
+    align-items: center; /* Center child items horizontally within the button */
+    justify-content: center; /* Center child items vertically within the button */
+
+}
+
+.order-totals {
+    width: 48%;
+    background: #ffffff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto; /* Align to the right */
+    border-bottom: 1px dashed #ddd; /* Gray broken line */
+}
+
+.order-total-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+
+}
+.place-order-btn {
+    width: 100%;
+    max-width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+    margin-top: 10px;
+    text-align: center; /* Center text horizontally */
+    align-items: center; /* Center child items horizontally within the button */
+    justify-content: center; /* Center child items vertically within the button */
+}
