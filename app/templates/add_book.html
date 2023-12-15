@@ -29,14 +29,30 @@
 			action="{{ url_for('home.add_book', user_id=user_id) }}"
 			method="post"
 			class="product-container-add"
+			enctype="multipart/form-data"
 		>
 			<div class="product-image-container-add">
 				<div class="product-image-container-inner-add">
-					<img
-						class="product-image-add"
-						src="https://via.placeholder.com/250x373"
-					/>
-					<div>Add photo</div>
+					<label
+						for="imageInput"
+						class="product-image-container"
+					>
+						<input
+							type="file"
+							accept="image/*"
+							id="imageInput"
+							class="product-image-add"
+							onchange="previewImage()"
+							style="display: none"
+							required
+						/>
+						<img
+							id="imagePreview"
+							class="product-image-add"
+							src="https://via.placeholder.com/250x373"
+							alt="Image Preview"
+						/>
+					</label>
 				</div>
 			</div>
 			<div class="product-detail-add">
@@ -127,5 +143,24 @@
 				</button>
 			</div>
 		</form>
+		<script>
+			function previewImage() {
+				var input = document.getElementById("imageInput");
+				var preview = document.getElementById("imagePreview");
+
+				var file = input.files[0];
+				var reader = new FileReader();
+
+				reader.onloadend = function () {
+					preview.src = reader.result;
+				};
+
+				if (file) {
+					reader.readAsDataURL(file);
+				} else {
+					preview.src = "https://via.placeholder.com/250x373";
+				}
+			}
+		</script>
 	</body>
 </html>
