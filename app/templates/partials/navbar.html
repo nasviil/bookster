@@ -59,10 +59,7 @@
 							id="myDropdown"
 						>
 							<div class="dropdown-item">
-								<a
-									href="{{ url_for('home.user_books', user_id=current_user.id) }}"
-									>My Account</a
-								>
+								<a href="/userprofile">My Account</a>
 							</div>
 							<div class="dropdown-item">
 								<a href="{{ url_for('auth.logout') }}">Logout</a>

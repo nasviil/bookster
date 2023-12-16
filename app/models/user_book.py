@@ -1,17 +1,17 @@
-from flask import Flask
-from flaskext.mysql import MySQL
+# from flask import Flask
+# from flaskext.mysql import MySQL
 from datetime import datetime
+from app import mysql
+
+# app = Flask(__name__)
+# # Configure MySQL
+# app.config['MYSQL_DATABASE_USER'] = 'root'
+# app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
+# app.config['MYSQL_DATABASE_DB'] = 'sql12663651'
+# app.config['MYSQL_DATABASE_HOST'] = 'localhost' 
 
 
-app = Flask(__name__)
-# Configure MySQL
-app.config['MYSQL_DATABASE_USER'] = 'root'
-app.config['MYSQL_DATABASE_PASSWORD'] = '1234'
-app.config['MYSQL_DATABASE_DB'] = 'sql12663651'
-app.config['MYSQL_DATABASE_HOST'] = 'localhost' 
-
-
-mysql = MySQL(app)
+# mysql = MySQL(app)
 
 
 class UserBook:
