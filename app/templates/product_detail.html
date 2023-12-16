@@ -29,10 +29,17 @@
 		<div class="product-container">
 			<div class="product-image-container">
 				<div class="product-image-container-inner">
+					{% if book_detail.cloudinary_url %}
 					<img
-						class="product-image"
-						src="https://via.placeholder.com/250x373"
+						class="book-ulibrary-image"
+						src="{{ book_detail.cloudinary_url }}"
 					/>
+					{% else %}
+					<img
+						class="book-ulibrary-image"
+						src="https://via.placeholder.com/209x311"
+					/>
+					{% endif %}
 				</div>
 			</div>
 			<div class="product-detail-container">
@@ -50,7 +57,7 @@
 				<div class="product-seller">
 					<div class="product-seller-1">
 						<div style="margin-right: 5px">From</div>
-						<div style="color: rgb(63, 63, 241)">This Shop</div>
+						<div style="font-weight: bold">{{ book_detail.username }}</div>
 						<div style="padding-left: 80px; display: flex">
 							<div>Seller Rating:</div>
 							<div class="seller-star-rating">
@@ -63,15 +70,55 @@
 						</div>
 					</div>
 				</div>
-				<div style="color: rgb(74, 74, 241)">View seller's items</div>
+				<div>
+					<a
+						href="{{ url_for('home.user_books', user_id=user_id) }}"
+						style="color: rgb(74, 74, 241); text-decoration: none"
+						>View seller's books</a
+					>
+				</div>
 				<div style="color: grey; margin-top: 30px">Quantity: 1</div>
 			</div>
 			<div class="product-purchase-container">
-				<div style="margin-top: 150px">Buy for:</div>
-				<div class="product-buy-button"></div>
-				<div style="margin-top: 20px">Rent for:</div>
-				<div class="product-rent-button"></div>
+				{% if user_id == current_user.id %}
+				<a
+					href="{{ url_for('home.edit_book', book_id=book_detail.book_id, user_id=user_id) }}"
+					>Edit this Book</a
+				>
+				{% endif %}
+				<div style="margin-top: 150px; margin-bottom: 5px">
+					Buy for: ₱<b style="font-size: 2rem"
+						>{{ book_detail.book_sell_price }}</b
+					>
+				</div>
+				<div class="product-buy-button">BUY NOW</div>
+				<div style="margin-top: 20px; margin-bottom: 5px">
+					Rent for: ₱<b style="font-size: 2rem"
+						>{{ book_detail.book_rent_price }}</b
+					>/day
+				</div>
+				<div class="product-rent-button">RENT NOW</div>
+				{% if user_id == current_user.id %}
+				<a
+					href="javascript:void(0);"
+					onclick="confirmDelete('{{ url_for('home.delete_book', user_id=user_id, book_id=book_detail.book_id) }}')"
+					style="color: rgb(245, 42, 42); text-decoration: none"
+				>
+					Delete this book</a
+				>
+
+				{% endif %}
 			</div>
 		</div>
+		<script>
+			function confirmDelete(deleteUrl) {
+				var confirmDelete = confirm(
+					"Are you sure you want to delete this book?"
+				);
+				if (confirmDelete) {
+					window.location.href = deleteUrl;
+				}
+			}
+		</script>
 	</body>
 </html>

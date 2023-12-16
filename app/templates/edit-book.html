@@ -23,11 +23,14 @@
 			<li>
 				<a href="{{ url_for('home.user_books', user_id=user_id) }}">My Books</a>
 			</li>
-			<li>Add Book</li>
+      <li>
+				<a href="{{ url_for('home.book_detail', user_id=user_id, book_id=book_detail['book_id']) }}">{{ book_detail['book_title'] }}</a>
+			</li>
+			<li>Edit Book</li>
 		</ol>
 		<form
-			action="{{ url_for('home.add_book', user_id=user_id) }}"
 			method="post"
+      action="{{ url_for('home.edit_book', user_id=user_id, book_id=book_detail.book_id) }}"
 			class="product-container-add"
 			enctype="multipart/form-data"
 		>
@@ -45,12 +48,11 @@
 							onchange="previewImage()"
 							name="book_image"
 							style="display: none"
-							required
 						/>
 						<img
 							id="imagePreview"
 							class="product-image-add"
-							src="https://via.placeholder.com/293x435"
+							src="{{book_detail.cloudinary_url}}"
 							alt="Image Preview"
 						/>
 					</label>
@@ -64,6 +66,7 @@
 					id="book_title"
 					name="book_title"
 					class="book-add-entry"
+					value="{{book_detail.book_title}}"
 					placeholder="Type Here..."
 					required
 				/><br />
@@ -75,6 +78,7 @@
 							id="book_isbn"
 							name="book_isbn"
 							class="book-add-entry"
+							value="{{book_detail.book_isbn}}"
 							placeholder="Type Here..."
 							required
 						/><br />
@@ -86,6 +90,7 @@
 							id="book_author"
 							name="book_author"
 							class="book-add-entry"
+							value="{{book_detail.book_author}}"
 							placeholder="Type Here..."
 							required
 						/><br />
@@ -107,7 +112,7 @@
 								--Select Genre--
 							</option>
 							{% for genre in genres %}
-							<option value="{{ genre.genre_id }}">
+              <option value="{{ genre.genre_id }}" {% if genre.genre_id == book_detail.book_genre %} selected {% endif %}>
 								{{ genre.genre_name }}
 							</option>
 							{% endfor %}
@@ -120,6 +125,7 @@
 							id="book_sell_price"
 							name="book_sell_price"
 							class="book-add-entry"
+              value="{{book_detail.book_sell_price}}"
 							placeholder="Type Here..."
 							required
 						/><br />
@@ -131,6 +137,7 @@
 							id="book_rent_price"
 							name="book_rent_price"
 							class="book-add-entry"
+              value="{{book_detail.book_rent_price}}"
 							placeholder="Type Here..."
 							required
 						/><br />
@@ -140,7 +147,7 @@
 					type="submit"
 					class="btn-primary-library"
 				>
-					Add Book
+					Submit Edit
 				</button>
 			</div>
 		</form>
