@@ -29,13 +29,22 @@ def home_page():
 @login_required
 def user_books(user_id):
     user_books = UserBook.get_books_for_user(user_id)
-    return render_template('user_books.html', user_books=user_books, user_id=user_id)
+    genres = Genre.get_genres()
 
-@home.route('/<string:username>/books')
-@login_required
-def username_user_books(username):
-    user_books = UserBook.get_books_for_user(username)
-    return render_template('user_books.html', user_books=user_books, user_id=username)
+    # Get the selected genre filter from the request parameters
+    selected_genre = request.args.get('genre', 'all')
+
+    # Filter books based on the selected genre
+    if selected_genre != 'all':
+        user_books = [book for book in user_books if book['book_genre'] == int(selected_genre)]
+
+    return render_template('user_books.html', user_books=user_books, user_id=user_id, genres=genres)
+
+# @home.route('/<string:username>/books')
+# @login_required
+# def username_user_books(username):
+#     user_books = UserBook.get_books_for_user(username)
+#     return render_template('user_books.html', user_books=user_books, user_id=username)
 
 
 @home.route('/<int:user_id>/books/<int:book_id>')

@@ -39,10 +39,14 @@
 					class="search-input"
 					placeholder="Search..."
 				/>
-				<select class="filter-dropdown">
-					<option value="all">All</option>
-					<option value="category1">Category 1</option>
-					<option value="category2">Category 2</option>
+				<select
+					class="filter-dropdown"
+					id="genre-filter"
+				>
+					<option value="all">All Genres</option>
+					{% for genre in genres %}
+					<option value="{{ genre.genre_id }}">{{ genre.genre_name }}</option>
+					{% endfor %}
 				</select>
 				<button
 					class="btn-library"
@@ -53,7 +57,10 @@
 			</div>
 			<ul class="book-ulibrary">
 				{% for book in user_books %}
-				<li class="book-display">
+				<li
+					class="book-display"
+					data-genre="{{ book['book_genre'] }}"
+				>
 					{% if book.cloudinary_url %}
 					<img
 						class="book-ulibrary-image"
@@ -77,15 +84,31 @@
 		</div>
 		<script>
 			function searchAndFilter() {
-				// You can implement your search and filter logic here
-				// For example, you can use JavaScript to get the values of the search input and the selected option from the dropdown.
-				var searchInputValue = document.querySelector(".search-input").value;
-				var filterDropdownValue =
-					document.querySelector(".filter-dropdown").value;
+				var searchInputValue = document
+					.querySelector(".search-input")
+					.value.toLowerCase();
+				var genreDropdown = document.getElementById("genre-filter");
+				var genreFilterValue =
+					genreDropdown.options[genreDropdown.selectedIndex].value;
 
-				// Implement your logic to use these values for searching and filtering
-				console.log("Search:", searchInputValue);
-				console.log("Filter:", filterDropdownValue);
+				var bookElements = document.querySelectorAll(".book-display");
+
+				// Iterate over each book element and hide/show based on filters
+				bookElements.forEach(function (bookElement) {
+					var title = bookElement
+						.querySelector(".ulibrary-book-title a")
+						.innerText.toLowerCase();
+					var genre = bookElement.dataset.genre; // Assuming you set a data attribute on each book element with the genre value
+
+					var isTitleMatch =
+						title.includes(searchInputValue) || searchInputValue === "";
+					var isGenreMatch =
+						genre === genreFilterValue || genreFilterValue === "all";
+
+					// Show the book if both title and genre match, otherwise hide it
+					bookElement.style.display =
+						isTitleMatch && isGenreMatch ? "block" : "none";
+				});
 			}
 		</script>
 	</body>
