@@ -62,7 +62,7 @@
         <img style="width: 48px; height: 48px; position: absolute; left: 1120px; top: 25px;" src="{{ url_for('static', filename='img/userprofile/fb.png') }}" alt="facebook">
     </a>
     <!-- My Library button -->
-    <a href="/" style="z-index: 2;">
+    <a href="{{ url_for('home.user_books', user_id=current_user.id) }}" style="z-index: 2;">
         <img style="width: 283px; height: 46px; position: absolute; left: 1210px; top: 25px;" src="{{ url_for('static', filename='img/userprofile/mylibrary.png') }}" alt="My Library">
     </a>
 

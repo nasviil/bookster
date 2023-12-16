@@ -5,7 +5,7 @@ from app.models.userprofilemodel import UserProfile
 db = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
-    password = '1234',
+    password = 'root',
     database = 'sql12663651'
 )
 cursor = db.cursor()
@@ -13,6 +13,9 @@ cursor = db.cursor()
 class User(UserMixin):
     def __init__(self, id):
         self.id = id
+
+    def get_id(self):
+        return str(self.id)
 
     @classmethod
     def userList(cls):
@@ -67,6 +70,20 @@ class User(UserMixin):
         cursor.close()
         return result
     
+
+    @classmethod
+    def get(cls, user_id):
+        cursor = db.cursor()
+        sql = "SELECT * FROM users WHERE user_id = %s"  # Replace 'user_id' with your actual column name
+        cursor.execute(sql, (user_id,))
+        user_data = cursor.fetchone()
+        cursor.close()
+
+        if user_data:
+            # If 'user_id' is the first element in the tuple, you can access it using index 0
+            return User(id=user_data[0])  # Replace 0 with the correct index
+        return None
+
     @classmethod
     def userEmail(self, email):
         cursor = db.cursor()

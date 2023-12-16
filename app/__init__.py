@@ -64,8 +64,3 @@ def create_app():
         return User(username)
 
     return app
-
-
-
-
-
