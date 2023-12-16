@@ -54,10 +54,17 @@
 			<ul class="book-ulibrary">
 				{% for book in user_books %}
 				<li class="book-display">
+					{% if book.cloudinary_url %}
+					<img
+						class="book-ulibrary-image"
+						src="{{ book.cloudinary_url }}"
+					/>
+					{% else %}
 					<img
 						class="book-ulibrary-image"
 						src="https://via.placeholder.com/209x311"
 					/>
+					{% endif %}
 					<div class="ulibrary-book-title">
 						<a
 							href="{{ url_for('home.book_detail', user_id=user_id, book_id=book['book_id']) }}"
