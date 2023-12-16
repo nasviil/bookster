@@ -1,10 +1,11 @@
 import mysql.connector
 from flask_login import UserMixin
+from app.models.userprofilemodel import UserProfile 
 
 db = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
-    password = 'root',
+    password = '1234',
     database = 'sql12663651'
 )
 cursor = db.cursor()
@@ -31,6 +32,15 @@ class User(UserMixin):
         db.commit()
         cursor.close()
         
+    @classmethod
+    def addUserProfile(cls, user_id, name="", image_url="", bio="", facebook="", instagram="", twitter=""):
+        cursor = db.cursor()
+        sql = "INSERT INTO userprofile (user_id, name, image_url, bio, facebook, instagram, twitter) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        cursor.execute(sql, (user_id, name, image_url, bio, facebook, instagram, twitter))
+        db.commit()
+        cursor.close()
+
+                
     @classmethod
     def deleteUser(cls, username):
         cursor = db.cursor()
@@ -75,6 +85,24 @@ class User(UserMixin):
         cursor.close()
         return result
     
+    @classmethod
+    def userID1(self, username):
+        cursor = db.cursor()
+        sql = "SELECT user_id FROM users WHERE username  = %s"
+        cursor.execute(sql, (username,))
+        result = cursor.fetchone()
+        cursor.close()
+        return result[0]
+    
+
+    @classmethod
+    def verify_email(cls, user_id):
+        cursor = db.cursor()
+        sql = "UPDATE users SET email_verified = TRUE WHERE id = %s"
+        cursor.execute(sql, (user_id,))
+        db.commit()
+        cursor.close()
+
 class User_Verification_Data(UserMixin):
     def __init__(self, id):
         self.id = id
@@ -113,5 +141,6 @@ class User_Verification_Data(UserMixin):
         cursor.execute(sql)
         db.commit()
         cursor.close()
+        
 
 

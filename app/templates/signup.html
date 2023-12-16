@@ -1,6 +1,8 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+
 
 
 <!DOCTYPE html>
@@ -69,6 +71,7 @@
 						</div>
 						<input type="password" class="form-control" placeholder="password" name="password1" id="password1" required>
 					</div>
+					<div id="password-strength"></div>
                     <div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-key"></i></span>
@@ -116,6 +119,43 @@
 				}
 			});
 		});
+		$('#password1').on('input', function() {
+        var password = $(this).val();
+		if (!password.trim()) {
+            $('#password-strength').html('');
+            return;
+        }
+        var result = zxcvbn(password);
+        var strengthText = '';
+        var colorClass = '';
+
+        // Map zxcvbn score to custom categories
+        switch (result.score) {
+            case 0:
+            case 1:
+                strengthText = 'Weak';
+                colorClass = 'text-danger'; // Red color for Weak
+                break;
+            case 2:
+                strengthText = 'Medium';
+                colorClass = 'text-warning'; // Orange color for Medium
+                break;
+            case 3:
+            case 4:
+                strengthText = 'Strong';
+                colorClass = 'text-success'; // Green color for Strong
+                break;
+            default:
+                strengthText = '';
+                colorClass = '';
+        }
+
+        // Update the password strength meter with custom styling
+        $('#password-strength').html(`
+		<p class="small">Password Strength: <span class="${colorClass}">${strengthText}</span></p>
+        `);
+ 	   });
+	   
 	});
 	</script>
 	

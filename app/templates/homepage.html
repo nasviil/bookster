@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
-		<title>Homepage</title>
+{% extends 'master_layout.html' %}
 
+{% block title %}Bookster{% endblock %}
+
+{% block content %}
 		<link
 			rel="preconnect"
 			href="https://fonts.googleapis.com"
@@ -135,10 +130,6 @@
 		</style>
 	</head>
 
-	<header>
-		<div>{% include 'partials/navbar.html' %}</div>
-	</header>
-
 	<body>
 		<div class="hp">
 			<div class="left">
@@ -223,4 +214,5 @@
 				});
 		</script>
 	</body>
-</html>
+	{% endblock %}
+
