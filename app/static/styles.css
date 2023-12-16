@@ -3,7 +3,6 @@
 * {
 	font-family: Unica One;
 	font-size: 1rem;
-	background-color: #FFFDF2;
 }
 
 .product-container {
@@ -228,92 +227,4 @@
 
 .btn-primary:hover {
 	background-color: rgba(0, 0, 0, 0.3);
-}
-
-.user-banner {
-	display: flex;
-	width: 100%;
-	height: 128px;
-	background-color: #3ab8eb;
-}
-
-.book-ulibrary {
-	display: flex;
-	margin-top: 20px;
-	flex-wrap: wrap;
-	gap: 4em;
-	list-style: none;
-	padding-left: 0;
-}
-
-.book-display {
-	text-align: center;
-}
-
-.book-ulibrary-image {
-	width: 139px;
-	height: 207px;
-	box-shadow: 10px 12px 10px -6px rgba(61, 60, 60, 0.36);
-	border-radius: 10px;
-	max-width: 100%;
-}
-
-.ulibrary-book-title {
-	width: 139px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	margin-top: 12px;
-	margin-bottom: 24px;
-}
-
-.ulibrary-book-title a {
-	color: #222;
-	text-decoration: none;
-}
-
-.ulibrary-book-title:hover {
-	text-decoration: underline;
-	cursor: pointer;
-}
-
-.book-control {
-	display: flex;
-	justify-content: space-between;
-	padding-left: 12px;
-	padding-right: 12px;
-}
-
-.btn-primary-library {
-	display: inline-flex;
-	padding: 8px 20px;
-	align-items: flex-start;
-	gap: 8px;
-	border-radius: 48px;
-	border: 1px solid rgba(0, 0, 0, 0.5);
-	background: #fff;
-	backdrop-filter: blur(18px);
-	cursor: pointer;
-	transition: all 0.2s ease 0s;
-	margin-top: 20px;
-	text-decoration: none;
-	color: #222;
-}
-
-.btn-primary-library:hover {
-	background-color: rgba(0, 0, 0, 0.3);
-}
-
-.product-image-add {
-	width: 139px;
-	height: 207px;
-	box-shadow: 10px 12px 10px -6px rgba(61, 60, 60, 0.36);
-	border-radius: 10px;
-	max-width: 100%;
-}
-
-.book-entry-forms {
-	display: flex;
-	flex-direction: column;
-	padding: 50px;
 }
