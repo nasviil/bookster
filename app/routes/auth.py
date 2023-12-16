@@ -1,9 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, logout_user, current_user
+from flask_mail import Message
+from .. import mail
 from ..models.models import User, User_Verification_Data
 import re
 import os
+import secrets
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
@@ -64,9 +67,14 @@ def signup():
 
       user = User.userData(username)
       existingEmail = User.userEmail(email)
+      
       if user:
         user_id =user[0][0]
         user_name = user[0][1]             
+<<<<<<< HEAD
+=======
+      
+>>>>>>> 2b4cbaa95fa58a043d345067b77a0dc814168645
         flash('User already exists.', category='error')
         return jsonify({'success': False, 'message': 'User already exists.'})
       elif existingEmail:
@@ -86,11 +94,26 @@ def signup():
         return jsonify({'success': False, 'message': 'Password must be at least 7 characters.'})
       else:
           User.addUser(username, email, password)
+<<<<<<< HEAD
           userdata = User.userData(username)
           userID = userdata[0][0]
           user = User(userID)
           session['loggedin']= True
           session['username']= userdata[0][0]
+=======
+          id = User.userID1(username)
+          User.addUserProfile(id)
+
+          user = User(username)
+          session['loggedin']= True
+          session['username']= username
+
+          userdata = User.userData(username)
+          user = User(username)
+          send_verification_email(userdata)
+          session['loggedin']= True
+          session['username']= username
+>>>>>>> 2b4cbaa95fa58a043d345067b77a0dc814168645
           session['user_id']= userdata[0][0]
           login_user(user, remember=True)
           flash('Account created!', category='success')        
@@ -170,3 +193,36 @@ def verify_request():
     print(f"Error during verification: {str(e)}")
     
   return render_template("request-verify.html", user=current_user)
+
+
+def send_verification_email(user):
+  try:
+    verification_code = secrets.token_urlsafe(16)
+    verification_url = url_for('auth.verify_request', verification_token=verification_code, _external=True)
+
+    subject = "Verify Your Account - Bookster App"
+    recipients = [user[0][2]]
+
+    # Send the verification email
+    msg = Message(subject=subject, recipients=recipients)
+    msg.body = render_template('verify_email.html', user=user, verification_url=verification_url, variable='value')
+    mail.send(msg)
+  except Exception as e:
+    print(f"Error sending email: {e}")
+
+@auth.route('/verify/<int:user_id>')
+def verify_email(user_id):
+    # Verify the token and activate the user's account
+    user = User.userData(user_id)
+
+    if user:
+        # Activate the user's account (update the database, set account_verified to True, etc.)
+        User.verify_email(user_id)
+
+        login_user(user)
+
+        flash(f'Hi {user.username}, your account has been successfully verified. Welcome!', 'success')
+        return redirect(url_for('home.home_page'))
+    else:
+        flash('Invalid or expired verification token. Please try again.', 'error')
+        return redirect(url_for('auth.login'))

@@ -11,6 +11,8 @@ flask-mysql-connector = "*"
 mysql-connector = "*"
 werkzeug = "*"
 requests = "*"
+cloudinary = "*"
+flask-mail = "*"
 
 [dev-packages]
 

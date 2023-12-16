@@ -7,7 +7,6 @@ import cloudinary
 import cloudinary.uploader
 from werkzeug.utils import secure_filename
 
-
 home = Blueprint('home', __name__)
 
 ALLOWED_EXTENSIONS = {'png', 'jpg'}
