@@ -10,6 +10,7 @@ python-dotenv = "*"
 flask-mysql-connector = "*"
 mysql-connector = "*"
 cloudinary = "*"
+flask-mail = "*"
 
 [dev-packages]
 

@@ -94,6 +94,15 @@ class User(UserMixin):
         cursor.close()
         return result[0]
     
+
+    @classmethod
+    def verify_email(cls, user_id):
+        cursor = db.cursor()
+        sql = "UPDATE users SET email_verified = TRUE WHERE id = %s"
+        cursor.execute(sql, (user_id,))
+        db.commit()
+        cursor.close()
+
 class User_Verification_Data(UserMixin):
     def __init__(self, id):
         self.id = id
