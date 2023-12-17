@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="../static/styles.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>User Books</title>
+	</head>
+
+	<body>
+		<div>{% include 'partials/navbar.html' %}</div>
+		<ol class="breadcrumb-nav">
+			<li>All Books</li>
+		</ol>
+		<div style="padding-left: 50px; padding-right: 50px">
+			<div class="book-control">
+				<input
+					type="text"
+					class="search-input"
+					placeholder="Search..."
+				/>
+				<select
+					class="filter-dropdown"
+					id="genre-filter"
+				>
+					<option value="all">All Genres</option>
+					{% for genre in genres %}
+					<option value="{{ genre.genre_id }}">{{ genre.genre_name }}</option>
+					{% endfor %}
+				</select>
+				<button
+					class="btn-library"
+					onclick="searchAndFilter()"
+				>
+					Search
+				</button>
+			</div>
+			<ul class="book-ulibrary">
+				{% for book in books %}
+				<li
+					class="book-display"
+					data-genre="{{ book['book_genre'] }}"
+				>
+					{% if book.cloudinary_url %}
+					<img
+						class="book-ulibrary-image"
+						src="{{ book.cloudinary_url }}"
+					/>
+					{% else %}
+					<img
+						class="book-ulibrary-image"
+						src="https://via.placeholder.com/209x311"
+					/>
+					{% endif %}
+					<div class="ulibrary-book-title">
+						<a href="{{ url_for('home.book_detail', book_id=book['book_id']) }}"
+							>{{ book['book_title'] }}</a
+						>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<script>
+			function searchAndFilter() {
+				var searchInputValue = document
+					.querySelector(".search-input")
+					.value.toLowerCase();
+				var genreDropdown = document.getElementById("genre-filter");
+				var genreFilterValue =
+					genreDropdown.options[genreDropdown.selectedIndex].value;
+
+				var bookElements = document.querySelectorAll(".book-display");
+
+				// Iterate over each book element and hide/show based on filters
+				bookElements.forEach(function (bookElement) {
+					var title = bookElement
+						.querySelector(".ulibrary-book-title a")
+						.innerText.toLowerCase();
+					var genre = bookElement.dataset.genre; // Assuming you set a data attribute on each book element with the genre value
+
+					var isTitleMatch =
+						title.includes(searchInputValue) || searchInputValue === "";
+					var isGenreMatch =
+						genre === genreFilterValue || genreFilterValue === "all";
+
+					// Show the book if both title and genre match, otherwise hide it
+					bookElement.style.display =
+						isTitleMatch && isGenreMatch ? "block" : "none";
+				});
+			}
+		</script>
+	</body>
+</html>
