@@ -84,8 +84,9 @@ def add_book(user_id):
         book_isbn = request.form['book_isbn']
         book_author = request.form['book_author']
         book_genre = request.form['book_genre']
-        book_sell_price = request.form['book_sell_price']
-        book_rent_price = request.form['book_rent_price']
+        selling_price = request.form['selling_price']
+        renting_price = request.form['renting_price']
+        quantity = request.form['quantity']
 
         if 'book_image' in request.files:
             uploaded_file = request.files['book_image']
@@ -93,7 +94,7 @@ def add_book(user_id):
                 cloudinary_response = cloudinary.uploader.upload(uploaded_file)
                 cloudinary_url = cloudinary_response.get('secure_url', '')
 
-                UserBook.add_book(user_id, book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price, cloudinary_url)
+                UserBook.add_book(user_id, book_title, book_isbn, book_author, book_genre, cloudinary_url, selling_price, renting_price, quantity)
 
         return redirect(url_for('home.user_books', user_id=user_id))
 
@@ -121,8 +122,9 @@ def edit_book(user_id, book_id):
         book_isbn = request.form['book_isbn']
         book_author = request.form['book_author']
         book_genre = request.form['book_genre']
-        book_sell_price = request.form['book_sell_price']
-        book_rent_price = request.form['book_rent_price']
+        selling_price = request.form['selling_price']
+        renting_price = request.form['renting_price']
+        quantity = request.form['quantity']
         cloudinary_url = ''  # Initialize with an empty string by default
 
         if 'book_image' in request.files:
@@ -141,11 +143,13 @@ def edit_book(user_id, book_id):
             book_isbn,
             book_author,
             book_genre,
-            book_sell_price,
-            book_rent_price,
-            cloudinary_url
+            selling_price,
+            renting_price,
+            cloudinary_url,
+            user_id,
+            quantity
         )
-        return redirect(url_for('home.book_detail', book_detail=book_detail, user_id=user_id, book_id=book_id))
+        return redirect(url_for('home.book_user_detail', book_detail=book_detail, user_id=user_id, book_id=book_id))
 
     genres = Genre.get_genres()
     return render_template('edit-book.html', book_detail=book_detail, user_id=user_id, genres=genres)
