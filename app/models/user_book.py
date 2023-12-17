@@ -23,6 +23,19 @@ class UserBook:
         self.book_id = book_id
 
     @classmethod
+    def get_all_books(cls):
+        SELECT_ALL_SQL = """
+            SELECT books.*, user_book_instances.user_id
+            FROM books
+            LEFT JOIN user_book_instances ON books.book_id = user_book_instances.book_id
+            ORDER BY books.book_title ASC
+        """
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(SELECT_ALL_SQL)
+        books = cur.fetchall()
+        return books
+
+    @classmethod
     def get_books_for_user(cls, user_id):
         SELECT_SQL = f"SELECT books.* FROM {cls.__tablename__} JOIN books ON {cls.__tablename__}.book_id = books.book_id WHERE {cls.__tablename__}.user_id = %s ORDER BY books.book_title ASC"
         cur = mysql.connection.cursor(dictionary=True)

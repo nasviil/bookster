@@ -35,7 +35,8 @@ def user_profile():
     
     # Fetch user profile data
     user_profile_data = UserProfile.get_user_profile(user_id)
-    return render_template('userprofile.html', user_profile_data=user_profile_data,username=username,)
+
+    return render_template('userprofile.html', user_profile_data=user_profile_data,username=username)
 
 
 @userprofile.route('/user/<int:user_id>/profile', methods=['GET'])
