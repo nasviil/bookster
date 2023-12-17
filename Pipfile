@@ -9,8 +9,11 @@ flask-login = "*"
 python-dotenv = "*"
 flask-mysql-connector = "*"
 mysql-connector = "*"
+werkzeug = "*"
+requests = "*"
 cloudinary = "*"
 flask-mail = "*"
+cryptography = "*"
 
 [dev-packages]
 
