@@ -24,9 +24,30 @@
 			<li>My Books</li>
 		</ol>
 		<div style="padding-left: 50px; padding-right: 50px">
-			<div class="user-banner"></div>
+			<div class="user-banner">
+				<div class="user-photo-container">
+					<img
+						src="{{ user_profile_data.image_url }}"
+						alt="User Photo"
+						class="user-photo"
+					/>
+				</div>
+				<div class="user-info">
+					{% if user_profile_data and user_profile_data.name %}
+					<b class="user-info">{{user_profile_data.name }}</b>
+					{% else %}
+					<b class="user-info">{{ username }}</b>
+					{% endif %}
+					<a
+						href="/userprofile"
+						class="user-info"
+						style="font-size: 1rem"
+						>View Profile</a
+					>
+				</div>
+			</div>
 			<div class="book-control">
-				{% if user_id == current_user.id %}
+				{% if user_id == current_user.id | int%}
 				<a
 					href="{{ url_for('home.add_book', user_id=user_id) }}"
 					class="btn-library"
@@ -74,7 +95,7 @@
 					{% endif %}
 					<div class="ulibrary-book-title">
 						<a
-							href="{{ url_for('home.book_detail', user_id=user_id, book_id=book['book_id']) }}"
+							href="{{ url_for('home.book_user_detail', user_id=user_id, book_id=book['book_id']) }}"
 							>{{ book['book_title'] }}</a
 						>
 					</div>
