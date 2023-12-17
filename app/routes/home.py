@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
-from ..models.user_book import UserBook
-from ..models.user_book import Genre
+from ..models.user_book import UserBook, Genre
+from ..models.userprofilemodel import UserProfile
 from werkzeug.exceptions import abort
 import cloudinary
 import cloudinary.uploader
@@ -24,20 +24,27 @@ def landing_page():
 def home_page():
     return render_template("homepage.html")
 
+@home.route('/books')
+@login_required
+def all_books():
+    books = UserBook.get_all_books()
+    genres = Genre.get_genres()
+    selected_genre = request.args.get('genre', 'all')
+    if selected_genre != 'all':
+        books = [book for book in books if book['book_genre'] == int(selected_genre)]
+    return render_template('library.html', books=books, genres=genres)
+
 @home.route('/<int:user_id>/books')
 @login_required
 def user_books(user_id):
     user_books = UserBook.get_books_for_user(user_id)
+    user_profile_data = UserProfile.get_user_profile(user_id)
     genres = Genre.get_genres()
-
-    # Get the selected genre filter from the request parameters
     selected_genre = request.args.get('genre', 'all')
-
-    # Filter books based on the selected genre
     if selected_genre != 'all':
         user_books = [book for book in user_books if book['book_genre'] == int(selected_genre)]
 
-    return render_template('user_books.html', user_books=user_books, user_id=user_id, genres=genres)
+    return render_template('user_books.html', user_profile_data= user_profile_data, user_books=user_books, user_id=user_id, genres=genres)
 
 # @home.route('/<string:username>/books')
 # @login_required
@@ -45,16 +52,30 @@ def user_books(user_id):
 #     user_books = UserBook.get_books_for_user(username)
 #     return render_template('user_books.html', user_books=user_books, user_id=username)
 
+@home.route('/books/<int:book_id>')
+@login_required
+def book_detail(book_id):
+    books = UserBook.get_all_books()
+    book_detail = UserBook.get_book_details(book_id)
+    matching_book = None
+    for book in books:
+        if book['user_id'] == book_detail['user_id']:
+            matching_book = book
+            break
+    print(matching_book)
+    return render_template('library-detail.html', book_detail=book_detail, books=books, matching_book=matching_book)
+
 
 @home.route('/<int:user_id>/books/<int:book_id>')
 @login_required
-def book_detail(user_id, book_id):
+def book_user_detail(user_id, book_id):
     book_detail = UserBook.get_book_details(book_id)
     return render_template('product_detail.html', book_detail=book_detail, user_id=user_id)
 
 @home.route('/<int:user_id>/books/add_book', methods=['GET', 'POST'])
 @login_required
 def add_book(user_id):
+    current_user.id = int(current_user.id)
     if current_user.id != user_id:
         abort(403)  # Forbidden
 

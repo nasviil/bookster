@@ -21,40 +21,10 @@
 	<body>
 		<div>{% include 'partials/navbar.html' %}</div>
 		<ol class="breadcrumb-nav">
-			<li>My Books</li>
+			<li>All Books</li>
 		</ol>
 		<div style="padding-left: 50px; padding-right: 50px">
-			<div class="user-banner">
-				<div class="user-photo-container">
-					<img
-						src="{{ user_profile_data.image_url }}"
-						alt="User Photo"
-						class="user-photo"
-					/>
-				</div>
-				<div class="user-info">
-					{% if user_profile_data and user_profile_data.name %}
-					<b class="user-info">{{user_profile_data.name }}</b>
-					{% else %}
-					<b class="user-info">{{ username }}</b>
-					{% endif %}
-					<a
-						href="/userprofile"
-						class="user-info"
-						style="font-size: 1rem"
-						>View Profile</a
-					>
-				</div>
-			</div>
 			<div class="book-control">
-				{% if user_id == current_user.id | int%}
-				<a
-					href="{{ url_for('home.add_book', user_id=user_id) }}"
-					class="btn-library"
-					style="margin-right: auto"
-					>Add Book</a
-				>
-				{% endif %}
 				<input
 					type="text"
 					class="search-input"
@@ -77,7 +47,7 @@
 				</button>
 			</div>
 			<ul class="book-ulibrary">
-				{% for book in user_books %}
+				{% for book in books %}
 				<li
 					class="book-display"
 					data-genre="{{ book['book_genre'] }}"
@@ -94,8 +64,7 @@
 					/>
 					{% endif %}
 					<div class="ulibrary-book-title">
-						<a
-							href="{{ url_for('home.book_user_detail', user_id=user_id, book_id=book['book_id']) }}"
+						<a href="{{ url_for('home.book_detail', book_id=book['book_id']) }}"
 							>{{ book['book_title'] }}</a
 						>
 					</div>
