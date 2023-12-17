@@ -80,7 +80,7 @@
 				<div style="color: grey; margin-top: 30px">Quantity: 1</div>
 			</div>
 			<div class="product-purchase-container">
-				{% if user_id == current_user.id %}
+				{% if user_id == current_user.id | int %}
 				<a
 					href="{{ url_for('home.edit_book', book_id=book_detail.book_id, user_id=user_id) }}"
 					>Edit this Book</a
@@ -98,7 +98,7 @@
 					>/day
 				</div>
 				<div class="product-rent-button">RENT NOW</div>
-				{% if user_id == current_user.id %}
+				{% if user_id == current_user.id | int %}
 				<a
 					href="javascript:void(0);"
 					onclick="confirmDelete('{{ url_for('home.delete_book', user_id=user_id, book_id=book_detail.book_id) }}')"
