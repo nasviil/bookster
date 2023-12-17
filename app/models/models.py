@@ -5,7 +5,7 @@ from app.models.userprofilemodel import UserProfile
 db = mysql.connector.connect(
     host = 'localhost',
     user = 'root',
-    password = 'root',
+    password = '1234',
     database = 'sql12663651'
 )
 cursor = db.cursor()

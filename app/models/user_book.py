@@ -13,7 +13,6 @@ from app import mysql
 
 # mysql = MySQL(app)
 
-
 class UserBook:
     __tablename__ = 'user_book_instances'
 
@@ -22,6 +21,7 @@ class UserBook:
         self.user_id = user_id
         self.book_id = book_id
 
+
     @classmethod
     def get_books_for_user(cls, user_id):
         SELECT_SQL = f"SELECT books.* FROM {cls.__tablename__} JOIN books ON {cls.__tablename__}.book_id = books.book_id WHERE {cls.__tablename__}.user_id = %s ORDER BY books.book_title ASC"
@@ -29,6 +29,7 @@ class UserBook:
         cur.execute(SELECT_SQL, (user_id,))
         books = cur.fetchall()
         return books
+
     
     @classmethod
     def get_book_details(cls, book_id):
