@@ -21,7 +21,7 @@
 		<div>{% include 'partials/navbar.html' %}</div>
 		<ol class="breadcrumb-nav">
 			<li>
-				<a href="{{ url_for('home.user_books', user_id=user_id) }}">My Books</a>
+				<a href="/books">All Books</a>
 			</li>
 
 			<li>{{ book_detail['book_title'] }}</li>
@@ -70,22 +70,18 @@
 						</div>
 					</div>
 				</div>
+				{% if matching_book %}
 				<div>
 					<a
-						href="{{ url_for('home.user_books', user_id=user_id) }}"
+						href="{{ url_for('home.user_books', user_id=matching_book['user_id']) }}"
 						style="color: rgb(74, 74, 241); text-decoration: none"
 						>View seller's books</a
 					>
 				</div>
+				{% endif %}
 				<div style="color: grey; margin-top: 30px">Quantity: 1</div>
 			</div>
 			<div class="product-purchase-container">
-				{% if user_id == current_user.id | int %}
-				<a
-					href="{{ url_for('home.edit_book', book_id=book_detail.book_id, user_id=user_id) }}"
-					>Edit this Book</a
-				>
-				{% endif %}
 				<div style="margin-top: 150px; margin-bottom: 5px">
 					Buy for: ₱<b style="font-size: 2rem"
 						>{{ book_detail.book_sell_price }}</b
@@ -98,16 +94,6 @@
 					>/day
 				</div>
 				<div class="product-rent-button">RENT NOW</div>
-				{% if user_id == current_user.id | int %}
-				<a
-					href="javascript:void(0);"
-					onclick="confirmDelete('{{ url_for('home.delete_book', user_id=user_id, book_id=book_detail.book_id) }}')"
-					style="color: rgb(245, 42, 42); text-decoration: none"
-				>
-					Delete this book</a
-				>
-
-				{% endif %}
 			</div>
 		</div>
 		<script>
