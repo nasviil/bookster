@@ -110,6 +110,7 @@ def delete_book(user_id, book_id):
 @home.route('/<int:user_id>/books/<int:book_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_book(user_id, book_id):
+    current_user.id = int(current_user.id)
     if current_user.id != user_id:
         abort(403)  # Forbidden
 
@@ -145,7 +146,7 @@ def edit_book(user_id, book_id):
             book_rent_price,
             cloudinary_url
         )
-        return redirect(url_for('home.book_detail', book_detail=book_detail, user_id=user_id, book_id=book_id))
+        return redirect(url_for('home.book_user_detail', book_detail=book_detail, user_id=user_id, book_id=book_id))
 
     genres = Genre.get_genres()
     return render_template('edit-book.html', book_detail=book_detail, user_id=user_id, genres=genres)
