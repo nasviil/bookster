@@ -19,6 +19,10 @@ def allowed_file(filename):
 def landing_page():
     return render_template("home.html")
 
+# @home.route('/buy')
+# def buy_request():
+#     return render_template("buy-request.html")
+
 @home.route('/home')
 @login_required
 def home_page():
@@ -27,12 +31,35 @@ def home_page():
 @home.route('/books')
 @login_required
 def all_books():
+    current_user.id = int(current_user.id)
     books = UserBook.get_all_books()
     genres = Genre.get_genres()
     selected_genre = request.args.get('genre', 'all')
+    
     if selected_genre != 'all':
         books = [book for book in books if book['book_genre'] == int(selected_genre)]
-    return render_template('library.html', books=books, genres=genres)
+    
+    unique_books = {}  # Use a dictionary to store unique books based on book_id
+    
+    for book in books:
+        if current_user.id != book['user_id']:
+            if book['book_id'] not in unique_books:
+                unique_books[book['book_id']] = book
+    
+    # Extract values (unique books) from the dictionary
+    other_books = list(unique_books.values())
+    
+    return render_template('library.html', genres=genres, other_books=other_books)
+
+# @home.route('/books')
+# @login_required
+# def all_books():
+#     books = UserBook.get_all_books()
+#     genres = Genre.get_genres()
+#     selected_genre = request.args.get('genre', 'all')
+#     if selected_genre != 'all':
+#         books = [book for book in books if book['book_genre'] == int(selected_genre)]
+#     return render_template('library.html', other_books=books, genres=genres)
 
 @home.route('/<int:user_id>/books')
 @login_required
@@ -56,21 +83,57 @@ def user_books(user_id):
 @login_required
 def book_detail(book_id):
     books = UserBook.get_all_books()
-    book_detail = UserBook.get_book_details(book_id)
     matching_book = None
+    book_detail = None
+    
+    # Assuming current_user.id is an integer
+    current_user_id = int(current_user.id)
+    
     for book in books:
-        if book['user_id'] == book_detail['user_id']:
+        if book['book_id'] == book_id and book['user_id'] != current_user_id:
+            # Assuming book_detail should be details for the other user and the specific book
+            book_detail = UserBook.get_book_user_details(book['user_id'], book_id)
             matching_book = book
             break
+    
     print(matching_book)
+    
     return render_template('library-detail.html', book_detail=book_detail, books=books, matching_book=matching_book)
 
 
 @home.route('/<int:user_id>/books/<int:book_id>')
 @login_required
 def book_user_detail(user_id, book_id):
-    book_detail = UserBook.get_book_details(book_id)
-    return render_template('product_detail.html', book_detail=book_detail, user_id=user_id)
+    current_user.id = int(current_user.id)
+    books = UserBook.get_all_books()
+    book_detail = UserBook.get_book_user_details(user_id, book_id)
+
+    # Filter out the current book from the list
+    other_books = [book for book in books if book['book_id'] == book_id and book['user_id'] != user_id and book['user_id'] != current_user.id]
+    print(other_books)
+
+    return render_template('product_detail.html', book_detail=book_detail, user_id=user_id, other_books=other_books)
+
+
+@home.route('/<int:user_id>/books/<int:book_id>/buy')
+@login_required
+def book_buy(user_id, book_id):
+    books = UserBook.get_all_books()
+    matching_book = None
+    book_detail = None
+    
+    # Assuming current_user.id is an integer
+    current_user_id = int(current_user.id)
+    
+    for book in books:
+        if book['book_id'] == book_id and book['user_id'] != current_user_id:
+            # Assuming book_detail should be details for the other user and the specific book
+            book_detail = UserBook.get_book_user_details(book['user_id'], book_id)
+            matching_book = book
+            break
+    
+    print(matching_book)
+    return render_template('buy-request.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
 
 @home.route('/<int:user_id>/books/add_book', methods=['GET', 'POST'])
 @login_required
@@ -111,10 +174,11 @@ def delete_book(user_id, book_id):
 @home.route('/<int:user_id>/books/<int:book_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_book(user_id, book_id):
+    current_user.id = int(current_user.id)
     if current_user.id != user_id:
         abort(403)  # Forbidden
 
-    book_detail = UserBook.get_book_details(book_id)
+    book_detail = UserBook.get_book_user_details(user_id, book_id)
 
     if request.method == 'POST':
         print("Form data received:", request.form)

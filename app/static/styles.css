@@ -513,3 +513,101 @@
 	flex-direction: column;
 	padding: 50px;
 } */
+
+/* buy request */
+
+.receipt-container {
+	margin: 50px;
+	display: flex;
+	justify-content: center;
+}
+
+.receipt {
+	border: 2px #222 solid;
+	margin: 50px;
+	width: 50%;
+	height: 80%;
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+}
+
+.receipt-heading {
+	text-align: center;
+	margin: auto;
+	font-size: 3.5rem;
+	font-weight: bold;
+	width: 100%;
+	background-color: #4caf50;
+}
+
+.receipt-book-detail {
+	margin: 12px;
+}
+
+.receipt-book-detail-title {
+	font-size: 2rem;
+	font-weight: bold;
+}
+
+.receipt-book-detail-author {
+	color: #3d3c3c;
+}
+
+.receipt-seller {
+	margin: 12px;
+}
+
+.receipt-quantity {
+	margin: 12px;
+}
+
+.receipt-controls {
+	margin: 12px;
+	display: flex;
+	justify-content: space-between;
+}
+
+.other-book-container {
+	margin-left: 50px;
+	margin-right: 50px;
+	margin-top: 50px;
+}
+
+.other-book-heading {
+	font-size: 2rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+}
+
+.other-books {
+	display: flex;
+	gap: 3em;
+}
+
+.other-book-image {
+	width: 174px;
+	height: 259px;
+	box-shadow: 10px 12px 10px -6px rgba(61, 60, 60, 0.36);
+	border-radius: 10px;
+	max-width: 100%;
+}
+
+.other-book-title {
+	width: 174px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-top: 12px;
+	margin-bottom: 24px;
+}
+
+.other-book-title a {
+	color: #222;
+	text-decoration: none;
+}
+
+.other-book-title:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}

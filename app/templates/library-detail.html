@@ -79,18 +79,24 @@
 					>
 				</div>
 				{% endif %}
-				<div style="color: grey; margin-top: 30px">Quantity: 1</div>
+				<div style="color: grey; margin-top: 30px">
+					Quantity: {{book_detail.quantity}}
+				</div>
 			</div>
 			<div class="product-purchase-container">
 				<div style="margin-top: 150px; margin-bottom: 5px">
 					Buy for: ₱<b style="font-size: 2rem"
-						>{{ book_detail.book_sell_price }}</b
+						>{{ book_detail.selling_price }}</b
 					>
 				</div>
-				<div class="product-buy-button">BUY NOW</div>
+				{% if matching_book %}
+				<a
+					href="{{ url_for('home.book_buy', book_id=matching_book['book_id']) }}"
+					><div class="product-buy-button">BUY NOW</div></a
+				>{% endif %}
 				<div style="margin-top: 20px; margin-bottom: 5px">
 					Rent for: ₱<b style="font-size: 2rem"
-						>{{ book_detail.book_rent_price }}</b
+						>{{ book_detail.renting_price }}</b
 					>/day
 				</div>
 				<div class="product-rent-button">RENT NOW</div>
