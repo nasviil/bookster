@@ -47,7 +47,7 @@
 				</button>
 			</div>
 			<ul class="book-ulibrary">
-				{% for book in books %}
+				{% for book in other_books %}
 				<li
 					class="book-display"
 					data-genre="{{ book['book_genre'] }}"
@@ -64,7 +64,8 @@
 					/>
 					{% endif %}
 					<div class="ulibrary-book-title">
-						<a href="{{ url_for('home.book_detail', book_id=book['book_id']) }}"
+						<a
+							href="{{ url_for('home.book_user_detail', book_id=book['book_id'], user_id = book['user_id']) }}"
 							>{{ book['book_title'] }}</a
 						>
 					</div>

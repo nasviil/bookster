@@ -45,48 +45,62 @@ class UserBook:
 
     
     @classmethod
-    def get_book_details(cls, book_id):
-        SELECT_SQL = f"SELECT *, users.* FROM {cls.__tablename__} \
+    def get_book_user_details(cls, user_id, book_id):
+        SELECT_SQL = f"SELECT DISTINCT {cls.__tablename__}.*, books.*, genre.*, users.* \
+                    FROM {cls.__tablename__} \
                     JOIN books ON {cls.__tablename__}.book_id = books.book_id \
                     JOIN genre ON books.book_genre = genre.genre_id \
                     JOIN users ON {cls.__tablename__}.user_id = users.user_id \
-                    WHERE {cls.__tablename__}.book_id = %s"
+                    WHERE {cls.__tablename__}.book_id = %s AND {cls.__tablename__}.user_id = %s"
 
         cur = mysql.connection.cursor(dictionary=True)
-        cur.execute(SELECT_SQL, (book_id,))
+        cur.execute(SELECT_SQL, (book_id, user_id))
         book_detail = cur.fetchone()
         return book_detail
     
     @classmethod
-    def add_book(cls, user_id, book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price, cloudinary_url):
-            INSERT_BOOK_SQL = (
-                "INSERT INTO books (book_title, book_isbn, book_author, book_genre, date_added, book_sell_price, book_rent_price, cloudinary_url) "
-                "VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
-            )
-            INSERT_INSTANCE_SQL = "INSERT INTO user_book_instances (user_id, book_id) VALUES (%s, %s)"
+    def add_book(cls, user_id, book_title, book_isbn, book_author, book_genre, cloudinary_url, selling_price, renting_price, quantity):
+        INSERT_BOOK_SQL = (
+            "INSERT INTO books (book_title, book_isbn, book_author, book_genre, book_added, cloudinary_url) "
+            "VALUES (%s, %s, %s, %s, %s, %s)"
+        )
+        INSERT_INSTANCE_SQL = (
+            "INSERT INTO user_book_instances (user_id, book_id, selling_price, renting_price, quantity) "
+            "VALUES (%s, %s, %s, %s, %s)"
+        )
+        SELECT_BOOK_SQL = "SELECT book_id FROM books WHERE book_isbn = %s"
 
-            cur = mysql.connection.cursor()
+        cur = mysql.connection.cursor()
 
-            try:
-                # Start a transaction
-                cur.execute("START TRANSACTION")
+        try:
+            # Start a transaction
+            cur.execute("START TRANSACTION")
 
+            # Check if the book with the given ISBN already exists
+            cur.execute(SELECT_BOOK_SQL, (book_isbn,))
+            existing_book = cur.fetchone()
+
+            if existing_book:
+                # If the book exists, use its book_id
+                book_id = existing_book[0]
+            else:
                 # Insert into books
-                cur.execute(INSERT_BOOK_SQL, (book_title, book_isbn, book_author, book_genre, datetime.now(), book_sell_price, book_rent_price, cloudinary_url))
+                cur.execute(INSERT_BOOK_SQL, (book_title, book_isbn, book_author, book_genre, datetime.now(), cloudinary_url))
                 book_id = cur.lastrowid
 
-                # Insert into user_book_instances
-                cur.execute(INSERT_INSTANCE_SQL, (user_id, book_id))
+            # Insert into user_book_instances
+            cur.execute(INSERT_INSTANCE_SQL, (user_id, book_id, selling_price, renting_price, quantity))
 
-                # Commit the transaction
-                mysql.connection.commit()
-            except Exception as e:
-                # Rollback the transaction in case of an error
-                mysql.connection.rollback()
-                raise e
-            finally:
-                # Close the cursor
-                cur.close()
+            # Commit the transaction
+            mysql.connection.commit()
+        except Exception as e:
+            # Rollback the transaction in case of an error
+            mysql.connection.rollback()
+            raise e
+        finally:
+            # Close the cursor
+            cur.close()
+
 
     @classmethod
     def delete_book(cls, user_id, book_id):
@@ -115,20 +129,37 @@ class UserBook:
             # Close the cursor
             cur.close()
 
+
     @classmethod
-    def edit_book(cls, book_id, book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price, cloudinary_url):
+    def edit_book(cls, book_id, book_title, book_isbn, book_author, book_genre, selling_price, renting_price, cloudinary_url, user_id, quantity):
         UPDATE_BOOK_SQL = (
-            "UPDATE books SET "
-            "book_title=%s, book_isbn=%s, book_author=%s, book_genre=%s, "
-            "book_sell_price=%s, book_rent_price=%s, cloudinary_url=%s "
+            "UPDATE books "
+            "SET book_title=%s, book_isbn=%s, book_author=%s, book_genre=%s, cloudinary_url=%s "
             "WHERE book_id=%s"
+        )
+        UPDATE_INSTANCE_SQL = (
+            "UPDATE user_book_instances "
+            "SET selling_price=%s, renting_price=%s, quantity=%s "
+            "WHERE user_id=%s AND book_id=%s"
         )
 
         cur = mysql.connection.cursor()
 
         try:
-            # Update the books table
-            cur.execute(UPDATE_BOOK_SQL, (book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price, cloudinary_url, book_id))
+            # Start a transaction
+            cur.execute("START TRANSACTION")
+
+            # Update the book record
+            cur.execute(
+                UPDATE_BOOK_SQL,
+                (book_title, book_isbn, book_author, book_genre, cloudinary_url, book_id),
+            )
+
+            # Update the user_book_instances record
+            cur.execute(
+                UPDATE_INSTANCE_SQL,
+                (selling_price, renting_price, quantity, user_id, book_id),
+            )
 
             # Commit the transaction
             mysql.connection.commit()
@@ -139,6 +170,32 @@ class UserBook:
         finally:
             # Close the cursor
             cur.close()
+
+
+    # @classmethod
+    # def edit_book(cls, book_id, book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price, cloudinary_url):
+    #     UPDATE_BOOK_SQL = (
+    #         "UPDATE books SET "
+    #         "book_title=%s, book_isbn=%s, book_author=%s, book_genre=%s, "
+    #         "book_sell_price=%s, book_rent_price=%s, cloudinary_url=%s "
+    #         "WHERE book_id=%s"
+    #     )
+
+    #     cur = mysql.connection.cursor()
+
+    #     try:
+    #         # Update the books table
+    #         cur.execute(UPDATE_BOOK_SQL, (book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price, cloudinary_url, book_id))
+
+    #         # Commit the transaction
+    #         mysql.connection.commit()
+    #     except Exception as e:
+    #         # Rollback the transaction in case of an error
+    #         mysql.connection.rollback()
+    #         raise e
+    #     finally:
+    #         # Close the cursor
+    #         cur.close()
 
 
 class Genre:
