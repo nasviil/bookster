@@ -206,6 +206,28 @@
 	background: rgba(54, 189, 114, 0.9);
 }
 
+.product-button-disabled {
+	width: 100%;
+	height: 45px;
+	left: 0px;
+	top: 0px;
+	background: rgb(88, 88, 88);
+	border-radius: 20px;
+	border: 2px #3d3c3c solid;
+	color: #fffdf2;
+	font-family: Unica One;
+	padding-left: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: auto;
+}
+
+.product-button-disabled:hover {
+	cursor: pointer;
+	background: rgba(70, 70, 70, 0.9);
+}
+
 .product-rent-button {
 	width: 100%;
 	height: 45px;
