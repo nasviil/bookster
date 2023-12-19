@@ -171,33 +171,6 @@ class UserBook:
             # Close the cursor
             cur.close()
 
-
-    # @classmethod
-    # def edit_book(cls, book_id, book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price, cloudinary_url):
-    #     UPDATE_BOOK_SQL = (
-    #         "UPDATE books SET "
-    #         "book_title=%s, book_isbn=%s, book_author=%s, book_genre=%s, "
-    #         "book_sell_price=%s, book_rent_price=%s, cloudinary_url=%s "
-    #         "WHERE book_id=%s"
-    #     )
-
-    #     cur = mysql.connection.cursor()
-
-    #     try:
-    #         # Update the books table
-    #         cur.execute(UPDATE_BOOK_SQL, (book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price, cloudinary_url, book_id))
-
-    #         # Commit the transaction
-    #         mysql.connection.commit()
-    #     except Exception as e:
-    #         # Rollback the transaction in case of an error
-    #         mysql.connection.rollback()
-    #         raise e
-    #     finally:
-    #         # Close the cursor
-    #         cur.close()
-
-
 class Genre:
     __tablename__ = 'genre'
 
