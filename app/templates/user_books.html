@@ -52,6 +52,63 @@
 					>
 				</div>
 			</div>
+			<div class="book-control">
+				{% if user_id == current_user.id | int%}
+				<a
+					href="{{ url_for('home.add_book', user_id=user_id) }}"
+					class="btn-library"
+					style="margin-right: auto"
+					>Add Book</a
+				>
+				{% endif %}
+				<input
+					type="text"
+					class="search-input"
+					id="search-input"
+					placeholder="Search..."
+				/>
+				<select
+					class="filter-dropdown"
+					id="genre-filter"
+				>
+					<option value="all">All Genres</option>
+					{% for genre in genres %}
+					<option value="{{ genre.genre_id }}">{{ genre.genre_name }}</option>
+					{% endfor %}
+				</select>
+				<button
+					class="btn-library"
+					onclick="searchAndFilter()"
+				>
+					Search
+				</button>
+			</div>
+			<ul class="book-ulibrary">
+				{% for book in items_on_page %}
+				<li
+					class="book-display"
+					data-genre="{{ book['book_genre'] }}"
+				>
+					{% if book.cloudinary_url %}
+					<img
+						class="book-ulibrary-image"
+						src="{{ book.cloudinary_url }}"
+					/>
+					{% else %}
+					<img
+						class="book-ulibrary-image"
+						src="https://via.placeholder.com/209x311"
+					/>
+					{% endif %}
+					<div class="ulibrary-book-title">
+						<a
+							href="{{ url_for('home.book_user_detail', user_id=user_id, book_id=book['book_id']) }}"
+							>{{ book['book_title'] }}</a
+						>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
 			<ul class="pagination justify-content-center">
 				{% if page > 1 %}
 				<li class="page-item">
@@ -165,62 +222,6 @@
 					>
 				</li>
 				{% endif %}
-			</ul>
-			<div class="book-control">
-				{% if user_id == current_user.id | int%}
-				<a
-					href="{{ url_for('home.add_book', user_id=user_id) }}"
-					class="btn-library"
-					style="margin-right: auto"
-					>Add Book</a
-				>
-				{% endif %}
-				<input
-					type="text"
-					class="search-input"
-					placeholder="Search..."
-				/>
-				<select
-					class="filter-dropdown"
-					id="genre-filter"
-				>
-					<option value="all">All Genres</option>
-					{% for genre in genres %}
-					<option value="{{ genre.genre_id }}">{{ genre.genre_name }}</option>
-					{% endfor %}
-				</select>
-				<button
-					class="btn-library"
-					onclick="searchAndFilter()"
-				>
-					Search
-				</button>
-			</div>
-			<ul class="book-ulibrary">
-				{% for book in items_on_page %}
-				<li
-					class="book-display"
-					data-genre="{{ book['book_genre'] }}"
-				>
-					{% if book.cloudinary_url %}
-					<img
-						class="book-ulibrary-image"
-						src="{{ book.cloudinary_url }}"
-					/>
-					{% else %}
-					<img
-						class="book-ulibrary-image"
-						src="https://via.placeholder.com/209x311"
-					/>
-					{% endif %}
-					<div class="ulibrary-book-title">
-						<a
-							href="{{ url_for('home.book_user_detail', user_id=user_id, book_id=book['book_id']) }}"
-							>{{ book['book_title'] }}</a
-						>
-					</div>
-				</li>
-				{% endfor %}
 			</ul>
 		</div>
 		<script>

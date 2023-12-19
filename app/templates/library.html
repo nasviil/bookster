@@ -30,6 +30,55 @@
 			<li>All Books</li>
 		</ol>
 		<div style="padding-left: 50px; padding-right: 50px">
+			<div class="book-control">
+				<input
+					type="text"
+					class="search-input"
+					id="search-input"
+					placeholder="Search..."
+				/>
+				<select
+					class="filter-dropdown"
+					id="genre-filter"
+				>
+					<option value="all">All Genres</option>
+					{% for genre in genres %}
+					<option value="{{ genre.genre_id }}">{{ genre.genre_name }}</option>
+					{% endfor %}
+				</select>
+				<button
+					class="btn-library"
+					onclick="searchAndFilter()"
+				>
+					Search
+				</button>
+			</div>
+			<ul class="book-ulibrary">
+				{% for book in items_on_page %}
+				<li
+					class="book-display"
+					data-genre="{{ book['book_genre'] }}"
+				>
+					{% if book.cloudinary_url %}
+					<img
+						class="book-ulibrary-image"
+						src="{{ book.cloudinary_url }}"
+					/>
+					{% else %}
+					<img
+						class="book-ulibrary-image"
+						src="https://via.placeholder.com/209x311"
+					/>
+					{% endif %}
+					<div class="ulibrary-book-title">
+						<a
+							href="{{ url_for('home.book_user_detail', book_id=book['book_id'], user_id = book['user_id']) }}"
+							>{{ book['book_title'] }}</a
+						>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
 			<ul class="pagination justify-content-center">
 				{% if page > 1 %}
 				<li class="page-item">
@@ -144,82 +193,21 @@
 				</li>
 				{% endif %}
 			</ul>
-			<div class="book-control">
-				<input
-					type="text"
-					class="search-input"
-					placeholder="Search..."
-				/>
-				<select
-					class="filter-dropdown"
-					id="genre-filter"
-				>
-					<option value="all">All Genres</option>
-					{% for genre in genres %}
-					<option value="{{ genre.genre_id }}">{{ genre.genre_name }}</option>
-					{% endfor %}
-				</select>
-				<button
-					class="btn-library"
-					onclick="searchAndFilter()"
-				>
-					Search
-				</button>
-			</div>
-			<ul class="book-ulibrary">
-				{% for book in items_on_page %}
-				<li
-					class="book-display"
-					data-genre="{{ book['book_genre'] }}"
-				>
-					{% if book.cloudinary_url %}
-					<img
-						class="book-ulibrary-image"
-						src="{{ book.cloudinary_url }}"
-					/>
-					{% else %}
-					<img
-						class="book-ulibrary-image"
-						src="https://via.placeholder.com/209x311"
-					/>
-					{% endif %}
-					<div class="ulibrary-book-title">
-						<a
-							href="{{ url_for('home.book_user_detail', book_id=book['book_id'], user_id = book['user_id']) }}"
-							>{{ book['book_title'] }}</a
-						>
-					</div>
-				</li>
-				{% endfor %}
-			</ul>
 		</div>
 		<script>
 			function searchAndFilter() {
-				var searchInputValue = document
-					.querySelector(".search-input")
-					.value.toLowerCase();
-				var genreDropdown = document.getElementById("genre-filter");
-				var genreFilterValue =
-					genreDropdown.options[genreDropdown.selectedIndex].value;
+				var searchQuery = document.getElementById("search-input").value;
+				var genreFilter = document.getElementById("genre-filter").value;
 
-				var bookElements = document.querySelectorAll(".book-display");
+				// Construct the search URL with the search query and genre filter
+				var searchUrl =
+					"/books?search=" +
+					encodeURIComponent(searchQuery) +
+					"&genre=" +
+					encodeURIComponent(genreFilter);
 
-				// Iterate over each book element and hide/show based on filters
-				bookElements.forEach(function (bookElement) {
-					var title = bookElement
-						.querySelector(".ulibrary-book-title a")
-						.innerText.toLowerCase();
-					var genre = bookElement.dataset.genre; // Assuming you set a data attribute on each book element with the genre value
-
-					var isTitleMatch =
-						title.includes(searchInputValue) || searchInputValue === "";
-					var isGenreMatch =
-						genre === genreFilterValue || genreFilterValue === "all";
-
-					// Show the book if both title and genre match, otherwise hide it
-					bookElement.style.display =
-						isTitleMatch && isGenreMatch ? "block" : "none";
-				});
+				// Redirect to the constructed search URL
+				window.location.href = searchUrl;
 			}
 		</script>
 	</body>

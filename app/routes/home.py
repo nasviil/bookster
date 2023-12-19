@@ -32,29 +32,36 @@ def all_books():
     books = UserBook.get_all_books()
     genres = Genre.get_genres()
     selected_genre = request.args.get('genre', 'all')
-    
+    search_query = request.args.get('search', '')  # Retrieve the search query from the URL
+
     if selected_genre != 'all':
         books = [book for book in books if book['book_genre'] == int(selected_genre)]
-    
+
+    if search_query:
+        # If there's a search query, filter the books based on it
+        books = [book for book in books if search_query.lower() in book['book_title'].lower()]
+
     unique_books = {}  # Use a dictionary to store unique books based on book_id
-    
+
     for book in books:
         if current_user.id != book['user_id']:
             if book['book_id'] not in unique_books:
                 unique_books[book['book_id']] = book
-    
+
     # Extract values (unique books) from the dictionary
     other_books = list(unique_books.values())
 
     page = request.args.get('page', 1, type=int)
-    per_page = 1
+    per_page = 2
     start = (page - 1) * per_page
     end = start + per_page
     total_pages = (len(other_books) + per_page - 1) // per_page
 
     items_on_page = other_books[start:end]
-    
-    return render_template('library.html', genres=genres, other_books=other_books, items_on_page=items_on_page, total_pages=total_pages, page=page)
+
+    return render_template('library.html', genres=genres, other_books=other_books, items_on_page=items_on_page, total_pages=total_pages, page=page, search_query=search_query, selected_genre=selected_genre)
+
+
 
 # @home.route('/books')
 # @login_required
