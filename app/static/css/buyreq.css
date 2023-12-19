@@ -1,0 +1,197 @@
+.order-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 120px; /* Adjust as needed */
+    background-color: #fffdf2;
+}
+
+.delivery-box {
+    width: 58%;
+    max-width: 1204px;
+    background: #FAF1D7;
+    margin-bottom: 20px;
+}
+
+.title {
+    color: #3D3C3C;
+    font-size: 30px;
+    font-family: 'Unica One', sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+    margin-top: 15px;
+    margin-left: 15px;
+
+}
+
+.add-address {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add-address-icon {
+    width: 60%;
+    height: 60%;
+    margin-bottom: 5px;
+    margin-left: 600px;
+}
+
+.add-address-text {
+    color: #ADA4A4;
+    font-size: 14px;
+    font-family: 'Unica One', sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+    margin-bottom: 30px;
+   
+}
+
+.order-box {
+    width: 100%;
+    max-width: 1109px;
+    min-height: 50px;
+    background: #ffffff;
+    overflow: auto;
+}
+
+.order-details-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-details-table th,
+.order-details-table td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: .5px solid #ddd;
+}
+
+.order-details-table th {
+    background-color: #f2f2f2;
+}
+
+.payment-box {
+    width: 58%;
+    max-width: 1204px;
+    background: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.payment-method {
+    margin-bottom: 15px;
+}
+.paymenttitle {
+    color: #3D3C3C;
+    font-size: 30px;
+    font-family: 'Unica One', sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+.form-check-input{
+    margin-top:15px;
+}
+.label-container {
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+    padding: 10px; 
+    border-radius: 5px; 
+    width: 20%;
+    max-width: 1204px;
+    margin-top: 30px;
+    text-align: center; /* Center text horizontally */
+    align-items: center; /* Center child items horizontally within the button */
+    justify-content: center; /* Center child items vertically within the button */
+
+}
+
+.order-totals {
+    width: 48%;
+    background: #ffffff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto; /* Align to the right */
+    border-bottom: 1px dashed #ddd; /* Gray broken line */
+}
+
+.order-total-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+
+}
+.place-order-btn {
+    display: flex;
+    justify-content: space-between; /* Place items at each end of the container */
+    align-items: center; /* Center items vertically within the container */
+    margin-top: 10px;
+}
+
+.place-order-btn .label {
+    flex-grow: 1; /* Allow the label to grow and take up remaining space */
+    text-align: center; /* Center text horizontally */
+}
+
+.place-order-btn .button {
+    margin-left: auto; /* Move the button to the right */
+}
+
+
+.rental-box {
+    width: 58%;
+    max-width: 1204px;
+    background: #ffffff;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.rental-details {
+    margin-bottom: 15px;
+}
+
+.rental-title {
+    color: #3D3C3C;
+    font-size: 30px;
+    font-family: 'Unica One', sans-serif;
+    font-weight: 400;
+    word-wrap: break-word;
+}
+
+.rental-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.modal-dialog {
+    max-width: 800px; /* Set the desired max-width */
+    width: 200%; /* Set the desired width */
+    max-height: 400px; /* Set the desired max-height */
+    height: 60%; /* Set the desired height */
+}
+.labels{
+    font-size: 15px;
+}
+.add-address-form {
+    max-width: 50%;
+    margin: 0 auto;
+    padding: 20px;
+
+}
+.form-groups.col-md-6{
+    max-width: 33.3%;
+}
+.form-group.col-md-6{
+    max-width: 50%;
+}
+.form-row{
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.form-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
