@@ -6,6 +6,7 @@ from werkzeug.exceptions import abort
 import cloudinary
 import cloudinary.uploader
 from werkzeug.utils import secure_filename
+from flask_paginate import Pagination
 
 home = Blueprint('home', __name__)
 
@@ -18,10 +19,6 @@ def allowed_file(filename):
 @home.route('/')
 def landing_page():
     return render_template("home.html")
-
-# @home.route('/buy')
-# def buy_request():
-#     return render_template("buy-request.html")
 
 @home.route('/home')
 @login_required
@@ -48,8 +45,16 @@ def all_books():
     
     # Extract values (unique books) from the dictionary
     other_books = list(unique_books.values())
+
+    page = request.args.get('page', 1, type=int)
+    per_page = 1
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_pages = (len(other_books) + per_page - 1) // per_page
+
+    items_on_page = other_books[start:end]
     
-    return render_template('library.html', genres=genres, other_books=other_books)
+    return render_template('library.html', genres=genres, other_books=other_books, items_on_page=items_on_page, total_pages=total_pages, page=page)
 
 # @home.route('/books')
 # @login_required
@@ -71,13 +76,15 @@ def user_books(user_id):
     if selected_genre != 'all':
         user_books = [book for book in user_books if book['book_genre'] == int(selected_genre)]
 
-    return render_template('user_books.html', user_profile_data= user_profile_data, user_books=user_books, user_id=user_id, genres=genres)
+    page = request.args.get('page', 1, type=int)
+    per_page = 1
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_pages = (len(user_books) + per_page - 1) // per_page
 
-# @home.route('/<string:username>/books')
-# @login_required
-# def username_user_books(username):
-#     user_books = UserBook.get_books_for_user(username)
-#     return render_template('user_books.html', user_books=user_books, user_id=username)
+    items_on_page = user_books[start:end]
+
+    return render_template('user_books.html', user_profile_data= user_profile_data, user_books=user_books, user_id=user_id, genres=genres,  items_on_page=items_on_page, total_pages=total_pages, page=page)
 
 @home.route('/books/<int:book_id>')
 @login_required
