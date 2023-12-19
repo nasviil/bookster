@@ -45,7 +45,7 @@
 					<b class="user-info">{{ username }}</b>
 					{% endif %}
 					<a
-						href="/userprofile"
+						href="{{ url_for('userprofile.get_user_profile_route', user_id=user_id)}}"
 						class="user-info"
 						style="font-size: 1rem"
 						>View Profile</a
