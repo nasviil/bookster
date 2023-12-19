@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename='styles.css') }}"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Buy Book</title>
+	</head>
+	<body>
+		<div>{% include 'partials/navbar.html' %}</div>
+		{% if matching_book %}
+		<div class="receipt-container">
+			<div class="receipt">
+				<div class="receipt-heading">BUY REQUEST</div>
+				<div class="receipt-book-detail">
+					<div class="receipt-book-detail-title">
+						{{matching_book.book_title}}
+					</div>
+					<div class="receipt-book-detail-author">
+						{{matching_book.book_author}}
+					</div>
+				</div>
+				<div class="receipt-seller">{{book_detail.username}}</div>
+				<div class="receipt-quantity">Quantity: {{book_detail.quantity}}</div>
+				<div class="receipt-controls">
+					<div>Cancel</div>
+					<div>Buy</div>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+	</body>
+</html>

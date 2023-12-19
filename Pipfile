@@ -14,6 +14,7 @@ requests = "*"
 cloudinary = "*"
 flask-mail = "*"
 cryptography = "*"
+flask-paginate = "*"
 
 [dev-packages]
 

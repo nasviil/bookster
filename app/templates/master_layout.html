@@ -1,102 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href='https://fonts.googleapis.com/css?family=Unica One' rel='stylesheet'>
-    	<!-- Include Bootstrap CSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css?family=Unica One"
+			rel="stylesheet"
+		/>
+		<!-- Include Bootstrap CSS -->
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
 		<!-- Bootstrap CSS -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-ukzI57JFuAla6UfPoeN3iHMzchCU/mHp/M70L2hX6jb8vZFlHr/4UJlflY4iKfHaVGrTR3fZPB1hZRZP2h2boDA==" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+			integrity="sha512-ukzI57JFuAla6UfPoeN3iHMzchCU/mHp/M70L2hX6jb8vZFlHr/4UJlflY4iKfHaVGrTR3fZPB1hZRZP2h2boDA=="
+			crossorigin="anonymous"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+			integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+			crossorigin="anonymous"
+		/>
 
+		<title>{% block title %}Bookster{% endblock %}</title>
+		<style>
+			body {
+				background-color: #fffdf2;
+				margin: 0;
+				padding: 0;
+				width: 1920px;
+			}
 
-    <title>{% block title %}Bookster{% endblock %}</title>
-    <style>
-        body {
-            background-color: #FFFDF2;
-            margin: 0;
-            padding: 0;
-            width: 1920px;
-        }
+			header {
+				background-color: #fffdf2;
+				position: relative;
+				height: 100px;
+			}
 
-        header {
-            background-color: #FFFDF2;
-            position: relative;
-            height: 100px;
-        }
+			.logo {
+				position: absolute;
+			}
 
-        .logo {
-            position: absolute;
-        }
+			.logo img {
+				position: absolute;
+			}
 
-        .logo img {
-            position: absolute;
-        }
+			.logo1 {
+				right: 210px;
+				top: 52px;
+			}
 
-        .logo1 {
-            right: 210px;
-            top: 52px;
-        }
+			.logo2 {
+				right: 270px;
+				top: 49px;
+			}
 
-        .logo2 {
-            right: 270px;
-            top: 49px;
-        }
+			.logo3 {
+				right: 330px;
+				top: 56px;
+			}
 
-        .logo3 {
-            right: 330px;
-            top: 56px;
-        }
+			.logo4 {
+				left: 70px;
+				top: 50px;
+			}
 
-        .logo4 {
-            left: 70px;
-            top: 50px;
-        }
+			.logo a {
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<div class="logo logo1">
+				<a href="/userprofile">
+					<img
+						src="{{ url_for('static', filename='img/header/MyAcc.png') }}"
+						alt="Logo 1"
+					/>
+				</a>
+			</div>
+			<div class="logo logo2">
+				<a href="your_link_for_logo2.html">
+					<img
+						src="{{ url_for('static', filename='img/header/chat.png') }}"
+						alt="Logo 2"
+					/>
+				</a>
+			</div>
+			<div class="logo logo3">
+				<a href="your_link_for_logo3.html">
+					<img
+						src="{{ url_for('static', filename='img/header/SHOPPING_CART.png') }}"
+						alt="Logo 3"
+					/>
+				</a>
+			</div>
+			<div class="logo logo4">
+				<a href="/home">
+					<img
+						src="{{ url_for('static', filename='img/header/Group 136.png') }}"
+						alt="Logo 4"
+					/>
+				</a>
+			</div>
+		</header>
 
-        .logo a {
-            text-decoration: none;
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="logo logo1">
-            <a href="/userprofile">
-                <img src="{{ url_for('static', filename='img/header/MyAcc.png') }}" alt="Logo 1">
-            </a>
-        </div>
-        <div class="logo logo2">
-            <a href="your_link_for_logo2.html">
-                <img src="{{ url_for('static', filename='img/header/chat.png') }}" alt="Logo 2">
-            </a>
-        </div>
-        <div class="logo logo3">
-            <a href="your_link_for_logo3.html">
-                <img src="{{ url_for('static', filename='img/header/SHOPPING_CART.png') }}" alt="Logo 3">
-            </a>
-        </div>
-        <div class="logo logo4">
-            <a href="/home">
-                <img src="{{ url_for('static', filename='img/header/Group 136.png') }}" alt="Logo 4">
-            </a>
-        </div>
-    </header>
+		<div id="content">{% block content %}{% endblock %}</div>
 
-    <div id="content">
-        {% block content %}{% endblock %}
-    </div>
-
-
-<!-- Add these script tags to include Bootstrap and jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI/t1fWCfHr2FBFssVn3pob6qZu0IhdTq8PIEx95E=" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8PPgZ8fjRR9fFJ/f9v3G3c3pPTYY5u1R7N2P6L1gGYdRbHI3+usSdjNUHCi" crossorigin="anonymous"></script>
-<script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
-</body>
+		<!-- Add these script tags to include Bootstrap and jQuery -->
+		<script
+			src="https://code.jquery.com/jquery-3.6.4.min.js"
+			integrity="sha256-oP6HI/t1fWCfHr2FBFssVn3pob6qZu0IhdTq8PIEx95E="
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-pzjw8PPgZ8fjRR9fFJ/f9v3G3c3pPTYY5u1R7N2P6L1gGYdRbHI3+usSdjNUHCi"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://widget.cloudinary.com/v2.0/global/all.js"
+			type="text/javascript"
+		></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script
+			src="https://widget.cloudinary.com/v2.0/global/all.js"
+			type="text/javascript"
+		></script>
+	</body>
 </html>
