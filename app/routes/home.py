@@ -6,6 +6,7 @@ from werkzeug.exceptions import abort
 import cloudinary
 import cloudinary.uploader
 from werkzeug.utils import secure_filename
+from flask_paginate import Pagination
 
 home = Blueprint('home', __name__)
 
@@ -27,12 +28,50 @@ def home_page():
 @home.route('/books')
 @login_required
 def all_books():
+    current_user.id = int(current_user.id)
     books = UserBook.get_all_books()
     genres = Genre.get_genres()
     selected_genre = request.args.get('genre', 'all')
+    search_query = request.args.get('search', '')  # Retrieve the search query from the URL
+
     if selected_genre != 'all':
         books = [book for book in books if book['book_genre'] == int(selected_genre)]
-    return render_template('library.html', books=books, genres=genres)
+
+    if search_query:
+        # If there's a search query, filter the books based on it
+        books = [book for book in books if search_query.lower() in book['book_title'].lower()]
+
+    unique_books = {}  # Use a dictionary to store unique books based on book_id
+
+    for book in books:
+        if current_user.id != book['user_id']:
+            if book['book_id'] not in unique_books:
+                unique_books[book['book_id']] = book
+
+    # Extract values (unique books) from the dictionary
+    other_books = list(unique_books.values())
+
+    page = request.args.get('page', 1, type=int)
+    per_page = 2
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_pages = (len(other_books) + per_page - 1) // per_page
+
+    items_on_page = other_books[start:end]
+
+    return render_template('library.html', genres=genres, other_books=other_books, items_on_page=items_on_page, total_pages=total_pages, page=page, search_query=search_query, selected_genre=selected_genre)
+
+
+
+# @home.route('/books')
+# @login_required
+# def all_books():
+#     books = UserBook.get_all_books()
+#     genres = Genre.get_genres()
+#     selected_genre = request.args.get('genre', 'all')
+#     if selected_genre != 'all':
+#         books = [book for book in books if book['book_genre'] == int(selected_genre)]
+#     return render_template('library.html', other_books=books, genres=genres)
 
 @home.route('/<int:user_id>/books')
 @login_required
@@ -44,33 +83,71 @@ def user_books(user_id):
     if selected_genre != 'all':
         user_books = [book for book in user_books if book['book_genre'] == int(selected_genre)]
 
-    return render_template('user_books.html', user_profile_data= user_profile_data, user_books=user_books, user_id=user_id, genres=genres)
+    page = request.args.get('page', 1, type=int)
+    per_page = 1
+    start = (page - 1) * per_page
+    end = start + per_page
+    total_pages = (len(user_books) + per_page - 1) // per_page
 
-# @home.route('/<string:username>/books')
-# @login_required
-# def username_user_books(username):
-#     user_books = UserBook.get_books_for_user(username)
-#     return render_template('user_books.html', user_books=user_books, user_id=username)
+    items_on_page = user_books[start:end]
+
+    return render_template('user_books.html', user_profile_data= user_profile_data, user_books=user_books, user_id=user_id, genres=genres,  items_on_page=items_on_page, total_pages=total_pages, page=page)
 
 @home.route('/books/<int:book_id>')
 @login_required
 def book_detail(book_id):
     books = UserBook.get_all_books()
-    book_detail = UserBook.get_book_details(book_id)
     matching_book = None
+    book_detail = None
+    
+    # Assuming current_user.id is an integer
+    current_user_id = int(current_user.id)
+    
     for book in books:
-        if book['user_id'] == book_detail['user_id']:
+        if book['book_id'] == book_id and book['user_id'] != current_user_id:
+            # Assuming book_detail should be details for the other user and the specific book
+            book_detail = UserBook.get_book_user_details(book['user_id'], book_id)
             matching_book = book
             break
+    
     print(matching_book)
+    
     return render_template('library-detail.html', book_detail=book_detail, books=books, matching_book=matching_book)
 
 
 @home.route('/<int:user_id>/books/<int:book_id>')
 @login_required
 def book_user_detail(user_id, book_id):
-    book_detail = UserBook.get_book_details(book_id)
-    return render_template('product_detail.html', book_detail=book_detail, user_id=user_id)
+    current_user.id = int(current_user.id)
+    books = UserBook.get_all_books()
+    book_detail = UserBook.get_book_user_details(user_id, book_id)
+
+    # Filter out the current book from the list
+    other_books = [book for book in books if book['book_id'] == book_id and book['user_id'] != user_id and book['user_id'] != current_user.id]
+    print(other_books)
+
+    return render_template('product_detail.html', book_detail=book_detail, user_id=user_id, other_books=other_books)
+
+
+@home.route('/<int:user_id>/books/<int:book_id>/buy')
+@login_required
+def book_buy(user_id, book_id):
+    books = UserBook.get_all_books()
+    matching_book = None
+    book_detail = None
+    
+    # Assuming current_user.id is an integer
+    current_user_id = int(current_user.id)
+    
+    for book in books:
+        if book['book_id'] == book_id and book['user_id'] != current_user_id:
+            # Assuming book_detail should be details for the other user and the specific book
+            book_detail = UserBook.get_book_user_details(book['user_id'], book_id)
+            matching_book = book
+            break
+    
+    print(matching_book)
+    return render_template('buy-request.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
 
 @home.route('/<int:user_id>/books/add_book', methods=['GET', 'POST'])
 @login_required
@@ -84,8 +161,9 @@ def add_book(user_id):
         book_isbn = request.form['book_isbn']
         book_author = request.form['book_author']
         book_genre = request.form['book_genre']
-        book_sell_price = request.form['book_sell_price']
-        book_rent_price = request.form['book_rent_price']
+        selling_price = request.form['selling_price']
+        renting_price = request.form['renting_price']
+        quantity = request.form['quantity']
 
         if 'book_image' in request.files:
             uploaded_file = request.files['book_image']
@@ -93,7 +171,7 @@ def add_book(user_id):
                 cloudinary_response = cloudinary.uploader.upload(uploaded_file)
                 cloudinary_url = cloudinary_response.get('secure_url', '')
 
-                UserBook.add_book(user_id, book_title, book_isbn, book_author, book_genre, book_sell_price, book_rent_price, cloudinary_url)
+                UserBook.add_book(user_id, book_title, book_isbn, book_author, book_genre, cloudinary_url, selling_price, renting_price, quantity)
 
         return redirect(url_for('home.user_books', user_id=user_id))
 
@@ -110,10 +188,11 @@ def delete_book(user_id, book_id):
 @home.route('/<int:user_id>/books/<int:book_id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit_book(user_id, book_id):
+    current_user.id = int(current_user.id)
     if current_user.id != user_id:
         abort(403)  # Forbidden
 
-    book_detail = UserBook.get_book_details(book_id)
+    book_detail = UserBook.get_book_user_details(user_id, book_id)
 
     if request.method == 'POST':
         print("Form data received:", request.form)
@@ -121,8 +200,9 @@ def edit_book(user_id, book_id):
         book_isbn = request.form['book_isbn']
         book_author = request.form['book_author']
         book_genre = request.form['book_genre']
-        book_sell_price = request.form['book_sell_price']
-        book_rent_price = request.form['book_rent_price']
+        selling_price = request.form['selling_price']
+        renting_price = request.form['renting_price']
+        quantity = request.form['quantity']
         cloudinary_url = ''  # Initialize with an empty string by default
 
         if 'book_image' in request.files:
@@ -141,11 +221,13 @@ def edit_book(user_id, book_id):
             book_isbn,
             book_author,
             book_genre,
-            book_sell_price,
-            book_rent_price,
-            cloudinary_url
+            selling_price,
+            renting_price,
+            cloudinary_url,
+            user_id,
+            quantity
         )
-        return redirect(url_for('home.book_detail', book_detail=book_detail, user_id=user_id, book_id=book_id))
+        return redirect(url_for('home.book_user_detail', book_detail=book_detail, user_id=user_id, book_id=book_id))
 
     genres = Genre.get_genres()
     return render_template('edit-book.html', book_detail=book_detail, user_id=user_id, genres=genres)
