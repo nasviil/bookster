@@ -448,6 +448,8 @@
 
 .btn-library:hover {
 	background-color: rgba(0, 0, 0, 0.3);
+	text-decoration: none;
+	color: #222;
 }
 
 .book-control {
