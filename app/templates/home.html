@@ -9,7 +9,7 @@
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<!-- Bootstrap CSS -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+  
 
 </head>
 <body>
@@ -37,7 +37,7 @@
 	<div class="w3-display-container w3-animate-opacity">
 		<img src="{{ url_for('static', filename='img/landingpage/header2.png') }}" style="max-width: 100%; max-height: 50%;">
 		<div class="w3-display-left" style="position: absolute; top: 55%; left: 140px; transform: translateY(-50%);">
-			<a href="{{ url_for('home.home_page') }}">
+			<a href="{{ url_for('auth.signup') }}">
 				<img src="{{ url_for('static', filename='img/landingpage/startbtn.png') }}" alt="Get Started" style="width: 200px; height: auto;">
 			</a>
 		</div>

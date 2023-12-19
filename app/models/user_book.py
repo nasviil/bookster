@@ -1,17 +1,17 @@
-# from flask import Flask
-# from flaskext.mysql import MySQL
+#from flask import Flask
+#from flaskext.mysql import MySQL
 from datetime import datetime
 from app import mysql
 
-# app = Flask(__name__)
+#app = Flask(__name__)
 # # Configure MySQL
-# app.config['MYSQL_DATABASE_USER'] = 'root'
-# app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-# app.config['MYSQL_DATABASE_DB'] = 'sql12663651'
-# app.config['MYSQL_DATABASE_HOST'] = 'localhost' 
+#app.config['MYSQL_DATABASE_USER'] = 'root'
+#app.config['MYSQL_DATABASE_PASSWORD'] = '1234'
+#app.config['MYSQL_DATABASE_DB'] = 'sql12663651'
+#app.config['MYSQL_DATABASE_HOST'] = 'localhost' 
 
 
-# mysql = MySQL(app)
+#Mysql = MySQL(app)
 
 class UserBook:
     __tablename__ = 'user_book_instances'
@@ -181,3 +181,64 @@ class Genre:
         cur.execute(SELECT_SQL)
         genres = cur.fetchall()
         return genres
+    
+class Region:
+    __tablename__ = 'region'
+
+    @classmethod
+    def get_region(cls):
+        SELECT_SQL = f"SELECT * FROM {cls.__tablename__}"
+        cur = mysql.new_cursor(dictionary=True)
+        cur.execute(SELECT_SQL)
+        regions = cur.fetchall()
+        return regions
+    
+class Address:
+    __tablename__ = 'address'
+
+    @classmethod
+    def get_address(cls):
+        SELECT_SQL = f"SELECT * FROM {cls.__tablename__}"
+        cur = mysql.new_cursor(dictionary=True)
+        cur.execute(SELECT_SQL)
+        addresses = cur.fetchall()
+        return addresses
+
+    @classmethod
+    def get_user_addresses(cls, user_id):
+        SELECT_SQL = f"SELECT * FROM {cls.__tablename__} WHERE user_id = %s"
+        cur = mysql.new_cursor(dictionary=True)
+        cur.execute(SELECT_SQL, (user_id,))
+        user_addresses = cur.fetchall()
+        return user_addresses
+
+    @classmethod
+    def add_address(cls, address_id, user_id, fullname, phone_number, region_id, province, city, barangay, zipcode, street, building, house_no, notes):
+        INSERT_SQL = (
+            "INSERT INTO address "
+            "(address_id, user_id, fullname, phone_number, region_id, province, city, barangay, zipcode, street, building, house_no, notes) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        )
+        cur = mysql.connection.cursor()
+        try:
+            cur.execute(INSERT_SQL, (address_id, user_id, fullname, phone_number, region_id, province, city, barangay, zipcode, street, building, house_no, notes))
+            mysql.connection.commit()
+        except Exception as e:
+            mysql.connection.rollback()
+            raise e
+        finally:
+            cur.close()
+
+    
+class BuyReq:
+    __tablename__ = 'buyrequest'
+    
+    def __init__(self, request_id, user_id, quantity, subtotal, total, book_id, region_id, method_id):
+        self.request_id = request_id
+        self.user_id = user_id
+        self.quantity = quantity
+        self.subtotal = subtotal
+        self.total = total
+        self.book_id = book_id
+        self.region_id = region_id
+        self.method_id = method_id

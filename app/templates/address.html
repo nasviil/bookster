@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <link
+        rel="stylesheet"
+        type="text/css"
+        href="{{ url_for('static', filename='css/buyreq.css') }}"
+        />    
+        <link
+        rel="stylesheet"
+        type="text/css"
+        href="{{ url_for('static', filename='css/styles.css') }}"
+    />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"
+        />
+                <!-- Bootstrap CSS -->
+            <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        />
+        <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous"
+        />
+
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Checkout</title>
+	</head>
+	<body>
+        <div>{% include 'partials/navbar.html' %}</div>
+    
+        <div class="add-address-form">
+            <h5 class="form-title">Add New Address</h5>
+            <form action="" method="post">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" class="form-control" id="fullname" name="fullname" placeholder="" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="phonenumber">Phone Number</label>
+                        <input type="text" class="form-control" id="phonenumber" name="phonenumber" placeholder="" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-groups col-md-6">
+                        <label for="region">Region</label>
+                        <select class="form-control" id="region" name="region" required>
+                            <option value="" disabled selected>--Select Region--</option>
+                            <!-- Add options for regions dynamically if needed -->
+                        </select>
+                    </div>
+                    <div class="form-groups col-md-6">
+                        <label for="province">Province</label>
+                        <input type="text" class="form-control" id="province" name="province" placeholder="" required>
+                    </div>
+                    <div class="form-groups col-md-6">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" name="city" placeholder="" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="barangay">Barangay</label>
+                        <input type="text" class="form-control" id="barangay" name="barangay" placeholder="" required>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="postalCode">Postal Code</label>
+                        <input type="text" class="form-control" id="postalCode" name="postalCode" placeholder="" required>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="street">Street, Building, House no.</label>
+                    <input type="text" class="form-control" id="street" name="street" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea class="form-control" id="notes" name="notes" rows="3" placeholder=""></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </body>
+    </html> 
