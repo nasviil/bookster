@@ -1,12 +1,16 @@
 import mysql.connector
 from flask_login import UserMixin
 from app.models.userprofilemodel import UserProfile 
+from os import getenv
+from dotenv import load_dotenv  
+
+load_dotenv()
 
 db = mysql.connector.connect(
-    host = 'localhost',
-    user = 'root',
-    password = '1234',
-    database = 'bookster2'
+    host = getenv('MYSQL_HOST'),
+    user = getenv('MYSQL_USERNAME'),
+    password = getenv('MYSQL_PASSWORD'),
+    database = getenv('MYSQL_NAME')
 )
 cursor = db.cursor()
 

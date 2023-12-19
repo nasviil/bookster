@@ -405,6 +405,7 @@
 	padding: 20px;
 	border: 2px #222 solid;
 	align-items: center;
+	margin-bottom: 20px;
 }
 
 .user-photo-container {
@@ -447,6 +448,8 @@
 
 .btn-library:hover {
 	background-color: rgba(0, 0, 0, 0.3);
+	text-decoration: none;
+	color: #222;
 }
 
 .book-control {
