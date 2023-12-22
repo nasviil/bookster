@@ -26,15 +26,14 @@ def landing_page():
 def home_page():
     return render_template("homepage.html")
 
-@home.route('/books')
+@home.route('/books', methods=['GET'])
 @login_required
 def all_books():
     current_user.id = int(current_user.id)
     books = UserBook.get_all_books()
     genres = Genre.get_genres()
     selected_genre = request.args.get('genre', 'all')
-    search_query = request.args.get('search', '')  # Retrieve the search query from the URL
-    print(books)
+    search_query = request.args.get('search', '')
 
     if selected_genre != 'all':
         books = [book for book in books if book['book_genre'] == int(selected_genre)]
