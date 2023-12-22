@@ -40,6 +40,7 @@
 				<select
 					class="filter-dropdown"
 					id="genre-filter"
+					onchange="handleGenreChange()"
 				>
 					<option value="all">All Genres</option>
 					{% for genre in genres %}
@@ -72,7 +73,7 @@
 					{% endif %}
 					<div class="ulibrary-book-title">
 						<a
-							href="{{ url_for('home.book_user_detail', book_id=book['book_id'], user_id = book['user_id']) }}"
+							href="{{ url_for('home.book_user_detail', book_id=book['book_id'], user_id=book['user_id']) }}"
 							>{{ book['book_title'] }}</a
 						>
 					</div>
@@ -196,19 +197,66 @@
 		</div>
 		<script>
 			function searchAndFilter() {
-				var searchQuery = document.getElementById("search-input").value;
-				var genreFilter = document.getElementById("genre-filter").value;
+				var searchQuery = encodeURIComponent(
+					document.getElementById("search-input").value
+				);
+				var genreFilter = encodeURIComponent(
+					document.getElementById("genre-filter").value
+				);
 
 				// Construct the search URL with the search query and genre filter
 				var searchUrl =
-					"/books?search=" +
-					encodeURIComponent(searchQuery) +
-					"&genre=" +
-					encodeURIComponent(genreFilter);
+					"/books?search=" + searchQuery + "&genre=" + genreFilter;
 
 				// Redirect to the constructed search URL
 				window.location.href = searchUrl;
 			}
+
+			function handleGenreChange() {
+				// Get the selected genre from the dropdown
+				var selectedGenre = document.getElementById("genre-filter").value;
+
+				// Check if "All Genres" is selected
+				if (selectedGenre === "all") {
+					// Clear the genre parameter from the URL
+					var currentUrl = window.location.href;
+					var newUrl = currentUrl.split("?")[0]; // Remove existing query parameters
+					window.location.href = newUrl;
+				} else {
+					// Get the current search query and page values from the URL
+					var searchQuery =
+						new URLSearchParams(window.location.search).get("search") || "";
+					var currentPage =
+						new URLSearchParams(window.location.search).get("page") || 1;
+
+					// Construct the new URL with the selected genre
+					var newUrl =
+						"/books?search=" +
+						encodeURIComponent(searchQuery) +
+						"&genre=" +
+						encodeURIComponent(selectedGenre) +
+						"&page=" +
+						currentPage;
+
+					// Redirect to the new URL
+					window.location.href = newUrl;
+				}
+			}
+
+			// Add this part to set the selected option in the dropdown
+			document.addEventListener("DOMContentLoaded", function () {
+				var genreFilter = document.getElementById("genre-filter");
+				var selectedGenre =
+					new URLSearchParams(window.location.search).get("genre") || "all";
+
+				// Set the selected option in the dropdown
+				for (var i = 0; i < genreFilter.options.length; i++) {
+					if (genreFilter.options[i].value === selectedGenre) {
+						genreFilter.selectedIndex = i;
+						break;
+					}
+				}
+			});
 		</script>
 	</body>
 </html>
