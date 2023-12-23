@@ -194,8 +194,10 @@ def book_rent(user_id, book_id):
         book_id = matching_book['book_id']
         owner_id = matching_book['user_id']
         quantity = request.form['quantity']
+        rent_start_date = request.form['rent_start_date']  # Get the rent_start_date from the form
+        rent_end_date = request.form['rent_end_date']  # Get the rent_end_date from the form
 
-        UserBook.add_rent_order(renter_id, book_id, owner_id, quantity)
+        UserBook.add_rent_order(renter_id, book_id, owner_id, quantity, rent_start_date, rent_end_date)
 
         return redirect(url_for('home.user_books', user_id=user_id))
     

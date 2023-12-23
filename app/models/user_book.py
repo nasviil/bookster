@@ -160,10 +160,10 @@ class UserBook:
             return None
 
     @classmethod
-    def add_rent_order(cls, renter_id, book_id, owner_id, quantity):
+    def add_rent_order(cls, renter_id, book_id, owner_id, quantity, rent_start_date, rent_end_date):
         INSERT_ORDER_SQL = ("INSERT INTO rent_books (renter_id, book_id, owner_id, quantity, rent_start_date, rent_end_date)""VALUES(%s, %s, %s, %s, %s, %s)");
         cur = mysql.connection.cursor(dictionary=True)
-        cur.execute(INSERT_ORDER_SQL, (renter_id, book_id, owner_id, quantity,  datetime.now(), datetime.now()))
+        cur.execute(INSERT_ORDER_SQL, (renter_id, book_id, owner_id, quantity,  rent_start_date, rent_end_date))
         mysql.connection.commit()
 
     @classmethod
