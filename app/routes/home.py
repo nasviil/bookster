@@ -70,6 +70,9 @@ def order_page(user_id):
     book_detail = None
     buyer = None
 
+    if current_user.id != user_id:
+        abort(403)  # Forbidden
+
     if current_user.id == user_id:
         buy_orders = UserBook.get_purchase_orders(user_id)
         if buy_orders is not None:
