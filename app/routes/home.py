@@ -88,10 +88,13 @@ def order_page(user_id):
                 flash('Purchase confirmed successfully!', 'success')
 
             return redirect(url_for('home.order_page', user_id=user_id))
+        
+        confirmed_orders = UserBook.get_confirmed_purchase_orders(user_id)
+        if confirmed_orders is not None:
+            confirmed_book_detail = [UserBook.get_book_details(order['book_id']) for order in confirmed_orders]
+            confirmed_buyer = [User.userData1(order['buyer_id']) for order in confirmed_orders]
 
-    return render_template('order_page.html', user_id=user_id, buy_orders=buy_orders, book_detail=book_detail, buyer=buyer)
-
-
+    return render_template('order_page.html', user_id=user_id, buy_orders=buy_orders, book_detail=book_detail, buyer=buyer, confirmed_orders=confirmed_orders, confirmed_book_detail=confirmed_book_detail, confirmed_buyer=confirmed_buyer )
 
 @home.route('/<int:user_id>/books')
 @login_required
