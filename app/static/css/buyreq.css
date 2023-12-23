@@ -4,13 +4,13 @@
     flex-direction: column;
     align-items: center;
     padding-top: 120px; /* Adjust as needed */
-    background-color: #fffdf2;
+    background-color: #fffdf2;;
 }
 
 .delivery-box {
-    width: 58%;
+    width: 100%;
     max-width: 1204px;
-    background: #FAF1D7;
+    background: #fffdf2;;
     margin-bottom: 20px;
 }
 
@@ -50,7 +50,7 @@
 
 .order-box {
     width: 100%;
-    max-width: 1109px;
+    max-width: 1204px;
     min-height: 50px;
     background: #ffffff;
     overflow: auto;

@@ -41,6 +41,7 @@
 		<title>Checkout</title>
 	</head>
 	<body>
+		
 		<form
 			method="post"
 			action="{{ url_for('home.book_buy', user_id=user_id, book_id=matching_book.book_id) }}"
@@ -49,32 +50,8 @@
 			{% if matching_book %}
 			<div
 				class="order-container"
-				style="margin-top: -100px"
+				style="margin-top: 100px"
 			>
-				<div class="delivery-box">
-					<div class="title">Delivery Address</div>
-					<!-- Make "Add New Address" clickable -->
-					<div
-						id="addAddressButton"
-						data-toggle="modal"
-						data-target="#addAddressModal"
-						style="cursor: pointer"
-					>
-						<div class="add-address">
-							<div class="add-address-icon">
-								<a
-									href="{{ url_for('home.add_address', user_id=user_id, book_id=matching_book.book_id) }}"
-								>
-									<img
-										src="https://res.cloudinary.com/dclxaugvd/image/upload/v1702577474/bookster/icon-park-outline_add_1_vgeyck.png"
-										alt="Add Address Icon"
-									/>
-								</a>
-							</div>
-							<div class="add-address-text">Add New Address</div>
-						</div>
-					</div>
-				</div>
 
 				<div class="order-box">
 					<table class="order-details-table">
@@ -130,52 +107,26 @@
 								</td>
 								<td id="orderTotal">₱{{ book_detail.selling_price }}</td>
 							</tr>
+							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>						
+									<button
+									type="submit"
+									class="button btn btn-primary"
+								>
+									Place Order
+								</button>
+							</td>
+						</tr>
 							<!-- Add more rows as needed -->
 						</tbody>
 					</table>
 				</div>
 
-				<div class="payment-box">
-					<div class="payment-method">
-						<div class="paymenttitle">Payment Method</div>
-						<div class="form-check">
-							<input
-								class="form-check-input"
-								type="radio"
-								name="paymentMethod"
-								id="cashOnDelivery"
-								value="cashOnDelivery"
-							/>
-							<div class="label-container">
-								<label
-									class="form-check-label"
-									style="font-size: 20px"
-									for="cashOnDelivery"
-									>Cash on Delivery</label
-								>
-							</div>
-						</div>
-					</div>
-
-					<div class="order-totals">
-						<div class="order-total-item">
-							<span>Item Subtotal:</span>
-							<span>$39.98</span>
-						</div>
-						<div class="order-total-item">
-							<span style="margin-top: 9px">Total Payment:</span>
-							<span style="font-size: 30px; font-weight: 20px">P413</span>
-							<!-- Add the total payment dynamically -->
-						</div>
-					</div>
-					<div class="place-order-btn">
-						<button
-							type="submit"
-							class="button btn btn-primary"
-						>
-							Place Order
-						</button>
-					</div>
+	
 				</div>
 			</div>
 			{% endif %}
