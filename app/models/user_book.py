@@ -86,6 +86,21 @@ class UserBook:
             return None
 
     @classmethod
+    def get_confirmed_purchase_orders(cls, seller_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM purchase_books "
+                "WHERE seller_id = %s AND is_confirmed = 1"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (seller_id,))
+            confirmed_orders = cur.fetchall()
+            return confirmed_orders
+        except Exception as e:
+            print(f"Error in get_purchase_orders: {e}")
+            return None
+
+    @classmethod
     def add_purchase_order(cls, buyer_id, book_id, seller_id, quantity):
         INSERT_ORDER_SQL = ("INSERT INTO purchase_books (buyer_id, book_id, seller_id, quantity, purchase_date)""VALUES(%s, %s, %s, %s, %s)");
         cur = mysql.connection.cursor(dictionary=True)
