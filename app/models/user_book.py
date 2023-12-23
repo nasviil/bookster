@@ -327,3 +327,4 @@ class BuyReq:
         self.book_id = book_id
         self.region_id = region_id
         self.method_id = method_id
+

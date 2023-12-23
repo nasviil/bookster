@@ -175,6 +175,32 @@ def book_buy(user_id, book_id):
     
     return render_template('buycheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
 
+@home.route('/<int:user_id>/books/<int:book_id>/rent',  methods=['GET', 'POST'])
+@login_required
+def book_rent(user_id, book_id):
+    books = UserBook.get_all_books()
+    matching_book = None
+    book_detail = None
+    current_user_id = int(current_user.id)
+    
+    for book in books:
+        if book['book_id'] == book_id and book['user_id'] != current_user_id:
+            book_detail = UserBook.get_book_user_details(book['user_id'], book_id)
+            matching_book = book
+            break
+
+    if request.method == 'POST':
+        buyer_id = current_user_id
+        book_id = matching_book['book_id']
+        seller_id = matching_book['user_id']
+        quantity = request.form['quantity']
+
+        UserBook.add_purchase_order(buyer_id, book_id, seller_id, quantity)
+
+        return redirect(url_for('home.user_books', user_id=user_id))
+    
+    return render_template('rentcheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
+
 @home.route('/<int:user_id>/books/add_book', methods=['GET', 'POST'])
 @login_required
 def add_book(user_id):
@@ -314,3 +340,22 @@ def buy_checkout(user_id, book_id):
            break
        
    return render_template('buycheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
+
+@home.route('/<int:user_id>/books/<int:book_id>/rent/checkout', methods=['GET', 'POST'])
+@login_required
+def rent_checkout(user_id, book_id):
+   books = UserBook.get_all_books()
+   matching_book = None
+   book_detail = None
+   
+   # Assuming current_user.id is an integer
+   current_user_id = int(current_user.id)
+   
+   for book in books:
+       if book['book_id'] == book_id and book['user_id'] != current_user_id:
+           # Assuming book_detail should be details for the other user and the specific book
+           book_detail = UserBook.get_book_user_details(book['user_id'], book_id)
+           matching_book = book
+           break
+       
+   return render_template('rentcheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
