@@ -107,7 +107,18 @@
 					class="tab-label"
 					>Confirmed Orders</label
 				>
-				<div class="tabs__content">CONTENT FOR TAB 3</div>
+				<div class="tabs__content">
+					{% for book in confirmed_book_detail %}{% for buyer in confirmed_buyer
+					%} {% for book_order in confirmed_orders%}
+					<div class="single-order-container">
+						<b>{{ buyer[0][1] }}</b>
+						<div>bought</div>
+						<b>{{ book.book_title }}</b>
+						<div>({{ book_order.quantity }})</div>
+					</div>
+
+					{% endfor %} {% endfor %} {% endfor %}
+				</div>
 			</div>
 		</div>
 	</body>
