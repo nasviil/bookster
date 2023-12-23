@@ -229,6 +229,27 @@
 	background: rgba(236, 102, 49, 0.9);
 }
 
+.product-button-disabled {
+	width: 100%;
+	height: 45px;
+	left: 0px;
+	top: 0px;
+	background: rgb(120, 121, 120);
+	border-radius: 20px;
+	border: 2px #3d3c3c solid;
+	color: #fffdf2;
+	font-family: Unica One;
+	padding-left: 10px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: auto;
+}
+
+.product-button-disabled:hover {
+	cursor: pointer;
+}
+
 /* .product-detail-1 {
 	color: #3d3c3c;
 	font-size: 36px;
@@ -613,4 +634,57 @@
 .other-book-title:hover {
 	text-decoration: underline;
 	cursor: pointer;
+}
+
+.order-container {
+	padding: 75px;
+}
+
+.tabs {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	font-family: Unica One;
+}
+
+.tab-label {
+	padding: 10px 16px;
+	cursor: pointer;
+}
+
+.tabs-radio {
+	display: none;
+}
+
+.tabs__content {
+	order: 1;
+	width: 100%;
+	border-bottom: 3px solid #3d3c3c;
+	line-height: 1.5;
+	font-size: 1.3em;
+	display: none;
+}
+
+.tabs-radio:checked + .tab-label {
+	font-weight: bold;
+	color: #3ab8eb;
+	border-bottom: 2px solid #3ab8eb;
+}
+
+.tabs-radio:checked + .tab-label + .tabs__content {
+	display: initial;
+}
+
+.single-order-container {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 100px;
+	background-color: rgba(54, 189, 114, 0.3);
+	padding: 12px;
+}
+
+.order-text {
+	background-color: rgba(54, 189, 114, 0);
+	margin-left: 8px;
 }

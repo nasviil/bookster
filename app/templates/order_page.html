@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="../static/styles.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+			crossorigin="anonymous"
+		/>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Orders</title>
+	</head>
+	<body>
+		<div>{% include 'partials/navbar.html' %}</div>
+		<div class="order-container">
+			<h3>ORDERS</h3>
+			<div class="tabs">
+				<input
+					type="radio"
+					class="tabs-radio"
+					name="tabs-example"
+					id="tab1"
+					checked
+				/>
+				<label
+					for="tab1"
+					class="tab-label"
+					>Buy Orders</label
+				>
+				<div class="tabs__content">
+					{% if buy_orders %} {% for i in range(buy_orders|length) %} {% set
+					book = book_detail[i] %} {% set buyer = buyer[i] %} {% set buy_order =
+					buy_orders[i] %}
+					<div class="single-order-container">
+						<b class="order-text">{{ buyer[0][1] }}</b>
+						<div class="order-text">Wants to buy</div>
+						<b class="order-text">{{ book.book_title }}</b>
+						<div class="order-text">({{ buy_order.quantity }})</div>
+						<form
+							action="{{ url_for('home.order_page', user_id=user_id) }}"
+							method="post"
+						>
+							<input
+								type="hidden"
+								name="buyer_id"
+								value="{{ buy_order.buyer_id }}"
+							/>
+							<input
+								type="hidden"
+								name="seller_id"
+								value="{{ buy_order.seller_id }}"
+							/>
+							<input
+								type="hidden"
+								name="book_id"
+								value="{{ book.book_id }}"
+							/>
+							<button
+								type="submit"
+								name="confirm_button"
+							>
+								confirm
+							</button>
+							<button
+								type="submit"
+								name="reject_button"
+							>
+								reject
+							</button>
+						</form>
+					</div>
+					{% endfor %} {% endif %}
+				</div>
+				<input
+					type="radio"
+					class="tabs-radio"
+					name="tabs-example"
+					id="tab2"
+				/>
+				<label
+					for="tab2"
+					class="tab-label"
+					>Rent Orders</label
+				>
+				<div class="tabs__content">CONTENT FOR TAB 2</div>
+				<input
+					type="radio"
+					class="tabs-radio"
+					name="tabs-example"
+					id="tab3"
+				/>
+				<label
+					for="tab3"
+					class="tab-label"
+					>Confirmed Orders</label
+				>
+				<div class="tabs__content">CONTENT FOR TAB 3</div>
+			</div>
+		</div>
+	</body>
+</html>
