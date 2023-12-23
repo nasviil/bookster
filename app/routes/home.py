@@ -190,12 +190,12 @@ def book_rent(user_id, book_id):
             break
 
     if request.method == 'POST':
-        buyer_id = current_user_id
+        renter_id = current_user_id
         book_id = matching_book['book_id']
-        seller_id = matching_book['user_id']
+        owner_id = matching_book['user_id']
         quantity = request.form['quantity']
 
-        UserBook.add_purchase_order(buyer_id, book_id, seller_id, quantity)
+        UserBook.add_rent_order(renter_id, book_id, owner_id, quantity)
 
         return redirect(url_for('home.user_books', user_id=user_id))
     

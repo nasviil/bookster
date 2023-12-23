@@ -142,6 +142,81 @@ class UserBook:
             print(f"Error updating purchase order: {e}")
         finally:
             cur.close()
+            
+            
+    @classmethod
+    def get_rent_orders(cls, seller_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM rent_books "
+                "WHERE owner_id = %s AND is_confirmed = 0"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (seller_id,))
+            book_orders = cur.fetchall()
+            return book_orders
+        except Exception as e:
+            print(f"Error in get_rent_orders: {e}")
+            return None
+
+    @classmethod
+    def add_rent_order(cls, renter_id, book_id, owner_id, quantity):
+        INSERT_ORDER_SQL = ("INSERT INTO rent_books (renter_id, book_id, owner_id, quantity, rent_start_date, rent_end_date)""VALUES(%s, %s, %s, %s, %s, %s)");
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(INSERT_ORDER_SQL, (renter_id, book_id, owner_id, quantity,  datetime.now(), datetime.now()))
+        mysql.connection.commit()
+
+    @classmethod
+    def confirm_purchase_order(cls, renter_id, owner_id, book_id):
+        cur = mysql.connection.cursor(dictionary=True)
+        try:
+            # Retrieve the quantity from purchase_books
+            SELECT_PURCHASE_BOOK_SQL = (
+                "SELECT quantity FROM rent_books "
+                "WHERE renter_id = %s AND owner_id = %s AND book_id = %s AND is_confirmed = 0"
+            )
+            cur.execute(SELECT_PURCHASE_BOOK_SQL, (renter_id, owner_id, book_id))
+            purchase_info = cur.fetchone()
+
+            if purchase_info:
+                purchase_quantity = purchase_info['quantity']
+
+                # Update purchase_books
+                UPDATE_PURCHASE_BOOK_SQL = (
+                    "UPDATE rent_books "
+                    "SET is_confirmed = 1 "
+                    "WHERE renter_id = %s AND owner_id = %s AND book_id = %s"
+                )
+                cur.execute(UPDATE_PURCHASE_BOOK_SQL, (renter_id, owner_id, book_id))
+                mysql.connection.commit()
+
+                # Retrieve the user_book_id and quantity from user_book_instances
+                SELECT_USER_BOOK_SQL = (
+                    "SELECT user_book_id, quantity FROM user_book_instances "
+                    "WHERE user_id = %s AND book_id = %s"
+                )
+                cur.execute(SELECT_USER_BOOK_SQL, (owner_id, book_id))
+                user_book_info = cur.fetchone()
+
+                if user_book_info:
+                    user_book_id = user_book_info['user_book_id']
+                    original_quantity = user_book_info['quantity']
+
+                    # Subtract purchase quantity from user_book_instances quantity
+                    new_quantity = max(original_quantity - purchase_quantity, 0)
+
+                    # Update user_book_instances
+                    UPDATE_USER_BOOK_SQL = (
+                        "UPDATE user_book_instances SET quantity = %s WHERE user_book_id = %s"
+                    )
+                    cur.execute(UPDATE_USER_BOOK_SQL, (new_quantity, user_book_id))
+                    mysql.connection.commit()
+
+        except Exception as e:
+            print(f"Error updating rent order: {e}")
+        finally:
+            cur.close()
+
 
     @classmethod
     def add_book(cls, user_id, book_title, book_isbn, book_author, book_genre, cloudinary_url, selling_price, renting_price, quantity):
