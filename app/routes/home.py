@@ -59,21 +59,39 @@ def all_books():
     total_pages = (len(other_books) + per_page - 1) // per_page
 
     items_on_page = other_books[start:end]
-    print(items_on_page)
 
     return render_template('library.html', genres=genres, other_books=other_books, items_on_page=items_on_page, total_pages=total_pages, page=page, search_query=search_query, selected_genre=selected_genre)
 
+@home.route('/<int:user_id>/orders', methods=['GET', 'POST'])
+@login_required
+def order_page(user_id):
+    current_user.id = int(current_user.id)
+    buy_orders = None
+    book_detail = None
+    buyer = None
+
+    if current_user.id == user_id:
+        buy_orders = UserBook.get_purchase_orders(user_id)
+        if buy_orders is not None:
+            book_detail = [UserBook.get_book_details(order['book_id']) for order in buy_orders]
+            buyer = [User.userData1(order['buyer_id']) for order in buy_orders]
+
+        if request.method == 'POST':
+            confirm_button_clicked = 'confirm_button' in request.form
+            reject_button_clicked = 'reject_button' in request.form
+
+            if confirm_button_clicked:
+                buyer_id = request.form.get('buyer_id')
+                seller_id = request.form.get('seller_id')
+                book_id = request.form.get('book_id')
+                UserBook.confirm_purchase_order(buyer_id, seller_id, book_id)
+                flash('Purchase confirmed successfully!', 'success')
+
+            return redirect(url_for('home.order_page', user_id=user_id))
+
+    return render_template('order_page.html', user_id=user_id, buy_orders=buy_orders, book_detail=book_detail, buyer=buyer)
 
 
-# @home.route('/books')
-# @login_required
-# def all_books():
-#     books = UserBook.get_all_books()
-#     genres = Genre.get_genres()
-#     selected_genre = request.args.get('genre', 'all')
-#     if selected_genre != 'all':
-#         books = [book for book in books if book['book_genre'] == int(selected_genre)]
-#     return render_template('library.html', other_books=books, genres=genres)
 
 @home.route('/<int:user_id>/books')
 @login_required
@@ -87,11 +105,7 @@ def user_books(user_id):
         user_books = [book for book in user_books if book['book_genre'] == int(selected_genre)]
 
     page = request.args.get('page', 1, type=int)
-<<<<<<< HEAD
-    per_page = 10
-=======
     per_page = 40
->>>>>>> 3b95d010740079d47aab585b48f9d2b47d9fe77f
     start = (page - 1) * per_page
     end = start + per_page
     total_pages = (len(user_books) + per_page - 1) // per_page
@@ -131,30 +145,35 @@ def book_user_detail(user_id, book_id):
 
     # Filter out the current book from the list
     other_books = [book for book in books if book['book_id'] == book_id and book['user_id'] != user_id and book['user_id'] != current_user.id]
-    print(other_books)
 
     return render_template('product_detail.html', book_detail=book_detail, user_id=user_id, other_books=other_books)
 
 
-@home.route('/<int:user_id>/books/<int:book_id>/buy')
+@home.route('/<int:user_id>/books/<int:book_id>/buy',  methods=['GET', 'POST'])
 @login_required
 def book_buy(user_id, book_id):
     books = UserBook.get_all_books()
     matching_book = None
     book_detail = None
-    
-    # Assuming current_user.id is an integer
     current_user_id = int(current_user.id)
     
     for book in books:
         if book['book_id'] == book_id and book['user_id'] != current_user_id:
-            # Assuming book_detail should be details for the other user and the specific book
             book_detail = UserBook.get_book_user_details(book['user_id'], book_id)
             matching_book = book
             break
+
+    if request.method == 'POST':
+        buyer_id = current_user_id
+        book_id = matching_book['book_id']
+        seller_id = matching_book['user_id']
+        quantity = request.form['quantity']
+
+        UserBook.add_purchase_order(buyer_id, book_id, seller_id, quantity)
+
+        return redirect(url_for('home.user_books', user_id=user_id))
     
-    print(matching_book)
-    return render_template('buy-request.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
+    return render_template('buycheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
 
 @home.route('/<int:user_id>/books/add_book', methods=['GET', 'POST'])
 @login_required
@@ -293,5 +312,4 @@ def buy_checkout(user_id, book_id):
            matching_book = book
            break
        
-   print(matching_book)
    return render_template('buycheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
