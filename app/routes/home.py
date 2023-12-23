@@ -7,6 +7,7 @@ import cloudinary
 import cloudinary.uploader
 from werkzeug.utils import secure_filename
 from flask_paginate import Pagination
+from ..models.models import User
 
 home = Blueprint('home', __name__)
 
@@ -25,14 +26,14 @@ def landing_page():
 def home_page():
     return render_template("homepage.html")
 
-@home.route('/books')
+@home.route('/books', methods=['GET'])
 @login_required
 def all_books():
     current_user.id = int(current_user.id)
     books = UserBook.get_all_books()
     genres = Genre.get_genres()
     selected_genre = request.args.get('genre', 'all')
-    search_query = request.args.get('search', '')  # Retrieve the search query from the URL
+    search_query = request.args.get('search', '')
 
     if selected_genre != 'all':
         books = [book for book in books if book['book_genre'] == int(selected_genre)]
@@ -52,12 +53,13 @@ def all_books():
     other_books = list(unique_books.values())
 
     page = request.args.get('page', 1, type=int)
-    per_page = 10
+    per_page = 20
     start = (page - 1) * per_page
     end = start + per_page
     total_pages = (len(other_books) + per_page - 1) // per_page
 
     items_on_page = other_books[start:end]
+    print(items_on_page)
 
     return render_template('library.html', genres=genres, other_books=other_books, items_on_page=items_on_page, total_pages=total_pages, page=page, search_query=search_query, selected_genre=selected_genre)
 
@@ -78,20 +80,25 @@ def all_books():
 def user_books(user_id):
     user_books = UserBook.get_books_for_user(user_id)
     user_profile_data = UserProfile.get_user_profile(user_id)
+    user = User.userData1(user_id)
     genres = Genre.get_genres()
     selected_genre = request.args.get('genre', 'all')
     if selected_genre != 'all':
         user_books = [book for book in user_books if book['book_genre'] == int(selected_genre)]
 
     page = request.args.get('page', 1, type=int)
+<<<<<<< HEAD
     per_page = 10
+=======
+    per_page = 40
+>>>>>>> 3b95d010740079d47aab585b48f9d2b47d9fe77f
     start = (page - 1) * per_page
     end = start + per_page
     total_pages = (len(user_books) + per_page - 1) // per_page
 
     items_on_page = user_books[start:end]
 
-    return render_template('user_books.html', user_profile_data= user_profile_data, user_books=user_books, user_id=user_id, genres=genres,  items_on_page=items_on_page, total_pages=total_pages, page=page)
+    return render_template('user_books.html', user_profile_data= user_profile_data, user_books=user_books, user_id=user_id, genres=genres,  items_on_page=items_on_page, total_pages=total_pages, page=page, user=user)
 
 @home.route('/books/<int:book_id>')
 @login_required
