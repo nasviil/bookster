@@ -123,7 +123,9 @@
 							>{{ book_detail.renting_price }}/day</b
 						>
 					</div>
-					<div class="product-rent-button">RENT NOW</div>
+					<a
+						href="{{ url_for('home.book_rent', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
+						><div class="product-rent-button">RENT NOW</div></a>
 				</div>
 				{% endif %}
 			</div>

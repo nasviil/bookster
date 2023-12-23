@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify,abort
 from flask_login import login_required, current_user
-from ..models.user_book import UserBook, Genre, Address
+from ..models.user_book import UserBook, Genre, Address, Region
 from ..models.userprofilemodel import UserProfile
 from werkzeug.exceptions import abort
 import cloudinary
@@ -178,6 +178,34 @@ def book_buy(user_id, book_id):
     
     return render_template('buycheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
 
+@home.route('/<int:user_id>/books/<int:book_id>/rent',  methods=['GET', 'POST'])
+@login_required
+def book_rent(user_id, book_id):
+    books = UserBook.get_all_books()
+    matching_book = None
+    book_detail = None
+    current_user_id = int(current_user.id)
+    
+    for book in books:
+        if book['book_id'] == book_id and book['user_id'] != current_user_id:
+            book_detail = UserBook.get_book_user_details(book['user_id'], book_id)
+            matching_book = book
+            break
+
+    if request.method == 'POST':
+        renter_id = current_user_id
+        book_id = matching_book['book_id']
+        owner_id = matching_book['user_id']
+        quantity = request.form['quantity']
+        rent_start_date = request.form['rent_start_date']  # Get the rent_start_date from the form
+        rent_end_date = request.form['rent_end_date']  # Get the rent_end_date from the form
+
+        UserBook.add_rent_order(renter_id, book_id, owner_id, quantity, rent_start_date, rent_end_date)
+
+        return redirect(url_for('home.user_books', user_id=user_id))
+    
+    return render_template('rentcheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
+
 @home.route('/<int:user_id>/books/add_book', methods=['GET', 'POST'])
 @login_required
 def add_book(user_id):
@@ -267,36 +295,37 @@ def edit_book(user_id, book_id):
 def add_address(user_id, book_id):
     current_user_id = current_user.id
 
-    
     if request.method == 'POST':
         # Retrieve form data
         fullname = request.form['fullname']
-        phone_number = request.form['phonenumber']
+        phone_number = request.form.get('phone_number', '')
         region_id = request.form['region']
         province = request.form['province']
         city = request.form['city']
         barangay = request.form['barangay']
-        zipcode = request.form['postalCode']
-        street = request.form['street']
+        zipcode = request.form.get('zipcode', '')
+        house_no = request.form.get('house_no', '')
         notes = request.form.get('notes', '')  # Optional field, use get() to avoid KeyError
 
         # Add the new address to the database
-        address_id = Address.add_address(user_id, fullname, phone_number, region_id, province, city, barangay, zipcode, street, notes)
+        address_id = Address.add_address(user_id, fullname, phone_number, region_id, province, city, barangay, zipcode, house_no, notes)
 
         # Assuming Address.add_address() returns the address_id
         if address_id:
-            # Address added successfully, you can redirect to a success page or return a JSON response
-            return jsonify({'message': 'Address added successfully'})
+            # Address added successfully, redirect to the checkout page
+            return redirect(url_for('home.buy_checkout', user_id=user_id, book_id=book_id))
         else:
             # Handle the case where the address was not added
             return jsonify({'error': 'Failed to add address'}), 500  # Internal Server Error
     elif request.method == 'GET':
-        # Render the address.html template for adding a new address
-        return render_template('address.html', user_id=user_id, book_id=book_id)
+        # Fetch regions from the database
+        regions = Region.get_region()
+
+        # Render the address.html template for adding a new address with regions data
+        return render_template('address.html', user_id=user_id, book_id=book_id, regions=regions)
     else:
         # Handle other request methods if needed
         return jsonify({'message': 'Method not allowed'}), 405  # Method Not Allowed
-
 
 @home.route('/<int:user_id>/books/<int:book_id>/buy/checkout', methods=['GET', 'POST'])
 @login_required
@@ -316,3 +345,22 @@ def buy_checkout(user_id, book_id):
            break
        
    return render_template('buycheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
+
+@home.route('/<int:user_id>/books/<int:book_id>/rent/checkout', methods=['GET', 'POST'])
+@login_required
+def rent_checkout(user_id, book_id):
+   books = UserBook.get_all_books()
+   matching_book = None
+   book_detail = None
+   
+   # Assuming current_user.id is an integer
+   current_user_id = int(current_user.id)
+   
+   for book in books:
+       if book['book_id'] == book_id and book['user_id'] != current_user_id:
+           # Assuming book_detail should be details for the other user and the specific book
+           book_detail = UserBook.get_book_user_details(book['user_id'], book_id)
+           matching_book = book
+           break
+       
+   return render_template('rentcheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)

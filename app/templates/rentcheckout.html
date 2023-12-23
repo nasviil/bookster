@@ -44,7 +44,7 @@
 		
 		<form
 			method="post"
-			action="{{ url_for('home.book_buy', user_id=user_id, book_id=matching_book.book_id) }}"
+			action="{{ url_for('home.book_rent', user_id=user_id, book_id=matching_book.book_id) }}"
 		>
 			<div>{% include 'partials/navbar.html' %}</div>
 			{% if matching_book %}
@@ -61,6 +61,8 @@
 								<th>Item</th>
 								<th>Price</th>
 								<th>Quantity</th>
+                                <th>Date Start</th>
+                                <th>Date ended</th>
 								<th>Item Subtotal</th>
 							</tr>
 						</thead>
@@ -93,6 +95,16 @@
 											max="{{book_detail.quantity}}"
 										/>
 									</div>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date" class="form-control" id="rentStartDate" name="rent_start_date" required>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="date" class="form-control" id="rentEndDate" name="rent_end_date" required>
+                                        </div>
+                                    </td>
 								</td>
 								<td id="totalPrice">₱{{ book_detail.selling_price }}</td>
 							</tr>
@@ -100,6 +112,8 @@
 							<tr>
 								<td></td>
 								<td></td>
+								<td></td>
+                                <td></td>
 								<td></td>
 								<td>
 									Order total (<span id="orderQuantity">1</span> item{% if
@@ -111,6 +125,8 @@
 								<td></td>
 								<td></td>
 								<td></td>
+								<td></td>
+                                <td></td>
 								<td></td>
 								<td>						
 									<button

@@ -38,6 +38,17 @@
 		</ul>
 	{% endif %}
 	{% endwith %}
+
+	<div id="loader-overlay" style="display: none;">
+		<div class="spinner">
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		</div>
+	</div>
+
 <div class="container">
 
 	<div class="d-flex justify-content-center h-100">
@@ -87,14 +98,28 @@
 
 {% endblock %}
 <script>
+    function showLoader() {
+        $('#loader-overlay').fadeIn();
+    }
+
+    function hideLoader() {
+        $('#loader-overlay').fadeOut();
+    }
+
 	$(document).ready(function() {
 		$('#login-form').submit(function(event) {
 			event.preventDefault();
+
+			showLoader();
+
 			$.ajax({
 				type: 'POST',
 				url: '{{ url_for("auth.login") }}',
 				data: $('#login-form').serialize(),
 				success: function(response) {
+
+					hideLoader();
+
 					if (response.success) {
 						window.location.href = '{{ url_for("home.home_page") }}';
 					} else {
@@ -104,6 +129,7 @@
 					}
 				},		
 				error: function() {
+					hideLoader();
 					$('#error-message').html('<li>An error occurred. Please try again.<span class="close" onclick="this.parentElement.style.display=\'none\'">&times;</span></li>');
 					$('#error-message').show(); // Show the error message element
 				}
