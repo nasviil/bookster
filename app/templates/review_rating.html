@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename='roel.css') }}"
+		/>     
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+        <style>
+            body {
+                background-color: #fffdf2;
+                font-family: "Syne", sans-serif;
+            }
+        </style>
+		<title>Review and Rating</title>
+	</head>
+    <body>
+        <div>{% include 'partials/navbar.html' %}</div>
+        <div class="wrapper">
+            <h3>{{ book_detail['book_title'] }}</h3>
+            <form action="#">
+                <div class="rating">
+                    <input type="number" name="rating" hidden>
+                    <i class='bx bx-star star' style="--i: 0;"></i>
+                    <i class='bx bx-star star' style="--i: 1;"></i>
+                    <i class='bx bx-star star' style="--i: 2;"></i>
+                    <i class='bx bx-star star' style="--i: 3;"></i>
+                    <i class='bx bx-star star' style="--i: 4;"></i>
+                </div>
+                <textarea name="opinion" cols="30" rows="5" placeholder="Write a review..."></textarea>
+                <div class="btn-group">
+                    <button type="submit" class="btn submit">Submit</button>
+                    <button class="btn cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
