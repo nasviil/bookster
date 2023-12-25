@@ -109,6 +109,19 @@
 					"
 					>Delete this book</a
 				>
+				{% elif book_detail.quantity == 0 %}
+				<div style="margin-top: 150px; margin-bottom: 5px">
+					Buy for: ₱<b style="font-size: 2rem"
+						>{{ book_detail.selling_price }}</b
+					>
+					<div class="product-button-disabled">OUT OF STOCK</div>
+					<div style="margin-top: 20px; margin-bottom: 5px">
+						Rent for: ₱<b style="font-size: 2rem"
+							>{{ book_detail.renting_price }}/day</b
+						>
+					</div>
+					<div class="product-button-disabled">OUT OF STOCK</div>
+				</div>
 				{% else %}
 				<div style="margin-top: 150px; margin-bottom: 5px">
 					Buy for: ₱<b style="font-size: 2rem"
@@ -116,6 +129,7 @@
 					>
 					<a
 						href="{{ url_for('home.book_buy', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
+						style="text-decoration: none"
 						><div class="product-buy-button">BUY NOW</div></a
 					>
 					<div style="margin-top: 20px; margin-bottom: 5px">
@@ -125,6 +139,7 @@
 					</div>
 					<a
 						href="{{ url_for('home.book_rent', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
+						style="text-decoration: none"
 						><div class="product-rent-button">RENT NOW</div></a
 					>
 				</div>
