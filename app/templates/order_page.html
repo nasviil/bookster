@@ -204,6 +204,28 @@
 							<b class="order-text">{{ book.book_title }}</b>
 							<div class="order-text">({{ confirmed_rent.rent_end_date }})</div>
 						</div>
+						<div class="order-controls">
+							<div>
+								{% if confirmed_rent.is_returned == 1 %} returned {% else %}
+								<form
+									action="{{ url_for('home.order_page', user_id=user_id) }}"
+									method="post"
+								>
+									<button
+										type="submit"
+										name="confirm_return"
+									>
+										Return Book
+									</button>
+									<input
+										type="hidden"
+										name="rent_id"
+										value="{{ confirmed_rent.rent_id }}"
+									/>
+								</form>
+								{% endif %}
+							</div>
+						</div>
 					</div>
 					{% endfor %} {% endif %} {% if confirmed_purchases %} {% for i in
 					range(confirmed_purchases|length) %} {% set book =
