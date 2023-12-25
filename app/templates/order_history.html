@@ -97,14 +97,14 @@
 										<b class="order-text">{{ owner[0][1] }}</b></a
 									>
 								</div>
-								{% if rented_book.is_returned == 1 %}
+								{% if rent_detail.is_returned == 1 %}
 								<div class="order-text">RETURNED</div>
 								{% else %}
 								<div class="order-text">
 									To be returned by:
 									<b class="order-text">{{rented_book.rent_end_date}}</b>
 								</div>
-								{% endif %}
+								{% endif%}
 							</div>
 						</div>
 					</div>
