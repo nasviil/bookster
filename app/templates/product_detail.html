@@ -125,7 +125,8 @@
 					</div>
 					<a
 						href="{{ url_for('home.book_rent', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
-						><div class="product-rent-button">RENT NOW</div></a>
+						><div class="product-rent-button">RENT NOW</div></a
+					>
 				</div>
 				{% endif %}
 			</div>
@@ -133,11 +134,11 @@
 		<div class="other-book-container">
 			<div class="other-book-heading">FROM OTHER USERS</div>
 			<div class="other-books">
-				{% for other_book in other_books %} {% if other_book.cloudinary_url %}
+				{% for other_book in other_books %}
 				<div class="other-book-detail">
+					{% if other_book.cloudinary_url %}
 					<img
 						class="other-book-image"
-						user_id
 						src="{{ other_book.cloudinary_url }}"
 					/>
 					{% else %}
@@ -149,8 +150,9 @@
 					<div class="other-book-title">
 						<a
 							href="{{ url_for('home.book_user_detail', user_id=other_book['user_id'], book_id=other_book['book_id']) }}"
-							>{{ other_book['book_title'] }}</a
 						>
+							{{ other_book['book_title'] }}
+						</a>
 					</div>
 				</div>
 				{% endfor %}
