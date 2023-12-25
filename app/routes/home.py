@@ -150,8 +150,11 @@ def handle_post_request(request, user_id):
 def handle_return_rent(request):
     rent_id = request.form.get('rent_id')
     owner_id = request.form.get('owner_id')
-    book_id = request.form.get('book_id')
-    UserBook.confirm_return_rent(rent_id, owner_id, book_id)
+    book_id = request.form.get('book_rent_id')
+    print(owner_id)
+    print(rent_id)
+    print(book_id)
+    UserBook.confirm_return_rent(owner_id, book_id, rent_id)
 
 def handle_reject_purchase(request):
     purchase_id = request.form.get('purchase_id')

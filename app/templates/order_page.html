@@ -257,6 +257,16 @@
 										name="rent_id"
 										value="{{ confirmed_rent.rent_id }}"
 									/>
+									<input
+										type="hidden"
+										name="owner_id"
+										value="{{ confirmed_rent.owner_id }}"
+									/>
+									<input
+										type="hidden"
+										name="book_rent_id"
+										value="{{ book.book_id }}"
+									/>
 								</form>
 								{% endif %}
 							</div>

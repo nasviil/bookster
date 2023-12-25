@@ -132,29 +132,39 @@ class UserBook:
         
     @classmethod
     def confirm_return_rent(cls, owner_id, book_id, rent_id):
+        cur = None  # Initialize the cursor variable outside the 'with' block
         try:
+            print("Start confirm_return_rent")
             # Start a transaction
             with mysql.connection.cursor() as cur:
-                # Update rent_books table
+                print("Inside 'with' block")
                 CONFIRM_RETURN_SQL = "UPDATE rent_books SET is_returned = 1 WHERE rent_id = %s"
                 cur.execute(CONFIRM_RETURN_SQL, (rent_id,))
+                print(f"Confirmed return for rent_id: {rent_id}")
 
-                # Increment quantity in user_book_instances table
                 UPDATE_QUANTITY_SQL = (
                     "UPDATE user_book_instances SET quantity = quantity + 1 "
                     "WHERE user_id = %s AND book_id = %s"
                 )
                 cur.execute(UPDATE_QUANTITY_SQL, (owner_id, book_id))
+                print(f"Updated quantity for user_id: {owner_id}, book_id: {book_id}")
 
             # Commit the transaction
             mysql.connection.commit()
+            print("Transaction committed")
         except Exception as e:
             # Handle exceptions (rollback, log, etc.)
             mysql.connection.rollback()
             print(f"Error confirming return: {e}")
         finally:
-            # Close the cursor (optional)
-            cur.close()
+            if cur:
+                # Close the cursor if it's not None
+                cur.close()
+                print("Cursor closed successfully")  # Debug print statement
+            else:
+                print("Cursor was None")  # Debug print statement
+
+        print("End confirm_return_rent")
 
     @classmethod
     def get_user_rents(cls, renter_id):
