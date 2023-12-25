@@ -179,6 +179,8 @@ def handle_confirm_rent(request):
 @login_required
 def order_history(user_id):
     current_user.id = int(current_user.id)
+    if current_user.id != user_id:
+        abort(403)  # Forbidden
 
     purchased_books = UserBook.get_user_purchase(user_id)
     purchase_detail, seller = None, None
