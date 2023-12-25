@@ -66,38 +66,102 @@ def all_books():
 @login_required
 def order_page(user_id):
     current_user.id = int(current_user.id)
-    buy_orders = None
-    book_detail = None
-    buyer = None
-
+    
     if current_user.id != user_id:
         abort(403)  # Forbidden
 
+    buy_orders, purchase_detail, buyer, rent_orders, rent_detail, renter = None, None, None, None, None, None
+
     if current_user.id == user_id:
         buy_orders = UserBook.get_purchase_orders(user_id)
-        if buy_orders is not None:
-            book_detail = [UserBook.get_book_details(order['book_id']) for order in buy_orders]
-            buyer = [User.userData1(order['buyer_id']) for order in buy_orders]
+        rent_orders = UserBook.get_rent_orders(user_id)
+
+        if buy_orders:
+            purchase_detail = [UserBook.get_book_details(purchase['book_id']) for purchase in buy_orders]
+            buyer = [User.userData1(purchase['buyer_id']) for purchase in buy_orders]
+
+        if rent_orders:
+            rent_detail = [UserBook.get_book_details(rent['book_id']) for rent in rent_orders]
+            renter = [User.userData1(rent['renter_id']) for rent in rent_orders]
 
         if request.method == 'POST':
-            confirm_button_clicked = 'confirm_button' in request.form
-            reject_button_clicked = 'reject_button' in request.form
+            handle_post_request(request)
 
-            if confirm_button_clicked:
-                buyer_id = request.form.get('buyer_id')
-                seller_id = request.form.get('seller_id')
-                book_id = request.form.get('book_id')
-                UserBook.confirm_purchase_order(buyer_id, seller_id, book_id)
-                flash('Purchase confirmed successfully!', 'success')
+    confirmed_purchases = UserBook.get_confirmed_purchase_orders(user_id)
+    confirmed_purchase_detail, confirmed_buyer = None, None
+    if confirmed_purchases:
+        confirmed_purchase_detail = [UserBook.get_book_details(order['book_id']) for order in confirmed_purchases]
+        confirmed_buyer = [User.userData1(order['buyer_id']) for order in confirmed_purchases]
 
-            return redirect(url_for('home.order_page', user_id=user_id))
-        
-        confirmed_orders = UserBook.get_confirmed_purchase_orders(user_id)
-        if confirmed_orders is not None:
-            confirmed_book_detail = [UserBook.get_book_details(order['book_id']) for order in confirmed_orders]
-            confirmed_buyer = [User.userData1(order['buyer_id']) for order in confirmed_orders]
+    confirmed_rents = UserBook.get_confirmed_rent_orders(user_id)
+    confirmed_rent_detail, confirmed_renter = None, None
+    if confirmed_rents:
+        confirmed_rent_detail = [UserBook.get_book_details(order['book_id']) for order in confirmed_rents]
+        confirmed_renter = [User.userData1(order['renter_id']) for order in confirmed_rents]
 
-    return render_template('order_page.html', user_id=user_id, buy_orders=buy_orders, book_detail=book_detail, buyer=buyer, confirmed_orders=confirmed_orders, confirmed_book_detail=confirmed_book_detail, confirmed_buyer=confirmed_buyer )
+    return render_template(
+        'order_page.html',
+        user_id=user_id,
+        buy_orders=buy_orders,
+        purchase_detail=purchase_detail,
+        buyer=buyer,
+        confirmed_purchases=confirmed_purchases,
+        confirmed_purchase_detail=confirmed_purchase_detail,
+        confirmed_buyer=confirmed_buyer,
+        rent_orders=rent_orders,
+        rent_detail=rent_detail,
+        renter=renter,
+        confirmed_rents=confirmed_rents,
+        confirmed_rent_detail=confirmed_rent_detail,
+        confirmed_renter=confirmed_renter
+    )
+
+def handle_post_request(request):
+    confirm_purchase_clicked = 'confirm_purchase' in request.form
+    reject_purchase_clicked = 'reject_purchase' in request.form
+    confirm_rent_clicked = 'confirm_rent' in request.form
+    reject_rent_clicked = 'reject_rent' in request.form
+
+    if confirm_purchase_clicked:
+        handle_confirm_purchase(request)
+
+    if confirm_rent_clicked:
+        handle_confirm_rent(request)
+
+def handle_confirm_purchase(request):
+    buyer_id = request.form.get('buyer_id')
+    seller_id = request.form.get('seller_id')
+    book_id = request.form.get('book_purchase_id')
+    UserBook.confirm_purchase_order(buyer_id, seller_id, book_id)
+    flash('Purchase confirmed successfully!', 'success')
+
+def handle_confirm_rent(request):
+    renter_id = request.form.get('renter_id')
+    owner_id = request.form.get('owner_id')
+    book_id = request.form.get('book_rent_id')
+    UserBook.confirm_rent_order(renter_id, owner_id, book_id)
+    flash('Rent confirmed successfully!', 'success')
+
+@home.route('/<int:user_id>/history')
+@login_required
+def order_history(user_id):
+    current_user.id = int(current_user.id)
+    if current_user.id != user_id:
+        abort(403)  # Forbidden
+
+    purchased_books = UserBook.get_user_purchase(user_id)
+    purchase_detail, seller = None, None
+    if purchased_books is not None:
+        purchase_detail = [UserBook.get_book_details(order['book_id']) for order in purchased_books]
+        seller = [User.userData1(order['seller_id']) for order in purchased_books]
+
+    rented_books = UserBook.get_user_rents(user_id)
+    rent_detail, owner = None, None
+    if rented_books is not None:
+        rent_detail = [UserBook.get_book_details(order['book_id']) for order in rented_books]
+        owner = [User.userData1(order['owner_id']) for order in rented_books]
+
+    return render_template('order_history.html', user_id=user_id, purchased_books=purchased_books, purchase_detail=purchase_detail, seller=seller, rented_books=rented_books, rent_detail=rent_detail, owner=owner)
 
 @home.route('/<int:user_id>/books')
 @login_required
