@@ -86,6 +86,21 @@ class UserBook:
             return None
 
     @classmethod
+    def get_user_purchase(cls, buyer_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM purchase_books "
+                "WHERE buyer_id = %s AND is_confirmed = 1"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (buyer_id,))
+            confirmed_orders = cur.fetchall()
+            return confirmed_orders
+        except Exception as e:
+            print(f"Error in get_purchase_orders: {e}")
+            raise
+
+    @classmethod
     def get_confirmed_purchase_orders(cls, seller_id):
         try:
             SELECT_ORDERS_SQL = (
@@ -94,6 +109,36 @@ class UserBook:
             )
             cur = mysql.connection.cursor(dictionary=True)
             cur.execute(SELECT_ORDERS_SQL, (seller_id,))
+            confirmed_orders = cur.fetchall()
+            return confirmed_orders
+        except Exception as e:
+            print(f"Error in get_purchase_orders: {e}")
+            return None
+        
+    @classmethod
+    def get_confirmed_rent_orders(cls, owner_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM rent_books "
+                "WHERE owner_id = %s AND is_rented = 1"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (owner_id,))
+            confirmed_orders = cur.fetchall()
+            return confirmed_orders
+        except Exception as e:
+            print(f"Error in get_purchase_orders: {e}")
+            return None
+        
+    @classmethod
+    def get_user_rents(cls, renter_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM rent_books "
+                "WHERE renter_id = %s AND is_rented = 1"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (renter_id,))
             confirmed_orders = cur.fetchall()
             return confirmed_orders
         except Exception as e:
@@ -164,7 +209,7 @@ class UserBook:
         try:
             SELECT_ORDERS_SQL = (
                 "SELECT * FROM rent_books "
-                "WHERE owner_id = %s AND is_confirmed = 0"
+                "WHERE owner_id = %s AND is_rented = 0"
             )
             cur = mysql.connection.cursor(dictionary=True)
             cur.execute(SELECT_ORDERS_SQL, (seller_id,))
@@ -182,55 +227,44 @@ class UserBook:
         mysql.connection.commit()
 
     @classmethod
-    def confirm_purchase_order(cls, renter_id, owner_id, book_id):
+    def confirm_rent_order(cls, renter_id, owner_id, book_id):
+        UPDATE_ORDER_SQL = (
+            "UPDATE rent_books SET is_rented = 1 WHERE renter_id = %s AND owner_id = %s AND book_id = %s"
+        )
         cur = mysql.connection.cursor(dictionary=True)
         try:
-            # Retrieve the quantity from purchase_books
-            SELECT_PURCHASE_BOOK_SQL = (
-                "SELECT quantity FROM rent_books "
-                "WHERE renter_id = %s AND owner_id = %s AND book_id = %s AND is_confirmed = 0"
+            # Print debug info
+            print("Debug Info:", renter_id, owner_id, book_id)
+
+            # Update purchase_books
+            cur.execute(UPDATE_ORDER_SQL, (renter_id, owner_id, book_id))
+            mysql.connection.commit()
+
+            # Subtract quantity from user_book_instances
+            SELECT_USER_BOOK_SQL = (
+                "SELECT user_book_id, quantity FROM user_book_instances "
+                "WHERE user_id = %s AND book_id = %s"
             )
-            cur.execute(SELECT_PURCHASE_BOOK_SQL, (renter_id, owner_id, book_id))
-            purchase_info = cur.fetchone()
+            cur.execute(SELECT_USER_BOOK_SQL, (owner_id, book_id))
+            user_book_info = cur.fetchone()
 
-            if purchase_info:
-                purchase_quantity = purchase_info['quantity']
+            if user_book_info:
+                user_book_id = user_book_info['user_book_id']
+                original_quantity = user_book_info['quantity']
+                # Subtract quantity
+                new_quantity = max(original_quantity - 1, 0)  # Ensure it doesn't go below 0
 
-                # Update purchase_books
-                UPDATE_PURCHASE_BOOK_SQL = (
-                    "UPDATE rent_books "
-                    "SET is_confirmed = 1 "
-                    "WHERE renter_id = %s AND owner_id = %s AND book_id = %s"
+                UPDATE_USER_BOOK_SQL = (
+                    "UPDATE user_book_instances SET quantity = %s WHERE user_book_id = %s"
                 )
-                cur.execute(UPDATE_PURCHASE_BOOK_SQL, (renter_id, owner_id, book_id))
+                cur.execute(UPDATE_USER_BOOK_SQL, (new_quantity, user_book_id))
                 mysql.connection.commit()
 
-                # Retrieve the user_book_id and quantity from user_book_instances
-                SELECT_USER_BOOK_SQL = (
-                    "SELECT user_book_id, quantity FROM user_book_instances "
-                    "WHERE user_id = %s AND book_id = %s"
-                )
-                cur.execute(SELECT_USER_BOOK_SQL, (owner_id, book_id))
-                user_book_info = cur.fetchone()
-
-                if user_book_info:
-                    user_book_id = user_book_info['user_book_id']
-                    original_quantity = user_book_info['quantity']
-
-                    # Subtract purchase quantity from user_book_instances quantity
-                    new_quantity = max(original_quantity - purchase_quantity, 0)
-
-                    # Update user_book_instances
-                    UPDATE_USER_BOOK_SQL = (
-                        "UPDATE user_book_instances SET quantity = %s WHERE user_book_id = %s"
-                    )
-                    cur.execute(UPDATE_USER_BOOK_SQL, (new_quantity, user_book_id))
-                    mysql.connection.commit()
-
         except Exception as e:
-            print(f"Error updating rent order: {e}")
+            print(f"Error updating purchase order: {e}")
         finally:
             cur.close()
+
 
 
     @classmethod
