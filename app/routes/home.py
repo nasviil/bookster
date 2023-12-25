@@ -231,3 +231,9 @@ def edit_book(user_id, book_id):
 
     genres = Genre.get_genres()
     return render_template('edit-book.html', book_detail=book_detail, user_id=user_id, genres=genres)
+
+
+@home.route('/rate', methods=['GET', 'POST'])
+@login_required
+def rate_books():
+    return render_template('review_rating.html')
