@@ -131,6 +131,15 @@ class UserBook:
             return None
         
     @classmethod
+    def confirm_return_rent(cls, rent_id):
+        CONFIRM_RETURN_SQL = (
+                "UPDATE rent_books SET is_returned = 1 where rent_id = %s"
+            )
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(CONFIRM_RETURN_SQL, (rent_id,))
+        mysql.connection.commit()
+
+    @classmethod
     def get_user_rents(cls, renter_id):
         try:
             SELECT_ORDERS_SQL = (
@@ -144,7 +153,7 @@ class UserBook:
         except Exception as e:
             print(f"Error in get_purchase_orders: {e}")
             return None
- 
+
     @classmethod
     def add_purchase_order(cls, buyer_id, book_id, seller_id, quantity):
         INSERT_ORDER_SQL = ("INSERT INTO purchase_books (buyer_id, book_id, seller_id, quantity, purchase_date)""VALUES(%s, %s, %s, %s, %s)");
@@ -209,7 +218,7 @@ class UserBook:
         try:
             SELECT_ORDERS_SQL = (
                 "SELECT * FROM rent_books "
-                "WHERE owner_id = %s AND is_rented = 0"
+                "WHERE owner_id = %s AND is_rented = 0 AND is_returned = 0"
             )
             cur = mysql.connection.cursor(dictionary=True)
             cur.execute(SELECT_ORDERS_SQL, (seller_id,))
