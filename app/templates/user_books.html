@@ -51,9 +51,6 @@
 						>View Profile</a
 					>
 				</div>
-				{% if user_id == current_user.id | int%}
-				<a href="{{ url_for('home.order_page', user_id=user_id)}}">Orders</a>
-				{% endif %}
 			</div>
 			<div class="book-control">
 				{% if user_id == current_user.id | int%}
