@@ -85,8 +85,7 @@ def order_page(user_id):
             renter = [User.userData1(rent['renter_id']) for rent in rent_orders]
 
         if request.method == 'POST':
-            handle_post_request(request)
-            return redirect(url_for('home.order_page', user_id=user_id))
+            return redirect(handle_post_request(request, user_id))
 
     confirmed_purchases = UserBook.get_confirmed_purchase_orders(user_id)
     confirmed_purchase_detail, confirmed_buyer = None, None
@@ -99,12 +98,7 @@ def order_page(user_id):
     if confirmed_rents:
         confirmed_rent_detail = [UserBook.get_book_details(order['book_id']) for order in confirmed_rents]
         confirmed_renter = [User.userData1(order['renter_id']) for order in confirmed_rents]
-        confirm_return_clicked = 'confirm_return' in request.form
-        if confirm_return_clicked:
-            rent_id = request.form.get('rent_id')
-            print(rent_id)
-            UserBook.confirm_return_rent(rent_id)
-            return redirect(url_for('home.order_page', user_id=user_id))
+
 
     return render_template(
         'order_page.html',
@@ -123,17 +117,49 @@ def order_page(user_id):
         confirmed_renter=confirmed_renter
     )
 
-def handle_post_request(request):
+def handle_post_request(request, user_id):
     confirm_purchase_clicked = 'confirm_purchase' in request.form
     reject_purchase_clicked = 'reject_purchase' in request.form
     confirm_rent_clicked = 'confirm_rent' in request.form
     reject_rent_clicked = 'reject_rent' in request.form
+    confirm_return_clicked = 'confirm_return' in request.form
+
+    if confirm_return_clicked:
+        handle_return_rent(request)
+        return url_for('home.order_page', user_id=user_id)
 
     if confirm_purchase_clicked:
         handle_confirm_purchase(request)
+        return url_for('home.order_page', user_id=user_id)
 
     if confirm_rent_clicked:
         handle_confirm_rent(request)
+        return url_for('home.order_page', user_id=user_id)
+
+    if reject_purchase_clicked:
+        handle_reject_purchase(request)
+        return url_for('home.order_page', user_id=user_id)
+
+    if reject_rent_clicked:
+        handle_reject_rent(request)
+        return url_for('home.order_page', user_id=user_id)
+
+    # Default redirect in case no action is performed
+    return url_for('home.order_page', user_id=user_id)
+
+def handle_return_rent(request):
+    rent_id = request.form.get('rent_id')
+    owner_id = request.form.get('owner_id')
+    book_id = request.form.get('book_id')
+    UserBook.confirm_return_rent(rent_id, owner_id, book_id)
+
+def handle_reject_purchase(request):
+    purchase_id = request.form.get('purchase_id')
+    UserBook.delete_purchase_order(purchase_id)
+
+def handle_reject_rent(request):
+    rent_id = request.form.get('rent_id')
+    UserBook.delete_rent_order(rent_id)
 
 def handle_confirm_purchase(request):
     buyer_id = request.form.get('buyer_id')
@@ -153,8 +179,6 @@ def handle_confirm_rent(request):
 @login_required
 def order_history(user_id):
     current_user.id = int(current_user.id)
-    if current_user.id != user_id:
-        abort(403)  # Forbidden
 
     purchased_books = UserBook.get_user_purchase(user_id)
     purchase_detail, seller = None, None
