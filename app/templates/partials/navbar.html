@@ -59,7 +59,10 @@
 							id="myDropdown"
 						>
 							<div class="dropdown-item">
-								<a href="/userprofile">My Account</a>
+								<a
+									href="{{ url_for('userprofile.get_user_profile_route', user_id=current_user.id|int)}}"
+									>My Account</a
+								>
 							</div>
 							<div class="dropdown-item">
 								<a
