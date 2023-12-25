@@ -434,7 +434,27 @@ def rent_checkout(user_id, book_id):
 
 
 
-@home.route('/rate', methods=['GET', 'POST'])
+@home.route('/<int:user_id>/books/<int:book_id>/rate', methods=['GET', 'POST'])
 @login_required
-def rate_books():
-    return render_template('review_rating.html')
+def rate_books(user_id, book_id):
+    if request.method == 'POST':
+        rating = int(request.form.get('rating'))
+        review_text = request.form.get('review_text')
+
+        # Check if the user has already reviewed the book
+        existing_review = Review.query.filter_by(user_id=user_id, book_id=book_id).first()
+
+        if existing_review:
+            flash('You have already reviewed this book.', 'error')
+        else:
+            # Create a new review
+            new_review = Review(user_id=user_id, book_id=book_id, rating=rating, review_text=review_text)
+            db.session.add(new_review)
+            db.session.commit()
+
+            flash('Review submitted successfully!', 'success')
+
+            # You can redirect to the book details page or any other relevant page
+            return redirect(url_for('home.book_detail', user_id=user_id, book_id=book_id))
+
+    return render_template('review_rating.html', user_id=user_id, book_id=book_id)

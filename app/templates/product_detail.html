@@ -1,172 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<link
-			rel="stylesheet"
-			type="text/css"
-			href="{{ url_for('static', filename='styles.css') }}"
-		/>
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-		/>
-		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="width=device-width, initial-scale=1.0"
-		/>
-		<title>Product Detail</title>
-	</head>
-	<body>
-		<div>{% include 'partials/navbar.html' %}</div>
-		<ol class="breadcrumb-nav">
-			<li>
-				<a href="/books">All Books</a>
-			</li>
+  <head>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='styles.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Detail</title>
+  </head>
+  <body>
+    <div>{% include 'partials/navbar.html' %}</div>
+    <ol class="breadcrumb-nav">
+      <li>
+        <a href="/books">All Books</a>
+      </li>
 
-			<li>{{ book_detail['book_title'] }}</li>
-		</ol>
-		<div class="product-container">
-			<div class="product-image-container">
-				<div class="product-image-container-inner">
-					{% if book_detail.cloudinary_url %}
-					<img
-						class="book-ulibrary-image"
-						src="{{ book_detail.cloudinary_url }}"
-					/>
-					{% else %}
-					<img
-						class="book-ulibrary-image"
-						src="https://via.placeholder.com/209x311"
-					/>
-					{% endif %}
-				</div>
-			</div>
-			<div class="product-detail-container">
-				<div class="product-detail-1">
-					{{ book_detail['book_title'] }}
-					<div class="author-name">by {{ book_detail['book_author'] }}</div>
-				</div>
-				<div class="product-star-rating">
-					<span class="fa fa-star checked"></span>
-					<span class="fa fa-star checked"></span>
-					<span class="fa fa-star checked"></span>
-					<span class="fa fa-star checked"></span>
-					<span class="fa fa-star"></span>
-				</div>
-				<div class="product-seller">
-					<div class="product-seller-1">
-						<div style="margin-right: 5px">From</div>
-						<div style="font-weight: bold">{{ book_detail.username }}</div>
-						<div style="padding-left: 80px; display: flex">
-							<div>Seller Rating:</div>
-							<div class="seller-star-rating">
-								<span class="fa fa-star checked"></span>
-								<span class="fa fa-star checked"></span>
-								<span class="fa fa-star checked"></span>
-								<span class="fa fa-star"></span>
-								<span class="fa fa-star"></span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div>
-					<a
-						href="{{ url_for('home.user_books', user_id=user_id) }}"
-						style="color: rgb(74, 74, 241); text-decoration: none"
-						>View seller's books</a
-					>
-				</div>
-				<div style="color: grey; margin-top: 30px">
-					Quantity:{{book_detail.quantity}}
-				</div>
-			</div>
-			<div class="product-purchase-container">
-				{% if user_id == current_user.id|int %}
-				<a
-					href="{{ url_for('home.edit_book', book_id=book_detail.book_id, user_id=user_id) }}"
-					>Edit this Book</a
-				>
-				<div style="margin-top: 150px; margin-bottom: 5px">
-					Buy for: ₱<b style="font-size: 2rem"
-						>{{ book_detail.selling_price }}</b
-					>
-					<div class="product-button-disabled">DISABLED FOR OWNER</div>
-					<div style="margin-top: 20px; margin-bottom: 5px">
-						Rent for: ₱<b style="font-size: 2rem"
-							>{{ book_detail.renting_price }}/day</b
-						>
-					</div>
-					<div class="product-button-disabled">DISABLED FOR OWNER</div>
-				</div>
-				<a
-					href="javascript:void(0);"
-					onclick="confirmDelete('{{ url_for('home.delete_book', user_id=user_id, book_id=book_detail.book_id) }}')"
-					style="
-						color: rgb(245, 42, 42);
-						text-decoration: none;
-						margin-top: 50px;
-					"
-					>Delete this book</a
-				>
-				{% else %}
-				<div style="margin-top: 150px; margin-bottom: 5px">
-					Buy for: ₱<b style="font-size: 2rem"
-						>{{ book_detail.selling_price }}</b
-					>
-					<a
-						href="{{ url_for('home.book_buy', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
-						><div class="product-buy-button">BUY NOW</div></a
-					>
-					<div style="margin-top: 20px; margin-bottom: 5px">
-						Rent for: ₱<b style="font-size: 2rem"
-							>{{ book_detail.renting_price }}/day</b
-						>
-					</div>
-					<a
-						href="{{ url_for('home.book_rent', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
-						><div class="product-rent-button">RENT NOW</div></a
-					>
-				</div>
-				{% endif %}
-			</div>
-		</div>
-		<div class="other-book-container">
-			<div class="other-book-heading">FROM OTHER USERS</div>
-			<div class="other-books">
-				{% for other_book in other_books %}
-				<div class="other-book-detail">
-					{% if other_book.cloudinary_url %}
-					<img
-						class="other-book-image"
-						src="{{ other_book.cloudinary_url }}"
-					/>
-					{% else %}
-					<img
-						class="other-book-image"
-						src="https://via.placeholder.com/209x311"
-					/>
-					{% endif %}
-					<div class="other-book-title">
-						<a
-							href="{{ url_for('home.book_user_detail', user_id=other_book['user_id'], book_id=other_book['book_id']) }}"
-						>
-							{{ other_book['book_title'] }}
-						</a>
-					</div>
-				</div>
-				{% endfor %}
-			</div>
-		</div>
-		<script>
-			function confirmDelete(deleteUrl) {
-				var confirmDelete = confirm(
-					"Are you sure you want to delete this book?"
-				);
-				if (confirmDelete) {
-					window.location.href = deleteUrl;
-				}
-			}
-		</script>
-	</body>
+      <li>{{ book_detail['book_title'] }}</li>
+    </ol>
+    <div class="product-container">
+      <div class="product-image-container">
+        <div class="product-image-container-inner">
+          {% if book_detail.cloudinary_url %}
+          <img
+            class="book-ulibrary-image"
+            src="{{ book_detail.cloudinary_url }}"
+          />
+          {% else %}
+          <img
+            class="book-ulibrary-image"
+            src="https://via.placeholder.com/209x311"
+          />
+          {% endif %}
+        </div>
+      </div>
+      <div class="product-detail-container">
+        <div class="product-detail-1">
+          {{ book_detail['book_title'] }}
+          <div class="author-name">by {{ book_detail['book_author'] }}</div>
+        </div>
+        <div class="product-star-rating">
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star checked"></span>
+          <span class="fa fa-star"></span>
+        </div>
+        <div class="product-seller">
+          <div class="product-seller-1">
+            <div style="margin-right: 5px">From</div>
+            <div style="font-weight: bold">{{ book_detail.username }}</div>
+            <div style="padding-left: 80px; display: flex">
+              <div>Seller Rating:</div>
+              <div class="seller-star-rating">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+                <span class="fa fa-star"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <a
+            href="{{ url_for('home.user_books', user_id=user_id) }}"
+            style="color: rgb(74, 74, 241); text-decoration: none"
+            >View seller's books</a
+          >
+        </div>
+        <div style="color: grey; margin-top: 30px">
+          Quantity:{{book_detail.quantity}}
+        </div>
+      </div>
+      <div class="product-purchase-container">
+        {% if user_id == current_user.id|int %}
+        <a
+          href="{{ url_for('home.edit_book', book_id=book_detail.book_id, user_id=user_id) }}"
+          >Edit this Book</a
+        >
+        <div style="margin-top: 150px; margin-bottom: 5px">
+          Buy for: ₱<b style="font-size: 2rem"
+            >{{ book_detail.selling_price }}</b
+          >
+          <div class="product-button-disabled">DISABLED FOR OWNER</div>
+          <div style="margin-top: 20px; margin-bottom: 5px">
+            Rent for: ₱<b style="font-size: 2rem"
+              >{{ book_detail.renting_price }}/day</b
+            >
+          </div>
+          <div class="product-button-disabled">DISABLED FOR OWNER</div>
+        </div>
+        <a
+          href="javascript:void(0);"
+          onclick="confirmDelete('{{ url_for('home.delete_book', user_id=user_id, book_id=book_detail.book_id) }}')"
+          style="
+            color: rgb(245, 42, 42);
+            text-decoration: none;
+            margin-top: 50px;
+          "
+          >Delete this book</a
+        >
+        {% else %}
+        <div style="margin-top: 150px; margin-bottom: 5px">
+          Buy for: ₱<b style="font-size: 2rem"
+            >{{ book_detail.selling_price }}</b
+          >
+          <a
+            href="{{ url_for('home.book_buy', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
+            ><div class="product-buy-button">BUY NOW</div></a
+          >
+          <div style="margin-top: 20px; margin-bottom: 5px">
+            Rent for: ₱<b style="font-size: 2rem"
+              >{{ book_detail.renting_price }}/day</b
+            >
+          </div>
+          <a
+            href="{{ url_for('home.book_rent', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
+            ><div class="product-rent-button">RENT NOW</div></a
+          >
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    <div class="other-book-container">
+      <div class="other-book-heading">FROM OTHER USERS</div>
+      <div class="other-books">
+        {% for other_book in other_books %}
+        <div class="other-book-detail">
+          {% if other_book.cloudinary_url %}
+          <img class="other-book-image" src="{{ other_book.cloudinary_url }}" />
+          {% else %}
+          <img
+            class="other-book-image"
+            src="https://via.placeholder.com/209x311"
+          />
+          {% endif %}
+          <div class="other-book-title">
+            <a
+              href="{{ url_for('home.book_user_detail', user_id=other_book['user_id'], book_id=other_book['book_id']) }}"
+            >
+              {{ other_book['book_title'] }}
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <script>
+      function confirmDelete(deleteUrl) {
+        var confirmDelete = confirm(
+          "Are you sure you want to delete this book?"
+        );
+        if (confirmDelete) {
+          window.location.href = deleteUrl;
+        }
+      }
+    </script>
+  </body>
 </html>

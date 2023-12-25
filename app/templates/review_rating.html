@@ -25,14 +25,17 @@
     <div>{% include 'partials/navbar.html' %}</div>
     <div class="container">
       <div class="wrapper">
-        <form action="#">
+        <form
+          action="{{ url_for('home.rate_books', user_id=user_id, book_id=book_id) }}"
+          method="post"
+        >
           <div class="rating">
-            <input type="number" name="rating" hidden />
-            <i class="bx bx-star star" style="--i: 0"></i>
-            <i class="bx bx-star star" style="--i: 1"></i>
-            <i class="bx bx-star star" style="--i: 2"></i>
-            <i class="bx bx-star star" style="--i: 3"></i>
-            <i class="bx bx-star star" style="--i: 4"></i>
+            <input type="hidden" name="rating" />
+            <i class="bx bx-star star" data-index="0"></i>
+            <i class="bx bx-star star" data-index="1"></i>
+            <i class="bx bx-star star" data-index="2"></i>
+            <i class="bx bx-star star" data-index="3"></i>
+            <i class="bx bx-star star" data-index="4"></i>
           </div>
           <textarea
             name="opinion"
@@ -42,33 +45,30 @@
           ></textarea>
           <div class="btn-group">
             <button type="submit" class="btn submit">Submit</button>
-            <button class="btn cancel">Cancel</button>
+            <button type="button" class="btn cancel">Cancel</button>
           </div>
         </form>
       </div>
     </div>
     <script>
       const allStar = document.querySelectorAll(".rating .star");
-      const ratingValue = document.querySelector(".rating input");
+      const ratingValue = document.querySelector(
+        ".rating input[name='rating']"
+      );
 
       allStar.forEach((item, idx) => {
         item.addEventListener("click", function () {
-          let click = 0;
           ratingValue.value = idx + 1;
 
-          allStar.forEach((i) => {
+          allStar.forEach((i, index) => {
             i.classList.replace("bxs-star", "bx-star");
             i.classList.remove("active");
-          });
-          for (let i = 0; i < allStar.length; i++) {
-            if (i <= idx) {
-              allStar[i].classList.replace("bx-star", "bxs-star");
-              allStar[i].classList.add("active");
-            } else {
-              allStar[i].style.setProperty("--i", click);
-              click++;
+
+            if (index <= idx) {
+              i.classList.replace("bx-star", "bxs-star");
+              i.classList.add("active");
             }
-          }
+          });
         });
       });
     </script>
