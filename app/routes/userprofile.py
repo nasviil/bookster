@@ -109,10 +109,10 @@ def edit_user_profile():
                         )
                     else:
                         flash('User profile not found', 'danger')
-                        return redirect(url_for('userprofile.user_profile'))  # Redirect to user_profile route
+                        return redirect(url_for('userprofile.get_user_profile_route', user_id=user_id))  # Redirect to user_profile route
 
                     flash('Profile updated successfully', 'success')
-                    return redirect(url_for('userprofile.user_profile'))  # Redirect to user_profile route
+                    return redirect(url_for('userprofile.get_user_profile_route', user_id=user_id))  # Redirect to user_profile route
 
                 else:
                     flash('Invalid file format. Please upload a JPEG or PNG file.', 'danger')
@@ -132,10 +132,10 @@ def edit_user_profile():
             )
         else:
             flash('User profile not found', 'danger')
-            return redirect(url_for('userprofile.user_profile'))  # Redirect to user_profile route
+            return redirect(url_for('userprofile.get_user_profile_route', user_id=user_id))  # Redirect to user_profile route
 
         flash('Profile updated successfully', 'success')
-        return redirect(url_for('userprofile.user_profile'))  # Redirect to user_profile route
+        return redirect(url_for('userprofile.get_user_profile_route', user_id=user_id))  # Redirect to user_profile route
 
     elif request.method == 'GET':
         # Handle the GET request, maybe render the form
