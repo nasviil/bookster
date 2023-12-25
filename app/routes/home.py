@@ -432,3 +432,9 @@ def rent_checkout(user_id, book_id):
        
    return render_template('rentcheckout.html', book_detail=book_detail, books=books, matching_book=matching_book, user_id=user_id)
 
+
+
+@home.route('/rate', methods=['GET', 'POST'])
+@login_required
+def rate_books():
+    return render_template('review_rating.html')
