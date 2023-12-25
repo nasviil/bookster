@@ -7,6 +7,11 @@
 			content="width=device-width, initial-scale=1.0"
 		/>
 		<link
+			rel="stylesheet"
+			type="text/css"
+			href="{{ url_for('static', filename='stylesfix.css') }}"
+		/>
+		<link
 			href="https://fonts.googleapis.com/css?family=Unica One"
 			rel="stylesheet"
 		/>
@@ -84,41 +89,6 @@
 		</style>
 	</head>
 	<body>
-		<header>
-			<div class="logo logo1">
-				<a href="/userprofile">
-					<img
-						src="{{ url_for('static', filename='img/header/MyAcc.png') }}"
-						alt="Logo 1"
-					/>
-				</a>
-			</div>
-			<div class="logo logo2">
-				<a href="your_link_for_logo2.html">
-					<img
-						src="{{ url_for('static', filename='img/header/chat.png') }}"
-						alt="Logo 2"
-					/>
-				</a>
-			</div>
-			<div class="logo logo3">
-				<a href="your_link_for_logo3.html">
-					<img
-						src="{{ url_for('static', filename='img/header/SHOPPING_CART.png') }}"
-						alt="Logo 3"
-					/>
-				</a>
-			</div>
-			<div class="logo logo4">
-				<a href="/home">
-					<img
-						src="{{ url_for('static', filename='img/header/Group 136.png') }}"
-						alt="Logo 4"
-					/>
-				</a>
-			</div>
-		</header>
-
 		<div id="content">{% block content %}{% endblock %}</div>
 
 		<!-- Add these script tags to include Bootstrap and jQuery -->
@@ -142,10 +112,9 @@
 			type="text/javascript"
 		></script>
 
-        <!-- Modal -->
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-
+		<!-- Modal -->
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 	</body>
 </html>
