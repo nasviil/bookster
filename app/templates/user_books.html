@@ -32,13 +32,13 @@
 				{% if user_id == current_user.id | int%}
 				<a
 					href="{{ url_for('home.add_book', user_id=user_id) }}"
-					class="btn-library"
+					class="btn-library btn-green"
 					style="margin-right: auto"
 					>Add Book</a
 				>
 				{% endif %}
 				<input
-					type="text"
+					type="text"			
 					class="search-input"
 					id="search-input"
 					placeholder="Search..."
@@ -53,7 +53,7 @@
 					{% endfor %}
 				</select>
 				<button
-					class="btn-library"
+					class="btn-library btn-yellow"
 					onclick="searchAndFilter()"
 				>
 					Search

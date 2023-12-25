@@ -59,7 +59,7 @@
             <!-- Save and Cancel Buttons -->
             <div class="mb-3 d-flex justify-content-between">
                 <button type="submit" class="btn btn-primary">Save</button>
-                <a href="{{ url_for('userprofile.user_profile') }}" class="btn btn-secondary">Cancel</a>
+                <a href="{{ url_for('userprofile.get_user_profile_route', user_id=current_user.id) }}" class="btn btn-secondary">Cancel</a>
             </div>
             </form>
             </div>
