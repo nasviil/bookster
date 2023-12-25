@@ -60,7 +60,6 @@
 								<th></th>
 								<th>Item</th>
 								<th>Price</th>
-								<th>Quantity</th>
                                 <th>Date Start</th>
                                 <th>Date ended</th>
 								<th>Item Subtotal</th>
@@ -84,17 +83,6 @@
 									matching_book.book_title }} {% endif %}
 								</td>
 								<td>₱{{ book_detail.selling_price }}</td>
-								<td>
-									<div>
-										<input
-											type="number"
-											name="quantity"
-											id="order_quantity"
-											min="1"
-											value="1"
-											max="{{book_detail.quantity}}"
-										/>
-									</div>
                                     <td>
                                         <div class="form-group">
                                             <input type="date" class="form-control" id="rentStartDate" name="rent_start_date" required>
@@ -110,10 +98,17 @@
 							</tr>
 
 							<tr>
+								<td>
+									<input
+									type="hidden"
+									name="quantity"
+									id="order_quantity"
+									min="1"
+									value="1"
+									max="{{book_detail.quantity}}"
+								/></td>
 								<td></td>
 								<td></td>
-								<td></td>
-                                <td></td>
 								<td></td>
 								<td>
 									Order total (<span id="orderQuantity">1</span> item{% if
@@ -126,7 +121,6 @@
 								<td></td>
 								<td></td>
 								<td></td>
-                                <td></td>
 								<td></td>
 								<td>						
 									<button
