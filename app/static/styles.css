@@ -730,5 +730,7 @@
 .order-photo {
 	width: 120px;
 	height: 173px;
-	border-radius: 5px;
+	box-shadow: 6px 8px 12px -6px rgba(61, 60, 60, 0.36);
+	border-radius: 10px;
+	margin-right: 12px;
 }
