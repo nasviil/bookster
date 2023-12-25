@@ -131,13 +131,30 @@ class UserBook:
             return None
         
     @classmethod
-    def confirm_return_rent(cls, rent_id):
-        CONFIRM_RETURN_SQL = (
-                "UPDATE rent_books SET is_returned = 1 where rent_id = %s"
-            )
-        cur = mysql.connection.cursor(dictionary=True)
-        cur.execute(CONFIRM_RETURN_SQL, (rent_id,))
-        mysql.connection.commit()
+    def confirm_return_rent(cls, owner_id, book_id, rent_id):
+        try:
+            # Start a transaction
+            with mysql.connection.cursor() as cur:
+                # Update rent_books table
+                CONFIRM_RETURN_SQL = "UPDATE rent_books SET is_returned = 1 WHERE rent_id = %s"
+                cur.execute(CONFIRM_RETURN_SQL, (rent_id,))
+
+                # Increment quantity in user_book_instances table
+                UPDATE_QUANTITY_SQL = (
+                    "UPDATE user_book_instances SET quantity = quantity + 1 "
+                    "WHERE user_id = %s AND book_id = %s"
+                )
+                cur.execute(UPDATE_QUANTITY_SQL, (owner_id, book_id))
+
+            # Commit the transaction
+            mysql.connection.commit()
+        except Exception as e:
+            # Handle exceptions (rollback, log, etc.)
+            mysql.connection.rollback()
+            print(f"Error confirming return: {e}")
+        finally:
+            # Close the cursor (optional)
+            cur.close()
 
     @classmethod
     def get_user_rents(cls, renter_id):
@@ -159,6 +176,20 @@ class UserBook:
         INSERT_ORDER_SQL = ("INSERT INTO purchase_books (buyer_id, book_id, seller_id, quantity, purchase_date)""VALUES(%s, %s, %s, %s, %s)");
         cur = mysql.connection.cursor(dictionary=True)
         cur.execute(INSERT_ORDER_SQL, (buyer_id, book_id, seller_id, quantity, datetime.now()))
+        mysql.connection.commit()
+
+    @classmethod
+    def delete_purchase_order(cls, purchase_id):
+        DELETE_ORDER_SQL = "DELETE FROM purchase_books WHERE purchase_id = %s"
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(DELETE_ORDER_SQL, (purchase_id,))  # Add the tuple parentheses
+        mysql.connection.commit()
+
+    @classmethod
+    def delete_rent_order(cls, rent_id):
+        DELETE_ORDER_SQL = "DELETE FROM rent_books WHERE rent_id = %s"
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(DELETE_ORDER_SQL, (rent_id,))  # Add the tuple parentheses
         mysql.connection.commit()
 
     @classmethod
