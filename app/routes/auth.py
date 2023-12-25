@@ -99,7 +99,7 @@ def signup():
           session['username']= username
 
           userdata = User.userData(username)
-          user = User(username)
+          user = User(id)
           send_verification_email(userdata)
           session['loggedin']= True
           session['username']= username

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Document</title>
+	</head>
+	<body>
+		<div>{% include 'partials/navbar.html' %}</div>
+		<div class="order-container">
+			<h3>RENTED AND PURCHASED BOOKS</h3>
+			<div class="tabs">
+				<input
+					type="radio"
+					class="tabs-radio"
+					name="tabs-example"
+					id="tab1"
+					checked
+				/>
+				<label
+					for="tab1"
+					class="tab-label"
+					>Purchased Books</label
+				>
+				<div class="tabs__content">
+					{% if purchased_books %} {% for i in range(purchased_books|length) %}
+					{% set book = purchase_detail[i] %} {% set seller = seller[i] %} {%
+					set purchased_book = purchased_books[i] %}
+					<div class="purchase-order-container">
+						<div class="order-details">
+							<div class="order-photo"></div>
+							<div class="order-book-details">
+								<a
+									href="{{ url_for('home.book_user_detail', book_id=book['book_id'], user_id=purchased_book['seller_id']) }}"
+									style="color: #222"
+									><b
+										class="order-text"
+										style="font-size: 2.2rem"
+										>{{ book.book_title }}</b
+									></a
+								>
+								<div class="order-text">
+									Purchased From:
+									<a
+										href="{{ url_for('userprofile.get_user_profile_route', user_id=purchased_book['seller_id']) }}"
+										style="color: #222; background-color: transparent"
+									>
+										<b class="order-text">{{ seller[0][1] }}</b></a
+									>
+								</div>
+								<div class="order-text">
+									Quantity:
+									<b class="order-text">{{purchased_book.quantity}}</b>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %} {% endif %}
+				</div>
+				<input
+					type="radio"
+					class="tabs-radio"
+					name="tabs-example"
+					id="tab2"
+				/>
+				<label
+					for="tab2"
+					class="tab-label"
+					>Rented Books</label
+				>
+				<div class="tabs__content">
+					{% if rented_books %} {% for i in range(rented_books|length) %} {% set
+					book = rent_detail[i] %} {% set owner = owner[i] %} {% set rented_book
+					= rented_books[i] %}
+					<div class="rent-order-container">
+						<div class="order-details">
+							<div class="order-photo"></div>
+							<div class="order-book-details">
+								<a
+									href="{{ url_for('home.book_user_detail', book_id=book['book_id'], user_id=rented_book['owner_id']) }}"
+									style="color: #222"
+									><b
+										class="order-text"
+										style="font-size: 2.2rem"
+										>{{ book.book_title }}</b
+									></a
+								>
+								<div class="order-text">
+									Rented From:
+									<a
+										href="{{ url_for('userprofile.get_user_profile_route', user_id=rented_book['owner_id']) }}"
+										style="color: #222; background-color: transparent"
+									>
+										<b class="order-text">{{ owner[0][1] }}</b></a
+									>
+								</div>
+								<div class="order-text">
+									To be returned by:
+									<b class="order-text">{{rented_book.rent_end_date}}</b>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% endfor %} {% endif %}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -42,10 +42,10 @@
 					{% if user_profile_data and user_profile_data.name %}
 					<b class="user-info">{{user_profile_data.name }}</b>
 					{% else %}
-					<b class="user-info">{{ username }}</b>
+					<b class="user-info">{{ user[0][1] }}</b>
 					{% endif %}
 					<a
-						href="/userprofile"
+						href="{{ url_for('userprofile.get_user_profile_route', user_id=user_id)}}"
 						class="user-info"
 						style="font-size: 1rem"
 						>View Profile</a

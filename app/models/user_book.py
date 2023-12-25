@@ -1,17 +1,17 @@
-# from flask import Flask
-# from flaskext.mysql import MySQL
+#from flask import Flask
+#from flaskext.mysql import MySQL
 from datetime import datetime
 from app import mysql
 
-# app = Flask(__name__)
+#app = Flask(__name__)
 # # Configure MySQL
-# app.config['MYSQL_DATABASE_USER'] = 'root'
-# app.config['MYSQL_DATABASE_PASSWORD'] = 'root'
-# app.config['MYSQL_DATABASE_DB'] = 'sql12663651'
-# app.config['MYSQL_DATABASE_HOST'] = 'localhost' 
+#app.config['MYSQL_DATABASE_USER'] = 'root'
+#app.config['MYSQL_DATABASE_PASSWORD'] = '1234'
+#app.config['MYSQL_DATABASE_DB'] = 'sql12663651'
+#app.config['MYSQL_DATABASE_HOST'] = 'localhost' 
 
 
-# mysql = MySQL(app)
+#Mysql = MySQL(app)
 
 class UserBook:
     __tablename__ = 'user_book_instances'
@@ -58,6 +58,215 @@ class UserBook:
         book_detail = cur.fetchone()
         return book_detail
     
+    @classmethod
+    def get_book_details(cls, book_id):
+        try:
+            SELECT_BOOK_SQL = "SELECT * FROM books WHERE book_id = %s"
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_BOOK_SQL, (int(book_id),))
+            book_details = cur.fetchone()
+            return book_details
+        except Exception as e:
+            print(f"Error in get_book_details: {e}")
+            return None
+
+    @classmethod
+    def get_purchase_orders(cls, seller_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM purchase_books "
+                "WHERE seller_id = %s AND is_confirmed = 0"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (seller_id,))
+            book_orders = cur.fetchall()
+            return book_orders
+        except Exception as e:
+            print(f"Error in get_purchase_orders: {e}")
+            return None
+
+    @classmethod
+    def get_user_purchase(cls, buyer_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM purchase_books "
+                "WHERE buyer_id = %s AND is_confirmed = 1"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (buyer_id,))
+            confirmed_orders = cur.fetchall()
+            return confirmed_orders
+        except Exception as e:
+            print(f"Error in get_purchase_orders: {e}")
+            raise
+
+    @classmethod
+    def get_confirmed_purchase_orders(cls, seller_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM purchase_books "
+                "WHERE seller_id = %s AND is_confirmed = 1"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (seller_id,))
+            confirmed_orders = cur.fetchall()
+            return confirmed_orders
+        except Exception as e:
+            print(f"Error in get_purchase_orders: {e}")
+            return None
+        
+    @classmethod
+    def get_confirmed_rent_orders(cls, owner_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM rent_books "
+                "WHERE owner_id = %s AND is_rented = 1"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (owner_id,))
+            confirmed_orders = cur.fetchall()
+            return confirmed_orders
+        except Exception as e:
+            print(f"Error in get_purchase_orders: {e}")
+            return None
+        
+    @classmethod
+    def get_user_rents(cls, renter_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM rent_books "
+                "WHERE renter_id = %s AND is_rented = 1"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (renter_id,))
+            confirmed_orders = cur.fetchall()
+            return confirmed_orders
+        except Exception as e:
+            print(f"Error in get_purchase_orders: {e}")
+            return None
+ 
+    @classmethod
+    def add_purchase_order(cls, buyer_id, book_id, seller_id, quantity):
+        INSERT_ORDER_SQL = ("INSERT INTO purchase_books (buyer_id, book_id, seller_id, quantity, purchase_date)""VALUES(%s, %s, %s, %s, %s)");
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(INSERT_ORDER_SQL, (buyer_id, book_id, seller_id, quantity, datetime.now()))
+        mysql.connection.commit()
+
+    @classmethod
+    def confirm_purchase_order(cls, buyer_id, seller_id, book_id):
+        cur = mysql.connection.cursor(dictionary=True)
+        try:
+            # Retrieve the quantity from purchase_books
+            SELECT_PURCHASE_BOOK_SQL = (
+                "SELECT quantity FROM purchase_books "
+                "WHERE buyer_id = %s AND seller_id = %s AND book_id = %s AND is_confirmed = 0"
+            )
+            cur.execute(SELECT_PURCHASE_BOOK_SQL, (buyer_id, seller_id, book_id))
+            purchase_info = cur.fetchone()
+
+            if purchase_info:
+                purchase_quantity = purchase_info['quantity']
+
+                # Update purchase_books
+                UPDATE_PURCHASE_BOOK_SQL = (
+                    "UPDATE purchase_books "
+                    "SET is_confirmed = 1 "
+                    "WHERE buyer_id = %s AND seller_id = %s AND book_id = %s"
+                )
+                cur.execute(UPDATE_PURCHASE_BOOK_SQL, (buyer_id, seller_id, book_id))
+                mysql.connection.commit()
+
+                # Retrieve the user_book_id and quantity from user_book_instances
+                SELECT_USER_BOOK_SQL = (
+                    "SELECT user_book_id, quantity FROM user_book_instances "
+                    "WHERE user_id = %s AND book_id = %s"
+                )
+                cur.execute(SELECT_USER_BOOK_SQL, (seller_id, book_id))
+                user_book_info = cur.fetchone()
+
+                if user_book_info:
+                    user_book_id = user_book_info['user_book_id']
+                    original_quantity = user_book_info['quantity']
+
+                    # Subtract purchase quantity from user_book_instances quantity
+                    new_quantity = max(original_quantity - purchase_quantity, 0)
+
+                    # Update user_book_instances
+                    UPDATE_USER_BOOK_SQL = (
+                        "UPDATE user_book_instances SET quantity = %s WHERE user_book_id = %s"
+                    )
+                    cur.execute(UPDATE_USER_BOOK_SQL, (new_quantity, user_book_id))
+                    mysql.connection.commit()
+
+        except Exception as e:
+            print(f"Error updating purchase order: {e}")
+        finally:
+            cur.close()
+            
+            
+    @classmethod
+    def get_rent_orders(cls, seller_id):
+        try:
+            SELECT_ORDERS_SQL = (
+                "SELECT * FROM rent_books "
+                "WHERE owner_id = %s AND is_rented = 0"
+            )
+            cur = mysql.connection.cursor(dictionary=True)
+            cur.execute(SELECT_ORDERS_SQL, (seller_id,))
+            book_orders = cur.fetchall()
+            return book_orders
+        except Exception as e:
+            print(f"Error in get_rent_orders: {e}")
+            return None
+
+    @classmethod
+    def add_rent_order(cls, renter_id, book_id, owner_id, quantity, rent_start_date, rent_end_date):
+        INSERT_ORDER_SQL = ("INSERT INTO rent_books (renter_id, book_id, owner_id, quantity, rent_start_date, rent_end_date)""VALUES(%s, %s, %s, %s, %s, %s)");
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(INSERT_ORDER_SQL, (renter_id, book_id, owner_id, quantity,  rent_start_date, rent_end_date))
+        mysql.connection.commit()
+
+    @classmethod
+    def confirm_rent_order(cls, renter_id, owner_id, book_id):
+        UPDATE_ORDER_SQL = (
+            "UPDATE rent_books SET is_rented = 1 WHERE renter_id = %s AND owner_id = %s AND book_id = %s"
+        )
+        cur = mysql.connection.cursor(dictionary=True)
+        try:
+            # Print debug info
+            print("Debug Info:", renter_id, owner_id, book_id)
+
+            # Update purchase_books
+            cur.execute(UPDATE_ORDER_SQL, (renter_id, owner_id, book_id))
+            mysql.connection.commit()
+
+            # Subtract quantity from user_book_instances
+            SELECT_USER_BOOK_SQL = (
+                "SELECT user_book_id, quantity FROM user_book_instances "
+                "WHERE user_id = %s AND book_id = %s"
+            )
+            cur.execute(SELECT_USER_BOOK_SQL, (owner_id, book_id))
+            user_book_info = cur.fetchone()
+
+            if user_book_info:
+                user_book_id = user_book_info['user_book_id']
+                original_quantity = user_book_info['quantity']
+                # Subtract quantity
+                new_quantity = max(original_quantity - 1, 0)  # Ensure it doesn't go below 0
+
+                UPDATE_USER_BOOK_SQL = (
+                    "UPDATE user_book_instances SET quantity = %s WHERE user_book_id = %s"
+                )
+                cur.execute(UPDATE_USER_BOOK_SQL, (new_quantity, user_book_id))
+                mysql.connection.commit()
+
+        except Exception as e:
+            print(f"Error updating purchase order: {e}")
+        finally:
+            cur.close()
+
+
+
     @classmethod
     def add_book(cls, user_id, book_title, book_isbn, book_author, book_genre, cloudinary_url, selling_price, renting_price, quantity):
         INSERT_BOOK_SQL = (
@@ -181,3 +390,65 @@ class Genre:
         cur.execute(SELECT_SQL)
         genres = cur.fetchall()
         return genres
+    
+class Region:
+    __tablename__ = 'region'
+
+    @classmethod
+    def get_region(cls):
+        SELECT_SQL = f"SELECT * FROM {cls.__tablename__}"
+        cur = mysql.new_cursor(dictionary=True)
+        cur.execute(SELECT_SQL)
+        regions = cur.fetchall()
+        return regions
+    
+class Address:
+    __tablename__ = 'address'
+
+    @classmethod
+    def get_address(cls):
+        SELECT_SQL = f"SELECT * FROM {cls.__tablename__}"
+        cur = mysql.new_cursor(dictionary=True)
+        cur.execute(SELECT_SQL)
+        addresses = cur.fetchall()
+        return addresses
+
+    @classmethod
+    def get_user_addresses(cls, user_id):
+        SELECT_SQL = f"SELECT * FROM {cls.__tablename__} WHERE user_id = %s"
+        cur = mysql.new_cursor(dictionary=True)
+        cur.execute(SELECT_SQL, (user_id,))
+        user_addresses = cur.fetchall()
+        return user_addresses
+
+    @classmethod
+    def add_address(cls, address_id, user_id, fullname, phone_number, region_id, province, city, barangay, zipcode, street, building, house_no, notes):
+        INSERT_SQL = (
+            "INSERT INTO address "
+            "(address_id, user_id, fullname, phone_number, region_id, province, city, barangay, zipcode, street, building, house_no, notes) "
+            "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        )
+        cur = mysql.connection.cursor()
+        try:
+            cur.execute(INSERT_SQL, (address_id, user_id, fullname, phone_number, region_id, province, city, barangay, zipcode, street, building, house_no, notes))
+            mysql.connection.commit()
+        except Exception as e:
+            mysql.connection.rollback()
+            raise e
+        finally:
+            cur.close()
+
+    
+class BuyReq:
+    __tablename__ = 'buyrequest'
+    
+    def __init__(self, request_id, user_id, quantity, subtotal, total, book_id, region_id, method_id):
+        self.request_id = request_id
+        self.user_id = user_id
+        self.quantity = quantity
+        self.subtotal = subtotal
+        self.total = total
+        self.book_id = book_id
+        self.region_id = region_id
+        self.method_id = method_id
+

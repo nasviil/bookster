@@ -8,13 +8,15 @@ flask = "==2.3.3"
 flask-login = "*"
 python-dotenv = "*"
 flask-mysql-connector = "*"
-mysql-connector = "*"
 werkzeug = "*"
 requests = "*"
 cloudinary = "*"
 flask-mail = "*"
 cryptography = "*"
 flask-paginate = "*"
+flask-ext = "*"
+flask-mysql = "*"
+mysql-connector-python = "*"
 
 [dev-packages]
 
