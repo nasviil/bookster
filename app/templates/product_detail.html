@@ -82,47 +82,63 @@
 				</div>
 			</div>
 			<div class="product-purchase-container">
-				{% if user_id == current_user.id | int %}
+				{% if user_id == current_user.id|int %}
 				<a
 					href="{{ url_for('home.edit_book', book_id=book_detail.book_id, user_id=user_id) }}"
 					>Edit this Book</a
 				>
-				{% endif %}
 				<div style="margin-top: 150px; margin-bottom: 5px">
 					Buy for: ₱<b style="font-size: 2rem"
 						>{{ book_detail.selling_price }}</b
 					>
+					<div class="product-button-disabled">DISABLED FOR OWNER</div>
+					<div style="margin-top: 20px; margin-bottom: 5px">
+						Rent for: ₱<b style="font-size: 2rem"
+							>{{ book_detail.renting_price }}/day</b
+						>
+					</div>
+					<div class="product-button-disabled">DISABLED FOR OWNER</div>
 				</div>
-				<a
-					href="{{ url_for('home.book_buy', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
-					><div class="product-buy-button">BUY NOW</div></a
-				>
-				<div style="margin-top: 20px; margin-bottom: 5px">
-					Rent for: ₱<b style="font-size: 2rem"
-						>{{ book_detail.renting_price }}</b
-					>/day
-				</div>
-				<div class="product-rent-button">RENT NOW</div>
-				{% if user_id == current_user.id | int %}
 				<a
 					href="javascript:void(0);"
 					onclick="confirmDelete('{{ url_for('home.delete_book', user_id=user_id, book_id=book_detail.book_id) }}')"
-					style="color: rgb(245, 42, 42); text-decoration: none"
+					style="
+						color: rgb(245, 42, 42);
+						text-decoration: none;
+						margin-top: 50px;
+					"
+					>Delete this book</a
 				>
-					Delete this book</a
-				>
-
+				{% else %}
+				<div style="margin-top: 150px; margin-bottom: 5px">
+					Buy for: ₱<b style="font-size: 2rem"
+						>{{ book_detail.selling_price }}</b
+					>
+					<a
+						href="{{ url_for('home.book_buy', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
+						><div class="product-buy-button">BUY NOW</div></a
+					>
+					<div style="margin-top: 20px; margin-bottom: 5px">
+						Rent for: ₱<b style="font-size: 2rem"
+							>{{ book_detail.renting_price }}/day</b
+						>
+					</div>
+					<a
+						href="{{ url_for('home.book_rent', book_id=book_detail['book_id'], user_id=book_detail['user_id']) }}"
+						><div class="product-rent-button">RENT NOW</div></a
+					>
+				</div>
 				{% endif %}
 			</div>
 		</div>
 		<div class="other-book-container">
 			<div class="other-book-heading">FROM OTHER USERS</div>
 			<div class="other-books">
-				{% for other_book in other_books %} {% if other_book.cloudinary_url %}
+				{% for other_book in other_books %}
 				<div class="other-book-detail">
+					{% if other_book.cloudinary_url %}
 					<img
 						class="other-book-image"
-						user_id
 						src="{{ other_book.cloudinary_url }}"
 					/>
 					{% else %}
@@ -134,8 +150,9 @@
 					<div class="other-book-title">
 						<a
 							href="{{ url_for('home.book_user_detail', user_id=other_book['user_id'], book_id=other_book['book_id']) }}"
-							>{{ other_book['book_title'] }}</a
 						>
+							{{ other_book['book_title'] }}
+						</a>
 					</div>
 				</div>
 				{% endfor %}

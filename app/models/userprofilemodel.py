@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 app.config['MYSQL_DATABASE_USER'] = getenv('MYSQL_USERNAME')
 app.config['MYSQL_DATABASE_PASSWORD'] = getenv('MYSQL_PASSWORD')
-app.config['MYSQL_DATABASE_DB'] = getenv('MYSQL_NAME')
+app.config['MYSQL_DATABASE_DB'] = getenv('MYSQL_NAME')  
 app.config['MYSQL_DATABASE_HOST'] = getenv('MYSQL_HOST')
 mysql = MySQL(app)
 

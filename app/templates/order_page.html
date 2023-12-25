@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<link
+			rel="stylesheet"
+			type="text/css"
+			href="../static/styles.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+			integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+			crossorigin="anonymous"
+		/>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Orders</title>
+	</head>
+	<body>
+		<div>{% include 'partials/navbar.html' %}</div>
+		<div class="order-container">
+			<h3>ORDERS</h3>
+			<div class="tabs">
+				<input
+					type="radio"
+					class="tabs-radio"
+					name="tabs-example"
+					id="tab1"
+					checked
+				/>
+				<label
+					for="tab1"
+					class="tab-label"
+					>Buy Orders</label
+				>
+				<div class="tabs__content">
+					{% if buy_orders %} {% for i in range(buy_orders|length) %} {% set
+					book = purchase_detail[i] %} {% set buyer = buyer[i] %} {% set
+					buy_order = buy_orders[i] %}
+					<div class="purchase-order-container">
+						<div class="order-details">
+							<a
+								href="{{ url_for('userprofile.get_user_profile_route', user_id=buy_order['buyer_id']) }}"
+								style="color: #222; background-color: transparent"
+								><b
+									class="order-text"
+									style="font-size: 1.4rem"
+									>{{ buyer[0][1] }}</b
+								></a
+							>
+							<div class="order-text">Wants to buy</div>
+							<a
+								href="{{ url_for('home.book_user_detail', book_id=book['book_id'], user_id=buy_order['seller_id']) }}"
+								style="color: #222; background-color: transparent"
+							>
+								<b
+									class="order-text"
+									style="font-size: 1.5rem"
+									>{{ book.book_title }}</b
+								></a
+							>
+							<div class="order-text">({{ buy_order.quantity }})</div>
+						</div>
+						<div class="order-controls">
+							<form
+								action="{{ url_for('home.order_page', user_id=user_id) }}"
+								method="post"
+							>
+								<input
+									type="hidden"
+									name="buyer_id"
+									value="{{ buy_order.buyer_id }}"
+								/>
+								<input
+									type="hidden"
+									name="seller_id"
+									value="{{ buy_order.seller_id }}"
+								/>
+								<input
+									type="hidden"
+									name="book_purchase_id"
+									value="{{ book.book_id }}"
+								/>
+								<button
+									type="submit"
+									name="confirm_purchase"
+								>
+									confirm
+								</button>
+								<button
+									type="submit"
+									name="reject_purchase"
+								>
+									reject
+								</button>
+							</form>
+						</div>
+					</div>
+					{% endfor %} {% endif %}
+				</div>
+				<input
+					type="radio"
+					class="tabs-radio"
+					name="tabs-example"
+					id="tab2"
+				/>
+				<label
+					for="tab2"
+					class="tab-label"
+					>Rent Orders</label
+				>
+				<div class="tabs__content">
+					{% if rent_orders %} {% for i in range(rent_orders|length) %} {% set
+					book = rent_detail[i] %} {% set renter = renter[i] %} {% set
+					rent_order = rent_orders[i] %}
+					<div class="rent-order-container">
+						<div class="order-details">
+							<a
+								href="{{ url_for('userprofile.get_user_profile_route', user_id=rent_order['renter_id']) }}"
+								style="color: #222; background-color: transparent"
+								><b
+									class="order-text"
+									style="font-size: 1.4rem"
+									>{{ renter[0][1] }}</b
+								></a
+							>
+							<div class="order-text">Wants to rent</div>
+							<a
+								href="{{ url_for('home.book_user_detail', book_id=book['book_id'], user_id=rent_order['owner_id']) }}"
+								style="color: #222; background-color: transparent"
+							>
+								<b
+									class="order-text"
+									style="font-size: 1.5rem"
+									>{{ book.book_title }}</b
+								></a
+							>
+							<div class="order-text">until</div>
+							<b class="order-text">{{ rent_order.rent_end_date }}</b>
+						</div>
+						<div class="order-controls">
+							<form
+								action="{{ url_for('home.order_page', user_id=user_id) }}"
+								method="post"
+							>
+								<input
+									type="hidden"
+									name="renter_id"
+									value="{{ rent_order.renter_id }}"
+								/>
+								<input
+									type="hidden"
+									name="owner_id"
+									value="{{ rent_order.owner_id }}"
+								/>
+								<input
+									type="hidden"
+									name="book_rent_id"
+									value="{{ book.book_id }}"
+								/>
+								<button
+									type="submit"
+									name="confirm_rent"
+								>
+									confirm
+								</button>
+								<button
+									type="submit"
+									name="reject_rent"
+								>
+									reject
+								</button>
+							</form>
+						</div>
+					</div>
+					{% endfor %} {% endif %}
+				</div>
+				<input
+					type="radio"
+					class="tabs-radio"
+					name="tabs-example"
+					id="tab3"
+				/>
+				<label
+					for="tab3"
+					class="tab-label"
+					>Confirmed Orders</label
+				>
+				<div class="tabs__content">
+					{% if confirmed_rents %} {% for i in range(confirmed_rents|length) %}
+					{% set book = confirmed_rent_detail[i] %} {% set renter =
+					confirmed_renter[i] %} {% set confirmed_rent = confirmed_rents[i] %}
+					<div class="rent-order-container">
+						<div class="order-details">
+							<b class="order-text">{{ renter[0][1] }}</b>
+							<div class="order-text">Rented</div>
+							<b class="order-text">{{ book.book_title }}</b>
+							<div class="order-text">({{ confirmed_rent.rent_end_date }})</div>
+						</div>
+					</div>
+					{% endfor %} {% endif %} {% if confirmed_purchases %} {% for i in
+					range(confirmed_purchases|length) %} {% set book =
+					confirmed_purchase_detail[i] %} {% set buyer = confirmed_buyer[i] %}
+					{% set confirmed_purchase = confirmed_purchases[i] %}
+					<div class="purchase-order-container">
+						<div class="order-details">
+							<b class="order-text">{{ buyer[0][1] }}</b>
+							<div class="order-text">bought</div>
+							<b class="order-text">{{ book.book_title }}</b>
+							<div class="order-text">({{ confirmed_purchase.quantity }})</div>
+						</div>
+					</div>
+					{% endfor %} {% endif %}
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
