@@ -86,6 +86,7 @@ def order_page(user_id):
 
         if request.method == 'POST':
             handle_post_request(request)
+            return redirect(url_for('home.order_page', user_id=user_id))
 
     confirmed_purchases = UserBook.get_confirmed_purchase_orders(user_id)
     confirmed_purchase_detail, confirmed_buyer = None, None
@@ -93,11 +94,17 @@ def order_page(user_id):
         confirmed_purchase_detail = [UserBook.get_book_details(order['book_id']) for order in confirmed_purchases]
         confirmed_buyer = [User.userData1(order['buyer_id']) for order in confirmed_purchases]
 
-    confirmed_rents = UserBook.get_confirmed_rent_orders(user_id)
+    confirmed_rents = UserBook.get_confirmed_rent_orders(user_id)   
     confirmed_rent_detail, confirmed_renter = None, None
     if confirmed_rents:
         confirmed_rent_detail = [UserBook.get_book_details(order['book_id']) for order in confirmed_rents]
         confirmed_renter = [User.userData1(order['renter_id']) for order in confirmed_rents]
+        confirm_return_clicked = 'confirm_return' in request.form
+        if confirm_return_clicked:
+            rent_id = request.form.get('rent_id')
+            print(rent_id)
+            UserBook.confirm_return_rent(rent_id)
+            return redirect(url_for('home.order_page', user_id=user_id))
 
     return render_template(
         'order_page.html',
