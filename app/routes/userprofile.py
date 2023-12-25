@@ -6,6 +6,9 @@ from flask import current_app
 import cloudinary
 from dotenv import load_dotenv
 from os import getenv
+from werkzeug.exceptions import abort
+from ..models.user_book import UserBook
+from ..models.models import User
 
 
 userprofile = Blueprint('userprofile', __name__)
@@ -44,7 +47,20 @@ def get_user_profile_route(user_id):
     user_profile_data = UserProfile.get_user_profile(user_id)
 
     if user_profile_data:
-        return render_template('userprofile.html', user_profile_data=user_profile_data)
+        current_user.id = int(current_user.id)
+
+        purchased_books = UserBook.get_user_purchase(user_id)
+        purchase_detail, seller = None, None
+        if purchased_books is not None:
+            purchase_detail = [UserBook.get_book_details(order['book_id']) for order in purchased_books]
+            seller = [User.userData1(order['seller_id']) for order in purchased_books]
+
+        rented_books = UserBook.get_user_rents(user_id)
+        rent_detail, owner = None, None
+        if rented_books is not None:
+            rent_detail = [UserBook.get_book_details(order['book_id']) for order in rented_books]
+            owner = [User.userData1(order['owner_id']) for order in rented_books]
+        return render_template('userprofile.html', user_profile_data=user_profile_data,user_id=user_id, purchased_books=purchased_books, purchase_detail=purchase_detail, seller=seller, rented_books=rented_books, rent_detail=rent_detail, owner=owner)
     else:
         return render_template('userprofile.html', message='User profile not found'), 404
     

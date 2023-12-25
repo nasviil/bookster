@@ -131,6 +131,42 @@ class UserBook:
             return None
         
     @classmethod
+    def confirm_return_rent(cls, owner_id, book_id, rent_id):
+        cur = None  # Initialize the cursor variable outside the 'with' block
+        try:
+            print("Start confirm_return_rent")
+            # Start a transaction
+            with mysql.connection.cursor() as cur:
+                print("Inside 'with' block")
+                CONFIRM_RETURN_SQL = "UPDATE rent_books SET is_returned = 1 WHERE rent_id = %s"
+                cur.execute(CONFIRM_RETURN_SQL, (rent_id,))
+                print(f"Confirmed return for rent_id: {rent_id}")
+
+                UPDATE_QUANTITY_SQL = (
+                    "UPDATE user_book_instances SET quantity = quantity + 1 "
+                    "WHERE user_id = %s AND book_id = %s"
+                )
+                cur.execute(UPDATE_QUANTITY_SQL, (owner_id, book_id))
+                print(f"Updated quantity for user_id: {owner_id}, book_id: {book_id}")
+
+            # Commit the transaction
+            mysql.connection.commit()
+            print("Transaction committed")
+        except Exception as e:
+            # Handle exceptions (rollback, log, etc.)
+            mysql.connection.rollback()
+            print(f"Error confirming return: {e}")
+        finally:
+            if cur:
+                # Close the cursor if it's not None
+                cur.close()
+                print("Cursor closed successfully")  # Debug print statement
+            else:
+                print("Cursor was None")  # Debug print statement
+
+        print("End confirm_return_rent")
+
+    @classmethod
     def get_user_rents(cls, renter_id):
         try:
             SELECT_ORDERS_SQL = (
@@ -144,12 +180,26 @@ class UserBook:
         except Exception as e:
             print(f"Error in get_purchase_orders: {e}")
             return None
- 
+
     @classmethod
     def add_purchase_order(cls, buyer_id, book_id, seller_id, quantity):
         INSERT_ORDER_SQL = ("INSERT INTO purchase_books (buyer_id, book_id, seller_id, quantity, purchase_date)""VALUES(%s, %s, %s, %s, %s)");
         cur = mysql.connection.cursor(dictionary=True)
         cur.execute(INSERT_ORDER_SQL, (buyer_id, book_id, seller_id, quantity, datetime.now()))
+        mysql.connection.commit()
+
+    @classmethod
+    def delete_purchase_order(cls, purchase_id):
+        DELETE_ORDER_SQL = "DELETE FROM purchase_books WHERE purchase_id = %s"
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(DELETE_ORDER_SQL, (purchase_id,))  # Add the tuple parentheses
+        mysql.connection.commit()
+
+    @classmethod
+    def delete_rent_order(cls, rent_id):
+        DELETE_ORDER_SQL = "DELETE FROM rent_books WHERE rent_id = %s"
+        cur = mysql.connection.cursor(dictionary=True)
+        cur.execute(DELETE_ORDER_SQL, (rent_id,))  # Add the tuple parentheses
         mysql.connection.commit()
 
     @classmethod
@@ -209,7 +259,7 @@ class UserBook:
         try:
             SELECT_ORDERS_SQL = (
                 "SELECT * FROM rent_books "
-                "WHERE owner_id = %s AND is_rented = 0"
+                "WHERE owner_id = %s AND is_rented = 0 AND is_returned = 0"
             )
             cur = mysql.connection.cursor(dictionary=True)
             cur.execute(SELECT_ORDERS_SQL, (seller_id,))
