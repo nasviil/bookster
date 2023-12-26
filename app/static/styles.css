@@ -360,13 +360,14 @@
 	gap: 8px;
 	border-radius: 48px;
 	border: 1px solid rgba(0, 0, 0, 0.5);
-	background: #fffdf2;
+	background: #4caf50; /* Change to your desired green color */
 	backdrop-filter: blur(18px);
 	cursor: pointer;
 	transition: all 0.2s ease 0s;
 	width: 250px;
 	margin: auto;
 }
+
 
 .btn-primary-library:hover {
 	background-color: rgba(4, 255, 88, 0.3);
@@ -473,6 +474,18 @@
 	color: #222;
 }
 
+.btn-green {
+    background-color: green;
+    color: white; /* Set text color to white for better visibility */
+    /* Add any other styles you need */
+}
+
+.btn-yellow {
+    background-color: #FDBF0F 	;
+    /* Add any other styles you need */
+}
+
+
 .book-control {
 	display: flex;
 	justify-content: flex-end;
@@ -482,14 +495,19 @@
 }
 
 .search-input {
-	padding: 8px;
-	border-radius: 48px;
+	padding: 6px;
+	border-radius: 65px;
 	padding-left: 12px;
-}
-
+	background-color: white; /* Set background color to white */
+	box-shadow: 0 2px 4px rgba(253, 191, 15, 0.5); /* Add shadow with color FDBF0F */
+  }
+  
 .filter-dropdown {
 	padding: 8px;
 	border-radius: 48px;
+	background-color: white;
+	box-shadow: 0 2px 4px rgba(253, 191, 15, 0.5);
+	
 }
 
 .book-ulibrary {
